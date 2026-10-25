@@ -15,6 +15,18 @@ sub init()
     m.optsBoxEdge = m.top.findNode("optsBoxEdge")
     m.optsTitle = m.top.findNode("optsTitle")
     m.optsList = m.top.findNode("optsList")
+    m.aboutBg = m.top.findNode("aboutBg")
+    m.aboutBox = m.top.findNode("aboutBox")
+    m.aboutBoxEdge = m.top.findNode("aboutBoxEdge")
+    m.aboutTitle = m.top.findNode("aboutTitle")
+    m.aboutBody = m.top.findNode("aboutBody")
+    m.aboutQr = m.top.findNode("aboutQr")
+    m.aboutFooter = m.top.findNode("aboutFooter")
+    m.aboutTrap = m.top.findNode("aboutTrap")
+    m.aboutHintGlow = m.top.findNode("aboutHintGlow")
+    m.aboutHintBg = m.top.findNode("aboutHintBg")
+    m.aboutHintText = m.top.findNode("aboutHintText")
+    m.aboutHintSub = m.top.findNode("aboutHintSub")
     m.npBar = m.top.findNode("npBar")
     m.npText = m.top.findNode("npText")
 
@@ -195,11 +207,14 @@ sub showSourcePicker()
     m.list.jumpToItem = 0
     m.list.focusable = true
     m.list.setFocus(true)
-    m.panelHelp.text = "OK select source" + Chr(10) + "Back exits"
-    m.status.text = "Fresh download on every open"
+    m.panelHelp.text = "OK select source" + Chr(10) + "* About" + Chr(10) + "Back exits"
+    m.status.text = ""
+    m.panelHelp.text = "OK = open source" + Chr(10) + "Back = exit"
+    showAboutHint()
 end sub
 
 sub selectSource(sourceId as String)
+    hideAboutHint()
     m.source = sourceId
     if sourceId = "iptvorg"
         showCountries()
@@ -209,6 +224,7 @@ sub selectSource(sourceId as String)
 end sub
 
 sub loadFreeTvPlaylist()
+    hideAboutHint()
     m.view = "loading_freetv"
     m.title.text = "Free-TV IPTV"
     m.subtitle.text = "Downloading fresh playlist..."
@@ -283,6 +299,7 @@ sub onFreeTvResult()
 end sub
 
 sub showCountries()
+    hideAboutHint()
     m.view = "countries"
     m.searchText = ""
     if m.source = "freetv"
@@ -949,6 +966,70 @@ sub openPlayerOptions()
     m.optsList.setFocus(true)
 end sub
 
+
+
+sub showAboutHint()
+    if m.aboutHintBg = invalid then return
+    m.aboutHintGlow.visible = true
+    m.aboutHintBg.visible = true
+    m.aboutHintText.visible = true
+    if m.aboutHintSub <> invalid then m.aboutHintSub.visible = false
+end sub
+
+sub hideAboutHint()
+    if m.aboutHintBg = invalid then return
+    m.aboutHintGlow.visible = false
+    m.aboutHintBg.visible = false
+    m.aboutHintText.visible = false
+    if m.aboutHintSub <> invalid then m.aboutHintSub.visible = false
+end sub
+
+sub showAbout()
+    hideOptions()
+    hideSearch()
+    hideAboutHint()
+    m.prevView = m.view
+    m.view = "about"
+    body = "zer0 Software" + Chr(10)
+    body = body + "Created by snuffy420" + Chr(10)
+    body = body + "Version 1.0.2" + Chr(10) + Chr(10)
+    body = body + "Sideloaded IPTV browser for Roku." + Chr(10)
+    body = body + "Playlists from IPTV.org and Free-TV." + Chr(10) + Chr(10)
+    body = body + "Donate BTC:" + Chr(10)
+    body = body + "bc1qz8877p6vusc22qrctdj4h7w0uk2l9l9h8lwphy" + Chr(10) + Chr(10)
+    body = body + "Scan the QR code with a wallet app."
+    m.aboutBody.text = body
+    m.aboutBg.visible = true
+    m.aboutBox.visible = true
+    m.aboutBoxEdge.visible = true
+    m.aboutTitle.visible = true
+    m.aboutBody.visible = true
+    m.aboutQr.visible = true
+    m.aboutFooter.visible = true
+    m.aboutTrap.visible = true
+    m.aboutTrap.setFocus(true)
+end sub
+
+sub hideAbout()
+    m.aboutBg.visible = false
+    m.aboutBox.visible = false
+    m.aboutBoxEdge.visible = false
+    m.aboutTitle.visible = false
+    m.aboutBody.visible = false
+    m.aboutQr.visible = false
+    m.aboutFooter.visible = false
+    m.aboutTrap.visible = false
+    if m.prevView <> invalid and m.prevView <> ""
+        m.view = m.prevView
+    else
+        m.view = "sources"
+    end if
+    if m.view = "sources"
+        showAboutHint()
+    end if
+    m.list.setFocus(true)
+end sub
+
 sub openOptions()
     if m.view <> "channels" then return
     m.view = "options"
@@ -968,6 +1049,10 @@ sub openOptions()
         n = content.createChild("ContentNode")
         n.title = x
     end for
+        item = content.createChild("ContentNode")
+    item.title = "About zer0 TV"
+    m.optActions.Push("about")
+
     m.optsList.content = content
     m.optsBg.visible = true
     m.optsBox.visible = true
@@ -990,6 +1075,10 @@ sub onOptsSelected()
     if idx < 0 or m.optActions = invalid then return
     if idx >= m.optActions.count() then return
     action = m.optActions[idx]
+    if action = "about"
+        showAbout()
+        return
+    end if
     hideOptions()
 
     if Left(action, 15) = "CC / Subtitles:"
@@ -1115,6 +1204,22 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             return true
         end if
         return false
+    end if
+
+    if m.view = "about"
+        if key = "OK" or key = "back" or key = "options"
+            hideAbout()
+            return true
+        end if
+        m.aboutTrap.setFocus(true)
+        return true
+    end if
+
+    if m.view = "sources"
+        if key = "options" or key = "info"
+            showAbout()
+            return true
+        end if
     end if
 
     if m.view = "search"

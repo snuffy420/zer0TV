@@ -46,6 +46,21 @@
             font="font:SmallSystemFont" color="0x6A8A7AFF"
             horizAlign="center" wrap="true" lineSpacing="6" />
 
+
+        <!-- About hint: sits ABOVE footer, does not cover right-panel text -->
+        <Rectangle id="aboutHintGlow" translation="[40,632]" width="1200" height="44"
+            color="0x39FF1422" visible="false" />
+        <Rectangle id="aboutHintBg" translation="[48,636]" width="1184" height="36"
+            color="0x39FF14FF" visible="false" />
+        <Label id="aboutHintText" text="★  ABOUT / DONATE   ·   press  *  on the remote"
+            translation="[48,640]" width="1184" height="28"
+            font="font:SmallBoldSystemFont" color="0x0A0C0EFF"
+            horizAlign="center" visible="false" />
+        <Label id="aboutHintSub" text=""
+            translation="[0,0]" width="1" height="1"
+            font="font:SmallSystemFont" color="0x0A0C0ECC"
+            horizAlign="center" visible="false" />
+
         <!-- Footer -->
         <Rectangle id="footerBar" translation="[0,680]" width="1280" height="40" color="0x1A1C1ECC" />
         <Rectangle id="footerAccent" translation="[0,680]" width="1280" height="2" color="0x00C8FF88" />
@@ -127,6 +142,29 @@
             visible="false"
             color="0xB8C8B8FF"
             focusedColor="0x0A0C0EFF" />
+
+
+        <!-- ABOUT DIALOG -->
+        <Rectangle id="aboutBg" width="1280" height="720" color="0x0A0C0EEE" visible="false" />
+        <Rectangle id="aboutBox" translation="[240,80]" width="800" height="560"
+            color="0x141618FF" visible="false" />
+        <Rectangle id="aboutBoxEdge" translation="[240,80]" width="800" height="3"
+            color="0x39FF14FF" visible="false" />
+        <Label id="aboutTitle" text="About zer0 TV"
+            translation="[260,100]" width="760" height="40"
+            font="font:LargeBoldSystemFont" color="0x39FF14FF" visible="false" />
+        <Label id="aboutBody" text=""
+            translation="[260,150]" width="420" height="420"
+            font="font:SmallSystemFont" color="0xC8D0D0FF"
+            wrap="true" lineSpacing="6" visible="false" />
+        <Poster id="aboutQr" translation="[700,180]" width="280" height="280"
+            uri="pkg:/images/btc_qr.png" loadDisplayMode="scaleToFit" visible="false" />
+        <Label id="aboutFooter" text="Back or OK to close"
+            translation="[260,600]" width="760" height="28"
+            font="font:SmallSystemFont" color="0x6A8A7AFF"
+            horizAlign="center" visible="false" />
+        <Rectangle id="aboutTrap" translation="[240,80]" width="800" height="560"
+            color="0x00000001" focusable="true" visible="false" />
 
         <Video id="video" width="1280" height="720" translation="[0,0]" visible="false" />
         <Rectangle id="npBar" translation="[0,0]" width="1280" height="56" color="0x121416DD" visible="false" />
