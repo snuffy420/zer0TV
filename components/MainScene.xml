@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="MainScene" extends="Scene">
+    <script type="text/brightscript" uri="pkg:/components/MainScene.brs" />
+    <script type="text/brightscript" uri="pkg:/components/Countries.brs" />
+
+    <children>
+        <Poster id="bgImage" uri="pkg:/images/bg.png" width="1280" height="720" translation="[0,0]" />
+        <Rectangle id="bgDim" width="1280" height="720" color="0x12141699" />
+
+        <!-- Header -->
+        <Rectangle id="headerBar" width="1280" height="88" color="0x1A1C1ECC" />
+        <Rectangle id="headerAccent" width="1280" height="3" translation="[0,88]" color="0x39FF14FF" />
+        <Poster id="brand" uri="pkg:/images/brand.png" translation="[32,20]" width="140" height="48" />
+        <Label id="title" text="Countries"
+            translation="[190,16]" width="700" height="36"
+            font="font:LargeBoldSystemFont" color="0x39FF14FF" />
+        <Label id="subtitle" text=""
+            translation="[190,50]" width="700" height="28"
+            font="font:SmallSystemFont" color="0x00C8FFFF" />
+
+        <!-- Main list -->
+        <LabelList id="list"
+            translation="[40,110]"
+            itemSize="[880,48]"
+            numRows="10"
+            focusable="true"
+            visible="true"
+            color="0xB8C8B8FF"
+            focusedColor="0x0A0C0EFF" />
+
+        <!-- Right preview panel (channel logo / country flag) -->
+        <Rectangle id="panelBg" translation="[960,110]" width="290" height="520" color="0x1A1C1EDD" />
+        <Rectangle id="panelEdge" translation="[960,110]" width="3" height="520" color="0x39FF14AA" />
+        <Poster id="logo" translation="[990,140]" width="230" height="130"
+            uri="pkg:/images/no_logo.png" loadDisplayMode="scaleToFit" loadSync="false" />
+        <Label id="previewName" text=""
+            translation="[975,285]" width="260" height="60"
+            font="font:SmallBoldSystemFont" color="0xFFFFFFFF"
+            horizAlign="center" wrap="true" maxLines="2" />
+        <Label id="previewMeta" text=""
+            translation="[975,350]" width="260" height="80"
+            font="font:SmallSystemFont" color="0x00C8FFFF"
+            horizAlign="center" wrap="true" maxLines="3" />
+        <Label id="panelHelp" text=""
+            translation="[975,460]" width="260" height="140"
+            font="font:SmallSystemFont" color="0x6A8A7AFF"
+            horizAlign="center" wrap="true" lineSpacing="6" />
+
+        <!-- Footer -->
+        <Rectangle id="footerBar" translation="[0,680]" width="1280" height="40" color="0x1A1C1ECC" />
+        <Rectangle id="footerAccent" translation="[0,680]" width="1280" height="2" color="0x00C8FF88" />
+        <Label id="status" text=""
+            translation="[40,688]" width="1200" height="28"
+            font="font:SmallSystemFont" color="0x8AA898FF" />
+
+        <!-- Loading -->
+        <Rectangle id="loadBg" width="1280" height="720" color="0x121416CC" visible="false" />
+        <Label id="loadText" text="zer0 TV  v1.0.2"
+            translation="[0,340]" width="1280" height="40"
+            font="font:MediumBoldSystemFont" color="0x39FF14FF"
+            horizAlign="center" visible="false" />
+
+        <!-- SEARCH OVERLAY (translucent) -->
+        <Rectangle id="searchBg" width="1280" height="720" color="0x0A0C0EEE" visible="false" />
+        <Rectangle id="searchPanel" translation="[140,60]" width="1000" height="600"
+            color="0x1A1C1EF5" visible="false" />
+        <Rectangle id="searchPanelEdge" translation="[140,60]" width="1000" height="3"
+            color="0x39FF14FF" visible="false" />
+
+        <Label id="searchTitle" text="Search channels"
+            translation="[170,78]" width="940" height="32"
+            font="font:MediumBoldSystemFont" color="0x39FF14FF" visible="false" />
+        <Label id="searchHint" text="D-pad moves keys · OK types · filters list live · Play = done · Back = cancel"
+            translation="[170,112]" width="940" height="28"
+            font="font:SmallSystemFont" color="0x8AA898FF" visible="false" />
+
+        <Rectangle id="searchBarBg" translation="[170,150]" width="940" height="50"
+            color="0x0E1012FF" visible="false" />
+        <Rectangle id="searchBarEdge" translation="[170,150]" width="940" height="2"
+            color="0x00C8FFFF" visible="false" />
+        <Label id="searchQuery" text=""
+            translation="[186,160]" width="900" height="36"
+            font="font:MediumSystemFont" color="0x00C8FFFF" visible="false" />
+
+        <!-- Live results strip under search bar -->
+        <Label id="searchResults" text=""
+            translation="[170,210]" width="940" height="28"
+            font="font:SmallSystemFont" color="0x39FF14FF" visible="false" />
+
+        <LabelList id="searchList"
+            translation="[170,245]"
+            itemSize="[420,40]"
+            numRows="8"
+            focusable="false"
+            visible="false"
+            color="0xC8D0D0FF"
+            focusedColor="0x39FF14FF" />
+
+        <Label id="kbDisplay" text=""
+            translation="[620,245]" width="500" height="360"
+            font="font:SmallBoldSystemFont" color="0xC8D0D0FF"
+            wrap="true" lineSpacing="4" visible="false" />
+
+        <Rectangle id="kbTrap" translation="[620,245]" width="500" height="360"
+            color="0x00000001" focusable="true" visible="false" />
+
+        <Label id="kbFooter" text="Replay=delete · *=space · Play=close &amp; keep filter"
+            translation="[170,620]" width="940" height="28"
+            font="font:SmallSystemFont" color="0x6A8A7AFF"
+            horizAlign="center" visible="false" />
+
+        <!-- OPTIONS OVERLAY -->
+        <Rectangle id="optsBg" width="1280" height="720" color="0x0A0C0EEE" visible="false" />
+        <Rectangle id="optsBox" translation="[340,150]" width="600" height="420"
+            color="0x141618FF" visible="false" />
+        <Rectangle id="optsBoxEdge" translation="[340,150]" width="600" height="3"
+            color="0x39FF14FF" visible="false" />
+        <Label id="optsTitle" text="Options"
+            translation="[360,168]" width="560" height="36"
+            font="font:MediumBoldSystemFont" color="0x39FF14FF" visible="false" />
+        <!-- dark list + neon green focus so text stays readable -->
+        <LabelList id="optsList"
+            translation="[360,220]"
+            itemSize="[560,48]"
+            numRows="7"
+            focusable="true"
+            visible="false"
+            color="0xB8C8B8FF"
+            focusedColor="0x0A0C0EFF" />
+
+        <Video id="video" width="1280" height="720" translation="[0,0]" visible="false" />
+        <Rectangle id="npBar" translation="[0,0]" width="1280" height="56" color="0x121416DD" visible="false" />
+        <Label id="npText" text=""
+            translation="[40,12]" width="1200" height="36"
+            font="font:MediumBoldSystemFont" color="0x39FF14FF" visible="false" />
+    </children>
+</component>

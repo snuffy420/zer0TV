@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="PlaylistTask" extends="Task">
+    <interface>
+        <field id="countryCode" type="string" value="" />
+        <field id="url" type="string" value="" />
+        <field id="cacheKey" type="string" value="" />
+        <field id="result" type="array" />
+        <field id="error" type="string" value="" />
+        <field id="fromCache" type="boolean" value="false" />
+        <field id="done" type="boolean" value="false" />
+    </interface>
+    <script type="text/brightscript" uri="pkg:/components/PlaylistTask.brs" />
+</component>
