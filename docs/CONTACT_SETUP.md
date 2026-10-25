@@ -1,10 +1,9 @@
-# Contact form setup
+# Contact form
 
-1. Create a free account at https://formspree.io
-2. Create a new form and verify the inbox where you want messages
-3. Copy your form endpoint, e.g. `https://formspree.io/f/xyzabcde`
-4. Edit `docs/contact.html` and replace `FORMSPREE_ENDPOINT` in the form `action` with that id/path
-5. Enable **GitHub Pages** on this repository (Settings → Pages → Deploy from branch → `/ docs` or root)
-6. Open the contact page URL and send a test message
+Live form: https://snuffy420.github.io/zer0TV/docs/contact.html
 
-Your personal email stays private inside Formspree; only the form URL is public.
+Formspree endpoint configured in `contact.html`:
+`https://formspree.io/f/myeekrpy`
+
+GitHub Pages is served from this repository:
+https://github.com/snuffy420/zer0TV

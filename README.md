@@ -2,7 +2,7 @@
   <img src="assets/splash_preview.png" alt="zer0 TV splash" width="720" />
 </p>
 
-<h1 align="center">zerØ TV</h1>
+<h1 align="center">zer0 TV</h1>
 
 <p align="center">
   <b>Sideloaded IPTV channel browser for Roku</b><br/>
@@ -60,7 +60,16 @@ host or re-encode video content. Full third-party notes: [THIRD_PARTY.md](THIRD_
 | File | Use |
 |------|-----|
 | `releases/zer0tv-v1.0.2-roku.zip` | **Upload to Roku** (developer app installer) |
+| `releases/zer0tv-v1.0.2-roku.zip.sha256` | SHA-256 checksum for the Roku zip |
 | `releases/zer0tv-v1.0.2-source.7z` | Full source archive for GitHub / backup |
+| `releases/zer0tv-v1.0.2-source.7z.sha256` | SHA-256 checksum for the source archive |
+
+Verify a download (Linux/macOS):
+
+```bash
+sha256sum -c zer0tv-v1.0.2-roku.zip.sha256
+sha256sum -c zer0tv-v1.0.2-source.7z.sha256
+```
 
 ## Install on Roku
 
@@ -148,15 +157,9 @@ zer0 TV is a playlist browser/player for publicly published IPTV lists. You are 
 
 Want branding, extra sources, private playlists, or other features?
 
-Use the **[contact form](docs/contact.html)** (no public email on this page).
+**[Contact form](https://snuffy420.github.io/zer0TV/docs/contact.html)** — no public email on this page.
 
-After you enable [GitHub Pages](https://docs.github.com/en/pages) for this repo, the live form will be at:
-
-```text
-https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPO_NAME/docs/contact.html
-```
-
-Setup notes are inside `docs/contact.html` (Formspree endpoint).
+Repo: [github.com/snuffy420/zer0TV](https://github.com/snuffy420/zer0TV)
 
 ## Support zer0 TV
 
