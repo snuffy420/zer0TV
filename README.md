@@ -2,7 +2,7 @@
   <img src="assets/splash_preview.png" alt="zer0 TV splash" width="720" />
 </p>
 
-<h1 align="center">zer0 TV</h1>
+<h1 align="center">zerØ TV</h1>
 
 <p align="center">
   <b>Sideloaded IPTV channel browser for Roku</b><br/>
@@ -36,7 +36,7 @@
 
 ## Playlist sources
 
-zer0 TV does **not** fork or vendor upstream repositories. At runtime it requests
+zerØ TV does **not** fork or vendor upstream repositories. At runtime it requests
 playlist files that those projects already publish on the web.
 
 | Source | Role | Upstream license | Link |
@@ -108,7 +108,7 @@ Re-uploading the same package **replaces** the previous sideload.
 
 ### 3. First launch
 
-1. Splash shows **v1.0.2**
+1. Splash shows **zerØ TV v1.0.2**
 2. Pick **IPTV.org** or **Free-TV IPTV**
 3. Open a country / region, then a channel
 
@@ -150,7 +150,7 @@ zip -r releases/zer0tv-v1.0.2-roku.zip manifest source components images
 
 ## Disclaimer
 
-zer0 TV is a playlist browser/player for publicly published IPTV lists. You are responsible for complying with laws and terms that apply in your region. Channels may fail if streams are geo-blocked, offline, or restricted.
+zerØ TV is a playlist browser/player for publicly published IPTV lists. You are responsible for complying with laws and terms that apply in your region. Channels may fail if streams are geo-blocked, offline, or restricted.
 
 
 ## Custom builds
@@ -163,13 +163,13 @@ Repo: [github.com/snuffy420/zer0TV](https://github.com/snuffy420/zer0TV)
 
 ## Support zer0 TV
 
-If zer0 TV is useful to you, consider supporting development with a Bitcoin donation. Donations are optional and appreciated.
+If zerØ TV is useful to you, consider supporting development with a Bitcoin donation. Donations are optional and appreciated.
 
 **Bitcoin (BTC):** `bc1qz8877p6vusc22qrctdj4h7w0uk2l9l9h8lwphy`
 
 ## License
 
-**zer0 TV** (this application's source code) is licensed under the
+**zerØ TV** (this application's source code) is licensed under the
 **[GNU General Public License v3.0](LICENSE)** (GPL-3.0).
 
 That license applies to the Roku channel code in this repository. It does **not**
