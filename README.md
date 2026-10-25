@@ -2,7 +2,7 @@
   <img src="assets/splash_preview.png" alt="zer0 TV splash" width="720" />
 </p>
 
-<h1 align="center">zer0 TV</h1>
+<h1 align="center">zerØ TV</h1>
 
 <p align="center">
   <b>Sideloaded IPTV channel browser for Roku</b><br/>
@@ -71,7 +71,7 @@ sha256sum -c zer0tv-v1.0.2-roku.zip.sha256
 sha256sum -c zer0tv-v1.0.2-source.7z.sha256
 ```
 
-## Install on Roku
+## Install zerØ TV on Roku
 
 ### 1. Enable Developer Mode
 
@@ -150,7 +150,7 @@ zip -r releases/zer0tv-v1.0.2-roku.zip manifest source components images
 
 ## Disclaimer
 
-zer0 TV is a playlist browser/player for publicly published IPTV lists. You are responsible for complying with laws and terms that apply in your region. Channels may fail if streams are geo-blocked, offline, or restricted.
+zerØ TV is a playlist browser/player for publicly published IPTV lists. You are responsible for complying with laws and terms that apply in your region. Channels may fail if streams are geo-blocked, offline, or restricted.
 
 
 ## Custom builds
@@ -160,9 +160,9 @@ Want branding, extra sources, private playlists, or other features?
 **[Contact form](https://snuffy420.github.io/zer0TV/docs/contact.html)** — no public email on this page.
 
 
-## Support zer0 TV
+## Support zerØ TV
 
-If zer0 TV is useful to you, consider supporting development with a Bitcoin donation. Donations are optional and appreciated.
+If zerØ TV is useful to you, consider supporting development with a Bitcoin donation. Donations are optional and appreciated.
 
 **Bitcoin (BTC):** `bc1qz8877p6vusc22qrctdj4h7w0uk2l9l9h8lwphy`
 
