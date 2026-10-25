@@ -2,7 +2,7 @@
   <img src="assets/splash_preview.png" alt="zer0 TV splash" width="720" />
 </p>
 
-<h1 align="center">zer0 TV</h1>
+<h1 align="center">zerØ TV</h1>
 
 <p align="center">
   <b>Sideloaded IPTV channel browser for Roku</b><br/>
