@@ -159,7 +159,6 @@ Want branding, extra sources, private playlists, or other features?
 
 **[Contact form](https://snuffy420.github.io/zer0TV/docs/contact.html)** — no public email on this page.
 
-Repo: [github.com/snuffy420/zer0TV](https://github.com/snuffy420/zer0TV)
 
 ## Support zer0 TV
 
