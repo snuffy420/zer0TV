@@ -5,9 +5,7 @@
 
 zerØ TV brings public live-channel playlists and on-demand catalogs together in a dark neon interface. Browse by country, preview a channel in the guide, search for something to watch, or discover films and alternate cuts on Internet Archive.
 
-<p align="center">
-  <a href="docs/screenshots/1.5.0/sources.jpg"><img src="docs/screenshots/1.5.0/sources.jpg" alt="zerØ TV 1.5.0 source menu with eight live TV and movie providers" width="960"></a>
-</p>
+![zerØ TV 1.5.0 source menu with eight live TV and movie providers](assets/screenshot-sources.jpg)
 <p align="center"><em>Eight source choices, one familiar remote. Actual zerØ TV 1.5.0 Roku capture.</em></p>
 
 ## Download and install
@@ -35,30 +33,23 @@ See [Roku's developer setup](https://developer.roku.com/docs/developer-program/g
 
 See what's on now and next, keep channel logos in view, and inspect programme details without leaving the lineup. Pause on a channel to start the live preview, then press **OK** to expand it. **REW/FF** jumps by letter, **Replay** opens search, and channels without matching listings stay visible and playable.
 
-<p align="center">
-  <a href="docs/screenshots/1.5.0/guide-cleaned.png"><img src="docs/screenshots/1.5.0/guide-cleaned.png" alt="Tubi live EPG showing channel logos, programme details, a time grid and 278 matched channels" width="960"></a>
-</p>
+![Tubi live EPG showing channel logos, programme details, a time grid and 278 matched channels](assets/screenshot-guide.png)
 <p align="center"><em>Tubi's live guide on Roku. The preview area was edited to remove a capture artifact; Roku video playback is not shown.</em></p>
 
 ### Movies with posters and details
 
 Pluto On Demand uses a poster grid with descriptions and available runtime/category information. Browse pages with **REW/FF**, search with **Replay**, and press **OK** to watch. Internet Archive uses the same browser with rare-find, workprint, alternate-cut, trailer and behind-the-scenes discovery filters.
 
-<p align="center">
-  <a href="docs/screenshots/1.5.0/movies.jpg"><img src="docs/screenshots/1.5.0/movies.jpg" alt="Pluto On Demand poster browser with eight titles and the selected movie's description and runtime" width="960"></a>
-</p>
+![Pluto On Demand poster browser with eight titles and the selected movie's description and runtime](assets/screenshot-movies.jpg)
 <p align="center"><em>Pluto On Demand on Roku. Catalog titles and availability change with the upstream feed.</em></p>
 
 ### Search, captions and familiar playback controls
 
 Search channels with the on-screen keyboard, toggle closed captions from **Options (*)**, or select an available subtitle/audio track. A translucent channel-information banner sits at the bottom of the picture and fades automatically. Country pins and recently visited countries help you return to a lineup quickly.
 
-<table>
-  <tr>
-    <td width="50%" align="center"><a href="docs/screenshots/1.5.0/channel-search.jpg"><img src="docs/screenshots/1.5.0/channel-search.jpg" alt="Channel search with the remote-operated keyboard and matching channels" width="460"></a><br><em>Channel search</em></td>
-    <td width="50%" align="center"><a href="docs/screenshots/1.5.0/captions-audio.jpg"><img src="docs/screenshots/1.5.0/captions-audio.jpg" alt="Playback options showing closed captions enabled and an available English subtitle track" width="460"></a><br><em>Captions and available tracks</em></td>
-  </tr>
-</table>
+| Channel search | Captions and available tracks |
+| --- | --- |
+| ![Channel search with the remote-operated keyboard and matching channels](assets/screenshot-search.jpg) | ![Playback options showing closed captions enabled and an available English subtitle track](assets/screenshot-captions.jpg) |
 
 [View the full screenshot gallery](docs/screenshots/1.5.0/README.md), including country history, the playback banner and the versioned splash. Captures are from a real Roku; video areas can be blank or corrupted because the screenshot utility does not capture the video plane.
 

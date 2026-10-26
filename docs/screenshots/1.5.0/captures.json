@@ -1,0 +1,65 @@
+{
+  "version": "1.5.0",
+  "source": "User-supplied Roku screenshots, attachments.zip",
+  "captures": [
+    {
+      "file": "../../../assets/screenshot-splash.jpg",
+      "source_attachment": "image0.jpeg",
+      "sha256": "1c16defa79ee7cf214c15414c07618d1aeff83413fc98fcfa017a30a0ac097ba",
+      "editing": "None; original attachment copied without recompression"
+    },
+    {
+      "file": "../../../assets/screenshot-sources.jpg",
+      "source_attachment": "image1.jpeg",
+      "sha256": "b4997fb0401980d5acf7f9544bf30bc6815f043f613687564459c5722382746d",
+      "editing": "None; original attachment copied without recompression"
+    },
+    {
+      "file": "../../../assets/screenshot-guide-original.jpg",
+      "source_attachment": "image2.jpeg",
+      "sha256": "5945c25e636577e1c243aa184993d1626d698c99c7df01d1251f092233fe9a5a",
+      "editing": "None; original attachment copied without recompression"
+    },
+    {
+      "file": "../../../assets/screenshot-movies.jpg",
+      "source_attachment": "image3.jpeg",
+      "sha256": "c8fafd565e042492551061dd14506ddbef4edc87938021d98247a8b702b3be0c",
+      "editing": "None; original attachment copied without recompression"
+    },
+    {
+      "file": "../../../assets/screenshot-countries.jpg",
+      "source_attachment": "image4.jpeg",
+      "sha256": "3967898628b7ad905fca20630f23e767c8add3ed9555fb9031e1d7e5669fdf9d",
+      "editing": "None; original attachment copied without recompression"
+    },
+    {
+      "file": "../../../assets/screenshot-playback.jpg",
+      "source_attachment": "image5.jpeg",
+      "sha256": "6c04ce46608e2bdda51b67a58e8c4c502eea49e98666e722c994a50b753f25fb",
+      "editing": "None; original attachment copied without recompression"
+    },
+    {
+      "file": "../../../assets/screenshot-captions.jpg",
+      "source_attachment": "image6.jpeg",
+      "sha256": "8813b81943f9cdd2a4ad5daa1cbb1094791e7d999d9abf9a4ec72834d6ce5826",
+      "editing": "None; original attachment copied without recompression"
+    },
+    {
+      "file": "../../../assets/screenshot-search.jpg",
+      "source_attachment": "image7.jpeg",
+      "sha256": "d28cb8b6698717f74ec904cc70dcc061aa1525fb75efbbfd2f463e0da6364051",
+      "editing": "None; original attachment copied without recompression"
+    }
+  ],
+  "edited_derivative": {
+    "file": "../../../assets/screenshot-guide.png",
+    "source": "../../../assets/screenshot-guide-original.jpg",
+    "purpose": "Replace corrupted video-preview capture with a dark panel identifying video as hidden; no show image added.",
+    "method": "Image-generation edit",
+    "size": [
+      1672,
+      941
+    ],
+    "sha256": "331adf3089ba0c6c53a72e2829afc6a9d62b9357781cd91f5052dd457c409839"
+  }
+}
