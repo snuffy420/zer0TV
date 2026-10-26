@@ -1,0 +1,14 @@
+{
+  "name": "zer0tv",
+  "version": "1.5.0",
+  "private": true,
+  "description": "Roku live TV and on-demand browser",
+  "license": "GPL-3.0",
+  "scripts": {
+    "check": "python tools/check.py"
+  },
+  "devDependencies": {
+    "brs": "0.45.0",
+    "brighterscript": "0.73.8"
+  }
+}

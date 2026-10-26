@@ -19,7 +19,7 @@ sub loadPlaylist()
     if cacheKey = "" and codeLower <> "" then cacheKey = codeLower
     if cacheKey = "" then cacheKey = "playlist"
 
-    cachePath = "tmp:/iptv_" + cacheKey + ".m3u"
+    cachePath = "tmp:/zer0_playlist_" + cacheKey + ".m3u"
 
     if url = "" and codeLower <> ""
         url = "https://iptv-org.github.io/iptv/countries/" + codeLower + ".m3u"
@@ -73,10 +73,19 @@ function httpGet(url as String) as Dynamic
     xfer.InitClientCertificates()
     xfer.AddHeader("User-Agent", "Mozilla/5.0 (Roku)")
     xfer.AddHeader("Accept", "*/*")
-    body = xfer.GetToString()
-    if body = invalid then return invalid
-    if Len(body) = 0 then return invalid
-    return body
+    port = CreateObject("roMessagePort")
+    xfer.SetMessagePort(port)
+    xfer.EnableEncodings(true)
+    if not xfer.AsyncGetToString() then return invalid
+    event = Wait(25000, port)
+    if type(event) = "roUrlEvent"
+        if event.GetResponseCode() >= 200 and event.GetResponseCode() < 300
+            body = event.GetString()
+            if Len(body) > 0 then return body
+        end if
+    end if
+    xfer.AsyncCancel()
+    return invalid
 end function
 
 sub markCountryCached(codeLower as String)
@@ -152,7 +161,17 @@ function parseExtInf(line as String) as Object
         logo: ""
         url: ""
     }
-    comma = Instr(1, line, ",")
+    ' Attribute values can contain commas (for example group-title="News, Local").
+    comma = 0
+    quoted = false
+    for i = 1 to Len(line)
+        char = Mid(line, i, 1)
+        if char = Chr(34) then quoted = not quoted
+        if char = "," and not quoted
+            comma = i
+            exit for
+        end if
+    end for
     if comma > 0
         result.name = Mid(line, comma + 1).Trim()
         attrs = Left(line, comma - 1)
@@ -173,8 +192,8 @@ function getAttribute(text as String, key as String) as String
     if start > Len(text) then return ""
     if Mid(text, start, 1) = Chr(34)
         start = start + 1
-        finish = Instr(start, text, Chr(34))
-        if finish > 0 then return Mid(text, start, finish - start)
+        endQuote = Instr(start, text, Chr(34))
+        if endQuote > 0 then return Mid(text, start, endQuote - start)
     end if
     return ""
 end function

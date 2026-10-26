@@ -1,7 +1,7 @@
 title=zer0 TV
 major_version=1
-minor_version=0
-build_version=102
+minor_version=5
+build_version=0
 mm_icon_focus_hd=pkg:/images/icon_focus_hd.png
 mm_icon_focus_fhd=pkg:/images/icon_focus_fhd.png
 mm_icon_side_hd=pkg:/images/icon_side_hd.png
@@ -9,6 +9,6 @@ splash_screen_hd=pkg:/images/splash_hd.png
 splash_screen_fhd=pkg:/images/splash_fhd.png
 splash_color=#121416
 splash_min_time=2000
-ui_resolutions=hd,fhd
+ui_resolutions=hd
 rsg_version=1.2
 supports_input_launch=1

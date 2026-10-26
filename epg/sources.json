@@ -1,0 +1,6 @@
+{
+  "us": "https://iptv-epg.org/files/epg-us.xml.gz",
+  "gb": "https://iptv-epg.org/files/epg-gb.xml.gz",
+  "ca": "https://iptv-epg.org/files/epg-ca.xml.gz",
+  "au": "https://iptv-epg.org/files/epg-au.xml.gz"
+}

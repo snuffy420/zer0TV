@@ -1,0 +1,62 @@
+[
+  {
+    "id": "plutotv",
+    "title": "Pluto TV",
+    "meta": "US live channels - community playlist + matching EPG",
+    "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_us.m3u",
+    "epgUrl": "https://i.mjh.nz/PlutoTV/us.xml.gz",
+    "countries": [
+      {
+        "code": "US",
+        "name": "United States",
+        "flag": "US"
+      }
+    ],
+    "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/us.xml"
+  },
+  {
+    "id": "samsungtvplus",
+    "title": "Samsung TV Plus",
+    "meta": "US live channels - community playlist + matching EPG",
+    "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_us.m3u",
+    "epgUrl": "https://i.mjh.nz/SamsungTVPlus/us.xml.gz",
+    "countries": [
+      {
+        "code": "US",
+        "name": "United States",
+        "flag": "US"
+      }
+    ],
+    "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/SamsungTVPlus/us.xml"
+  },
+  {
+    "id": "plex",
+    "title": "Plex Live TV",
+    "meta": "US live channels - community playlist + matching EPG",
+    "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plex_us.m3u",
+    "epgUrl": "https://i.mjh.nz/Plex/us.xml.gz",
+    "countries": [
+      {
+        "code": "US",
+        "name": "United States",
+        "flag": "US"
+      }
+    ],
+    "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/Plex/us.xml"
+  },
+  {
+    "id": "tubi",
+    "title": "Tubi",
+    "meta": "US live channels - community playlist + matching EPG",
+    "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/tubi-scraper/main/tubi_playlist.m3u",
+    "epgUrl": "https://raw.githubusercontent.com/BuddyChewChew/tubi-scraper/main/tubi_epg.xml",
+    "liveEpgUrl": "https://raw.githubusercontent.com/BuddyChewChew/tubi-scraper/main/tubi_epg.xml",
+    "countries": [
+      {
+        "code": "US",
+        "name": "United States",
+        "flag": "US"
+      }
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+<component name="MovieDetailTask" extends="Task">
+  <interface>
+    <field id="item" type="assocarray" />
+    <field id="mode" type="string" value="info" />
+    <field id="cancelled" type="boolean" value="false" />
+    <field id="result" type="assocarray" />
+  </interface>
+  <script type="text/brightscript" uri="pkg:/components/MovieDetailTask.brs" />
+  <script type="text/brightscript" uri="pkg:/components/MovieCommon.brs" />
+  <script type="text/brightscript" uri="pkg:/components/EpgUtils.brs" />
+</component>

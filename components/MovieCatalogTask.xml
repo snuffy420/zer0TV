@@ -1,0 +1,14 @@
+<component name="MovieCatalogTask" extends="Task">
+  <interface>
+    <field id="provider" type="string" />
+    <field id="query" type="string" />
+    <field id="profile" type="string" value="rare" />
+    <field id="page" type="integer" value="1" />
+    <field id="fresh" type="boolean" value="true" />
+    <field id="cancelled" type="boolean" value="false" />
+    <field id="result" type="assocarray" />
+  </interface>
+  <script type="text/brightscript" uri="pkg:/components/MovieCatalogTask.brs" />
+  <script type="text/brightscript" uri="pkg:/components/MovieCommon.brs" />
+  <script type="text/brightscript" uri="pkg:/components/EpgUtils.brs" />
+</component>

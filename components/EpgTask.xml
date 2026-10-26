@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="EpgTask" extends="Task">
+  <interface>
+    <field id="country" type="string" />
+    <field id="provider" type="string" />
+    <field id="channels" type="array" />
+    <field id="jsonBase" type="string" />
+    <field id="xmlUrl" type="string" />
+    <field id="requestId" type="string" />
+    <field id="cancelled" type="boolean" value="false" />
+    <field id="result" type="assocarray" />
+    <field id="message" type="string" />
+    <field id="done" type="boolean" value="false" />
+  </interface>
+  <script type="text/brightscript" uri="pkg:/components/EpgLoader.brs" />
+  <script type="text/brightscript" uri="pkg:/components/EpgUtils.brs" />
+  <script type="text/brightscript" uri="pkg:/components/EpgStore.brs" />
+  <script type="text/brightscript" uri="pkg:/components/GuideParser.brs" />
+</component>

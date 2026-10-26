@@ -1,5 +1,10 @@
 sub init()
     m.list = m.top.findNode("list")
+    m.sourceMenu = m.top.findNode("sourceMenu")
+    m.movieUI = m.top.findNode("movieUI")
+    m.movieOpenCount = 0
+    m.movieUI.observeField("selectedMovie", "onMoviePlaySelected")
+    m.sourceMenu.observeField("selectedIndex", "onSourceCardSelected")
     m.status = m.top.findNode("status")
     m.title = m.top.findNode("title")
     m.subtitle = m.top.findNode("subtitle")
@@ -74,13 +79,19 @@ sub init()
     m.optsList.observeField("itemSelected", "onOptsSelected")
     m.searchList.observeField("itemSelected", "onSearchListSelected")
 
+    initGuide()
+    initPlayerUI()
+    initCountryUI()
+    initProviders()
     showSourcePicker()
     m.top.setFocus(true)
-    m.list.setFocus(true)
+    m.sourceMenu.setFocus(true)
 end sub
 
 function loadFavorites() as Object
     reg = CreateObject("roRegistrySection", "iptv_fav")
+    stored = ParseJson(reg.Read("channels"))
+    if type(stored) = "roAssociativeArray" then return stored
     raw = reg.Read("urls")
     map = {}
     if raw = invalid or raw = "" then return map
@@ -93,6 +104,7 @@ end function
 
 sub saveFavorites()
     reg = CreateObject("roRegistrySection", "iptv_fav")
+    reg.Write("channels", FormatJson(m.favorites))
     lines = []
     for each k in m.favorites
         lines.Push(k)
@@ -103,6 +115,8 @@ end sub
 
 function loadRecents() as Object
     reg = CreateObject("roRegistrySection", "iptv_recent")
+    stored = ParseJson(reg.Read("channels"))
+    if type(stored) = "roArray" then return stored
     raw = reg.Read("list")
     arr = []
     if raw = invalid or raw = "" then return arr
@@ -123,13 +137,14 @@ sub pushRecent(ch as Object)
     if ch = invalid or ch.url = invalid then return
     url = ch.url + ""
     newList = []
-    newList.Push({ name: ch.name, url: url, logo: ch.logo, group: "Recent" })
+    newList.Push(ch)
     for each r in m.recents
         if r.url <> url then newList.Push(r)
         if newList.count() >= 15 then exit for
     end for
     m.recents = newList
     reg = CreateObject("roRegistrySection", "iptv_recent")
+    reg.Write("channels", FormatJson(m.recents))
     lines = []
     for each r in m.recents
         logo = ""
@@ -152,11 +167,11 @@ sub toggleFavorite(ch as Object)
         m.favorites.Delete(url)
         m.status.text = "Removed from favorites"
     else
-        m.favorites.AddReplace(url, true)
+        m.favorites.AddReplace(url, ch)
         m.status.text = "Added to favorites ★"
     end if
     saveFavorites()
-    if m.view = "channels" then fillListFromChannels(m.displayList)
+    if m.view = "channels" and not m.guideActive then fillListFromChannels(m.displayList)
 end sub
 
 sub showLoading(msg as String)
@@ -172,6 +187,9 @@ end sub
 
 
 sub showSourcePicker()
+    cancelPlaylist()
+    hideGuide()
+    cancelCountryGuide()
     m.view = "sources"
     m.source = ""
     m.allChannels = []
@@ -195,6 +213,11 @@ sub showSourcePicker()
         { id: "iptvorg", title: "IPTV.org", meta: "Country playlists from iptv-org" },
         { id: "freetv", title: "Free-TV IPTV", meta: "Global playlist (playlist.m3u8)" }
     ]
+    for each provider in m.providerDefs
+        sources.Push({id: provider.id, title: provider.title, meta: provider.meta})
+    end for
+    sources.Push({id: "plutovod", title: "Pluto On Demand", meta: "Movies and shows - US catalog"})
+    sources.Push({id: "archive", title: "Internet Archive", meta: "Rare cinema, workprints and alternate cuts"})
     m.sourceItems = sources
     for each s in sources
         item = content.createChild("ContentNode")
@@ -211,16 +234,64 @@ sub showSourcePicker()
     m.status.text = ""
     m.panelHelp.text = "OK = open source" + Chr(10) + "Back = exit"
     showAboutHint()
+    m.list.visible = false
+    m.sourceMenu.choices = sources
+    m.sourceMenu.visible = true
+    m.sourceMenu.setFocus(true)
+    m.subtitle.text = "Choose a provider - live TV and on-demand movies"
+    m.status.text = "Arrow keys Choose source   |   OK Open   |   * About   |   Back Exit"
+end sub
+
+sub onSourceCardSelected()
+    if m.view <> "sources" then return
+    index = m.sourceMenu.selectedIndex
+    if index < 0 or index >= m.sourceItems.Count() then return
+    selectSource(m.sourceItems[index].id)
 end sub
 
 sub selectSource(sourceId as String)
+    m.sourceMenu.visible = false
     hideAboutHint()
     m.source = sourceId
     if sourceId = "iptvorg"
         showCountries()
     else if sourceId = "freetv"
         loadFreeTvPlaylist()
+    else if isLiveProvider(sourceId)
+        showProviderCountries()
+    else if sourceId = "plutovod" or sourceId = "archive"
+        hideGuide()
+        hideSearch()
+        hideOptions()
+        m.view = "movies"
+        m.title.text = "Pluto On Demand"
+        if sourceId = "archive" then m.title.text = "Internet Archive Movies"
+        m.subtitle.text = ""
+        m.status.text = ""
+        m.list.visible = false
+        m.selectedCountry = invalid
+        m.movieUI.provider = sourceId
+        m.movieUI.visible = true
+        m.movieOpenCount = m.movieOpenCount + 1
+        m.movieUI.openRequest = m.movieOpenCount
+        m.movieUI.setFocus(true)
     end if
+end sub
+
+sub onMoviePlaySelected()
+    if m.view <> "movies" then return
+    movie = m.movieUI.selectedMovie
+    if movie = invalid then return
+    if movie.url = invalid or movie.url = "" then return
+    m.movieUI.visible = false
+    m.playerReturn = "movies"
+    m.view = "video"
+    m.video.translation = [0, 0]
+    m.video.width = 1280
+    m.video.height = 720
+    requestPlayback(movie, true)
+    focusPlayer()
+    showNowPlayingBanner(movie)
 end sub
 
 sub loadFreeTvPlaylist()
@@ -242,12 +313,14 @@ sub loadFreeTvPlaylist()
 end sub
 
 sub onFreeTvResult()
+    if m.view <> "loading_freetv" then return
     if m.task = invalid then return
     if m.task.done <> true then return
     hideLoading()
     result = m.task.result
     err = m.task.error
     fromCache = m.task.fromCache
+    releasePlaylistResult()
 
     if result = invalid or type(result) <> "roArray" or result.count() = 0
         msg = "Free-TV download failed."
@@ -256,6 +329,7 @@ sub onFreeTvResult()
         m.status.text = msg
         m.list.visible = true
         showSourcePicker()
+        m.status.text = msg
         return
     end if
 
@@ -286,8 +360,8 @@ sub onFreeTvResult()
         i = i + 1
     end while
 
-    m.countries = countries
-    m.displayList = countries
+    m.countries = orderedSourceCountries(countries)
+    m.displayList = m.countries
     m.view = "countries"
     m.title.text = "Free-TV · Countries"
     src = "live"
@@ -295,10 +369,13 @@ sub onFreeTvResult()
     m.subtitle.text = countries.count().toStr() + " regions · " + result.count().toStr() + " channels · " + src
     fillListFromCountries(m.displayList)
     m.panelHelp.text = "Left/Right letter" + Chr(10) + "OK open" + Chr(10) + "Back sources"
-    m.status.text = "Fresh list · Back = sources"
+    m.status.text = "OK Open   Left/Right A-Z   Replay Pin/unpin   * Countries menu   Back Sources"
 end sub
 
 sub showCountries()
+    cancelPlaylist()
+    hideGuide()
+    cancelCountryGuide()
     hideAboutHint()
     m.view = "countries"
     m.searchText = ""
@@ -328,25 +405,28 @@ sub showCountries()
         m.countries.Push({ code: "_FAV", countryName: "Favorites", flag: "★", special: true })
     end if
     for each c in raw
-        if cached.DoesExist(LCase(c.code)) then m.countries.Push(c)
+        m.countries.Push(c)
     end for
-    for each c in raw
-        if not cached.DoesExist(LCase(c.code)) then m.countries.Push(c)
-    end for
+    m.countries = orderedSourceCountries(m.countries)
     m.displayList = m.countries
     fillListFromCountries(m.displayList)
     m.panelHelp.text = "Left/Right letter" + Chr(10) + "OK open" + Chr(10) + "Back sources"
-    m.status.text = m.countries.count().toStr() + " countries"
+    m.status.text = "OK Open   Left/Right A-Z   Replay Pin/unpin   * Countries menu   Back Sources"
 end sub
 
 sub fillListFromCountries(arr as Object)
+    m.countryLetterRows = []
+    m.countryLetterIndex = {}
+    for i = 0 to arr.Count() - 1
+        m.countryLetterRows.Push({name: arr[i].countryName})
+        letter = channelLetter(arr[i].countryName)
+        if arr[i].special <> true and not m.countryLetterIndex.DoesExist(letter) then m.countryLetterIndex[letter] = i
+    end for
     content = CreateObject("roSGNode", "ContentNode")
     cached = getCachedSet()
     for each c in arr
         item = content.createChild("ContentNode")
-        label = c.countryName
-        if c.flag <> invalid and c.flag <> "" then label = c.flag + "  " + c.countryName
-        if c.special <> true and cached.DoesExist(LCase(c.code)) then label = label + "  ★"
+        label = countryLabel(c)
         item.title = label
         item.description = c.code
     end for
@@ -354,6 +434,7 @@ sub fillListFromCountries(arr as Object)
     m.list.visible = true
     m.list.jumpToItem = 0
     m.list.setFocus(true)
+    m.status.text = "OK Open   Left/Right A-Z   Replay Pin/unpin   * Countries menu   Back Sources"
 end sub
 
 function getCachedSet() as Object
@@ -369,6 +450,10 @@ function getCachedSet() as Object
 end function
 
 sub loadChannelsForCountry(code as String, displayName as String)
+    cancelPlaylist()
+    hideGuide()
+    m.channels = []
+    m.displayList = []
     if code = "_RECENT"
         m.view = "channels"
         m.selectedCountry = { code: code, name: displayName }
@@ -379,7 +464,7 @@ sub loadChannelsForCountry(code as String, displayName as String)
         m.activeGroup = ""
         m.groups = []
         fillListFromChannels(m.displayList)
-        m.panelHelp.text = "← → letter" + Chr(10) + "* options" + Chr(10) + "OK play"
+        m.panelHelp.text = "Left/Right letter" + Chr(10) + "* options" + Chr(10) + "OK play"
         m.status.text = m.displayList.count().toStr() + " recent"
         return
     end if
@@ -405,6 +490,7 @@ sub loadChannelsForCountry(code as String, displayName as String)
             if g = "" then g = "Other"
             if g = code then filtered.Push(ch)
         end for
+        recordCountryVisit()
         m.channels = filtered
         m.displayList = filtered
         m.groups = buildGroupList(filtered)
@@ -424,6 +510,12 @@ sub loadChannelsForCountry(code as String, displayName as String)
     m.task.countryCode = code
     m.task.url = ""
     m.task.cacheKey = LCase(code + "")
+    if isLiveProvider(m.source)
+        provider = m.providers[m.source]
+        m.task.countryCode = ""
+        m.task.url = provider.playlistUrl
+        m.task.cacheKey = m.source + "_" + LCase(code)
+    end if
     m.task.observeField("done", "onChannelsResult")
     m.task.control = "RUN"
 end sub
@@ -442,7 +534,14 @@ sub showFavoritesList()
         for each f in favs
             if f.url = url then found = true : exit for
         end for
-        if not found then favs.Push({ name: url, url: url, logo: "", group: "Favorite" })
+        if not found
+            saved = m.favorites[url]
+            if type(saved) = "roAssociativeArray"
+                favs.Push(saved)
+            else
+                favs.Push({ name: url, url: url, logo: "", group: "Favorite" })
+            end if
+        end if
     end for
     m.channels = favs
     m.displayList = favs
@@ -453,12 +552,14 @@ sub showFavoritesList()
 end sub
 
 sub onChannelsResult()
+    if m.view <> "channels" then return
     if m.task = invalid then return
     if m.task.done <> true then return
     hideLoading()
     result = m.task.result
     err = m.task.error
     fromCache = m.task.fromCache
+    releasePlaylistResult()
 
     if result = invalid or type(result) <> "roArray" or result.count() = 0
         msg = "No channels loaded."
@@ -470,6 +571,7 @@ sub onChannelsResult()
         return
     end if
 
+    recordCountryVisit()
     m.channels = result
     m.displayList = result
     m.groups = buildGroupList(result)
@@ -478,8 +580,8 @@ sub onChannelsResult()
     src = "live"
     if fromCache = true then src = "cached fallback"
     m.subtitle.text = result.count().toStr() + " channels · " + src
-    m.panelHelp.text = "← → letter" + Chr(10) + "* options / search" + Chr(10) + "replay ★" + Chr(10) + "OK play"
-    m.status.text = "←→ letter jump · * options · replay favorite · OK play"
+    m.panelHelp.text = "Left/Right letter" + Chr(10) + "* options / search" + Chr(10) + "Replay search" + Chr(10) + "OK play"
+    m.status.text = "Left/Right letter jump · * options · Replay search · OK play"
 end sub
 
 function buildGroupList(channels as Object) as Object
@@ -508,6 +610,11 @@ function buildGroupList(channels as Object) as Object
 end function
 
 sub fillListFromChannels(arr as Object)
+    if m.guideWanted
+        m.list.content = invalid
+        showGuide()
+        return
+    end if
     content = CreateObject("roSGNode", "ContentNode")
     for each ch in arr
         item = content.createChild("ContentNode")
@@ -557,6 +664,7 @@ sub setPreview(name as String, meta as String, helpLine as String, uri as String
 end sub
 
 sub onItemFocused()
+    if m.guideActive then return
     idx = m.list.itemFocused
     if idx < 0 then return
     if m.view = "sources"
@@ -595,37 +703,35 @@ sub onItemSelected()
         c = m.displayList[index]
         loadChannelsForCountry(c.code, c.countryName)
     else if m.view = "channels"
+        if m.guideActive then return
         if index >= m.displayList.count() then return
         playChannel(m.displayList[index])
     end if
 end sub
 
 sub hideNowPlayingBar()
-    m.npBar.visible = false
-    m.npText.visible = false
+    if m.view = "video"
+        m.npFade.control = "start"
+    else
+        m.npBar.visible = false
+    end if
 end sub
 
 sub playChannel(ch as Object)
     if ch = invalid or ch.url = invalid or ch.url = "" then return
     hideOptions()
     hideSearch()
+    m.playerReturn = "channels"
+    m.video.translation = [0, 0]
+    m.video.width = 1280
+    m.video.height = 720
+    m.video.enableUI = false
     pushRecent(ch)
-    videoContent = CreateObject("roSGNode", "ContentNode")
-    videoContent.url = ch.url
-    videoContent.streamFormat = "hls"
-    videoContent.title = ch.name
     m.view = "video"
-    m.video.content = videoContent
-    m.video.visible = true
-    setCaptionsEnabled(false)
-    m.video.control = "play"
-    m.video.setFocus(true)
+    requestPlayback(ch, true)
+    focusPlayer()
     m.list.visible = false
-    m.npBar.visible = true
-    m.npText.visible = true
-    m.npText.text = "▶  " + ch.name + "   ·   Back = list"
-    m.npTimer.control = "stop"
-    m.npTimer.control = "start"
+    showNowPlayingBanner(ch)
     m.title.text = ch.name
     m.subtitle.text = "Playing"
 end sub
@@ -678,6 +784,9 @@ sub openSearch()
 end sub
 
 sub hideSearch()
+    m.list.focusable = true
+    m.searchList.content = invalid
+    m.searchMatches = []
     m.searchBg.visible = false
     m.searchPanel.visible = false
     m.searchPanelEdge.visible = false
@@ -784,12 +893,15 @@ sub refreshSearchResults()
 
     m.searchMatches = filtered
     content = CreateObject("roSGNode", "ContentNode")
+    shown = 0
     for each ch in filtered
+        if shown >= 50 then exit for
         item = content.createChild("ContentNode")
         item.title = ch.name
         item.description = ch.group
         item.url = ch.url
         item.streamFormat = "hls"
+        shown = shown + 1
     end for
     m.searchList.content = content
     m.searchList.focusable = false
@@ -823,7 +935,7 @@ sub applySearchToMainList()
     if m.selectedCountry <> invalid then m.title.text = m.selectedCountry.name
     if query = ""
         m.subtitle.text = m.displayList.count().toStr() + " channels"
-        m.status.text = "←→ letter · * options · OK play"
+        m.status.text = "Left/Right letter · * options · OK play"
     else
         m.subtitle.text = m.displayList.count().toStr() + " match """ + m.searchText + """"
         m.status.text = "Filtered · Back clears filter"
@@ -842,6 +954,11 @@ function jumpByLetter(direction as Integer) as Boolean
     if m.view <> "countries" and m.view <> "channels" then return false
     if m.displayList.count() = 0 then return false
     idx = m.list.itemFocused
+    if m.view = "countries"
+        target = nextGuideLetterIndex(m.countryLetterRows, m.countryLetterIndex, idx, direction)
+        if target >= 0 then m.list.jumpToItem = target
+        return true
+    end if
     if idx < 0 then idx = 0
     if idx >= m.displayList.count() then idx = 0
     currentLetter = getSortLetter(m.displayList[idx])
@@ -899,75 +1016,6 @@ end function
 ' ========== Options ==========
 
 
-sub setCaptionsEnabled(enabled as Boolean)
-    m.captionsOn = enabled
-    if m.video = invalid then return
-    if enabled
-        m.video.closedCaptionMode = "On"
-        ' Prefer first available subtitle track when present
-        tracks = m.video.availableSubtitleTracks
-        if tracks <> invalid and type(tracks) = "roArray" and tracks.count() > 0
-            m.video.currentSubtitleTrack = tracks[0].TrackName
-        end if
-    else
-        m.video.closedCaptionMode = "Off"
-        m.video.currentSubtitleTrack = ""
-    end if
-end sub
-
-sub openPlayerOptions()
-    if m.view <> "video" and m.view <> "playeropts" then return
-    m.view = "playeropts"
-    content = CreateObject("roSGNode", "ContentNode")
-    items = []
-    if m.captionsOn = true
-        items.Push("CC / Subtitles: ON  (select to turn OFF)")
-    else
-        items.Push("CC / Subtitles: OFF  (select to turn ON)")
-    end if
-    ' List embedded subtitle tracks if the stream exposes any
-    tracks = m.video.availableSubtitleTracks
-    if tracks <> invalid and type(tracks) = "roArray" and tracks.count() > 0
-        items.Push("--- Subtitle tracks ---")
-        for each tr in tracks
-            label = "Track"
-            if tr.Language <> invalid and tr.Language <> "" then label = tr.Language
-            if tr.Description <> invalid and tr.Description <> "" then label = label + " - " + tr.Description
-            if tr.TrackName <> invalid
-                items.Push("SUB:" + tr.TrackName + ":" + label)
-            end if
-        end for
-        items.Push("Disable subtitle track")
-    end if
-    items.Push("Close menu")
-    m.optActions = items
-    for each x in items
-        n = content.createChild("ContentNode")
-        ' Hide internal SUB: prefix in display
-        title = x
-        if Left(x, 4) = "SUB:"
-            parts = x.Split(":")
-            if parts.count() >= 3
-                title = "  " + parts[2]
-                if parts.count() > 3
-                    title = "  " + Mid(x, Len(parts[0]) + Len(parts[1]) + 3)
-                end if
-            end if
-        end if
-        n.title = title
-    end for
-    m.optsList.content = content
-    m.optsBg.visible = true
-    m.optsBox.visible = true
-    m.optsBoxEdge.visible = true
-    m.optsTitle.text = "Player options"
-    m.optsTitle.visible = true
-    m.optsList.visible = true
-    m.optsList.setFocus(true)
-end sub
-
-
-
 sub showAboutHint()
     if m.aboutHintBg = invalid then return
     m.aboutHintGlow.visible = true
@@ -989,12 +1037,13 @@ sub showAbout()
     hideSearch()
     hideAboutHint()
     m.prevView = m.view
+    if m.prevView = "options" then m.prevView = "channels"
     m.view = "about"
     body = "zer0 Software" + Chr(10)
     body = body + "Created by snuffy420" + Chr(10)
-    body = body + "Version 1.0.2" + Chr(10) + Chr(10)
-    body = body + "Sideloaded IPTV browser for Roku." + Chr(10)
-    body = body + "Playlists from IPTV.org and Free-TV." + Chr(10) + Chr(10)
+    body = body + "Version 1.5.0" + Chr(10) + Chr(10)
+    body = body + "Live TV and on-demand movies for Roku." + Chr(10)
+    body = body + "Public playlists and Archive catalogs." + Chr(10) + Chr(10)
     body = body + "Donate BTC:" + Chr(10)
     body = body + "bc1qz8877p6vusc22qrctdj4h7w0uk2l9l9h8lwphy" + Chr(10) + Chr(10)
     body = body + "Scan the QR code with a wallet app."
@@ -1027,7 +1076,7 @@ sub hideAbout()
     if m.view = "sources"
         showAboutHint()
     end if
-    m.list.setFocus(true)
+    focusChannels()
 end sub
 
 sub openOptions()
@@ -1035,7 +1084,7 @@ sub openOptions()
     m.view = "options"
     m.optsTitle.text = "Options"
     content = CreateObject("roSGNode", "ContentNode")
-    items = ["Search channels...", "Show all channels"]
+    items = ["Search channels...", "Favorite / unfavorite channel", "Show all channels", "Switch guide / list", "Jump to live time", "Refresh guide"]
     if m.groups.count() > 0
         items.Push("--- Groups ---")
         for each g in m.groups
@@ -1075,62 +1124,57 @@ sub onOptsSelected()
     if idx < 0 or m.optActions = invalid then return
     if idx >= m.optActions.count() then return
     action = m.optActions[idx]
+    if m.view = "countryopts"
+        handleCountryOption(action)
+        return
+    end if
+    if type(action) = "roAssociativeArray"
+        handlePlayerOption(action)
+        return
+    end if
     if action = "about"
         showAbout()
         return
     end if
     hideOptions()
 
-    if Left(action, 15) = "CC / Subtitles:"
-        setCaptionsEnabled(not m.captionsOn)
-        m.view = "video"
-        m.video.setFocus(true)
-        if m.captionsOn
-            m.status.text = "CC / Subtitles ON"
-        else
-            m.status.text = "CC / Subtitles OFF"
-        end if
-        return
-    end if
-    if action = "Disable subtitle track"
-        m.video.currentSubtitleTrack = ""
-        m.captionsOn = false
-        m.video.closedCaptionMode = "Off"
-        m.view = "video"
-        m.video.setFocus(true)
-        m.status.text = "Subtitles disabled"
-        return
-    end if
-    if Left(action, 4) = "SUB:"
-        parts = action.Split(":")
-        if parts.count() >= 2
-            m.video.currentSubtitleTrack = parts[1]
-            m.captionsOn = true
-            m.video.closedCaptionMode = "On"
-        end if
-        m.view = "video"
-        m.video.setFocus(true)
-        m.status.text = "Subtitle track selected"
-        return
-    end if
-    if action = "Close menu" and m.video.visible = true
-        m.view = "video"
-        m.video.setFocus(true)
-        return
-    end if
-    if action = "--- Subtitle tracks ---"
-        m.view = "video"
-        m.video.setFocus(true)
-        return
-    end if
-
     if action = "Search channels..."
         openSearch()
         return
     end if
     m.view = "channels"
-    m.list.setFocus(true)
-    if action = "Show all channels"
+    focusChannels()
+    if action = "Favorite / unfavorite channel"
+        index = m.list.itemFocused
+        if m.guideActive then index = m.guideIndex
+        if index >= 0 and index < m.displayList.Count()
+            toggleFavorite(m.displayList[index])
+            if m.guideActive then drawGuide()
+        end if
+    else if action = "Switch guide / list"
+        m.guideWanted = not m.guideWanted
+        preferences = CreateObject("roRegistrySection", "zer0_preferences")
+        mode = "list"
+        if m.guideWanted then mode = "guide"
+        preferences.Write("channelView", mode)
+        preferences.Flush()
+        if m.guideWanted
+            showGuide()
+        else
+            hideGuide()
+            fillListFromChannels(m.displayList)
+        end if
+    else if action = "Jump to live time"
+        m.guideCursor = CreateObject("roDateTime").AsSeconds()
+        m.guideEpoch = m.guideCursor
+        drawGuide()
+    else if action = "Refresh guide"
+        code = countryForGuide()
+        DeleteFile("tmp:/zer0_guide.json")
+        m.guideCountry = ""
+        loadCountryGuide()
+        drawGuide()
+    else if action = "Show all channels"
         m.activeGroup = ""
         m.searchText = ""
         m.displayList = m.channels
@@ -1140,7 +1184,7 @@ sub onOptsSelected()
         m.favorites = {}
         saveFavorites()
         m.status.text = "Favorites cleared"
-    else if Left(action, 3) = "  "
+    else if Left(action, 2) = "  "
         filterByGroup(Mid(action, 3).Trim())
     end if
 end sub
@@ -1149,6 +1193,11 @@ end sub
 function onKeyEvent(key as String, press as Boolean) as Boolean
     if not press then return false
 
+    if key = "back" and m.view = "about"
+        hideAbout()
+        return true
+    end if
+
     if key = "back"
         if m.view = "search"
             applySearchToMainList()
@@ -1156,26 +1205,25 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
         else if m.view = "options"
             hideOptions()
             m.view = "channels"
+            focusChannels()
+            return true
+        else if m.view = "countryopts"
+            hideOptions()
+            m.view = "countries"
             m.list.setFocus(true)
             return true
         else if m.view = "playeropts"
             hideOptions()
             m.view = "video"
-            m.video.setFocus(true)
+            focusPlayer()
             return true
         else if m.view = "video"
-            m.video.control = "stop"
-            m.video.visible = false
-            m.npTimer.control = "stop"
-            m.npBar.visible = false
-            m.npText.visible = false
-            m.view = "channels"
-            m.list.visible = true
-            m.list.setFocus(true)
-            if m.selectedCountry <> invalid
-                m.title.text = m.selectedCountry.name
-                m.subtitle.text = "Select a channel"
-            end if
+            returnFromPlayer()
+            return true
+        else if m.view = "movies"
+            m.movieUI.callFunc("closeBrowsing")
+            m.movieUI.visible = false
+            showSourcePicker()
             return true
         else if m.view = "channels"
             if m.searchText <> "" or m.activeGroup <> ""
@@ -1186,12 +1234,19 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 m.subtitle.text = m.channels.count().toStr() + " channels"
                 return true
             end if
-            if m.source = "freetv"
+            cancelPlaylist()
+            hideLoading()
+            hideGuide()
+            cancelCountryGuide()
+            if isLiveProvider(m.source)
+                showProviderCountries()
+            else if m.source = "freetv"
+                m.countries = orderedSourceCountries(m.countries)
                 m.displayList = m.countries
                 m.view = "countries"
                 m.title.text = "Free-TV · Countries"
                 fillListFromCountries(m.displayList)
-                m.status.text = "Back = sources"
+                m.status.text = "OK Open   Left/Right A-Z   Replay Pin/unpin   * Countries menu   Back Sources"
             else
                 showCountries()
             end if
@@ -1206,6 +1261,19 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
         return false
     end if
 
+    if key = "options" and (m.view = "options" or m.view = "countryopts")
+        oldView = m.view
+        hideOptions()
+        if oldView = "countryopts"
+            m.view = "countries"
+            m.list.setFocus(true)
+        else
+            m.view = "channels"
+            focusChannels()
+        end if
+        return true
+    end if
+
     if m.view = "about"
         if key = "OK" or key = "back" or key = "options"
             hideAbout()
@@ -1214,6 +1282,8 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
         m.aboutTrap.setFocus(true)
         return true
     end if
+
+    if m.loadBg.visible then return true
 
     if m.view = "sources"
         if key = "options" or key = "info"
@@ -1273,13 +1343,21 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     end if
 
     if m.view = "video"
-        if key = "options" or key = "info" or key = "replay"
-            openPlayerOptions()
-            return true
-        end if
+        if playerKey(key) then return true
+    end if
+
+    if m.view = "playeropts" and key = "options"
+        hideOptions()
+        m.view = "video"
+        focusPlayer()
+        showNowPlayingBanner()
+        return true
     end if
 
     if m.view = "channels"
+        if m.guideActive
+            if guideKey(key) then return true
+        end if
         if key = "right"
             return jumpByLetter(1)
         else if key = "left"
@@ -1288,16 +1366,19 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             openOptions()
             return true
         else if key = "replay"
-            idx = m.list.itemFocused
-            if idx >= 0 and idx < m.displayList.count()
-                toggleFavorite(m.displayList[idx])
-                return true
-            end if
+            openSearch()
+            return true
         end if
     end if
 
     if m.view = "countries"
-        if key = "right"
+        if key = "replay"
+            toggleCountryPin()
+            return true
+        else if key = "options"
+            openCountryOptions()
+            return true
+        else if key = "right"
             return jumpByLetter(1)
         else if key = "left"
             return jumpByLetter(-1)
@@ -1306,3 +1387,20 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
 
     return false
 end function
+
+sub cancelPlaylist()
+    if m.task <> invalid
+        m.task.unobserveField("done")
+        m.task.control = "STOP"
+        m.task = invalid
+    end if
+end sub
+
+sub releasePlaylistResult()
+    if m.task = invalid then return
+    m.task.unobserveField("done")
+    m.task.result = []
+    m.task = invalid
+end sub
+
+

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="SourceMenu" extends="Group">
+  <interface>
+    <field id="choices" type="array" />
+    <field id="selectedIndex" type="integer" value="0" alwaysNotify="true" />
+    <field id="focusedIndex" type="integer" value="0" />
+  </interface>
+  <script type="text/brightscript" uri="pkg:/components/SourceMenu.brs" />
+  <children>
+    <Rectangle translation="[0,94]" width="1280" height="536" color="0x10171CFF" />
+    <Label id="titleTemplate" font="font:LargeBoldSystemFont" visible="false" />
+    <Label id="detailTemplate" font="font:SmallSystemFont" visible="false" />
+    <Group id="cards" />
+    <Label id="sourceHelpTitle" text="MORE TO DISCOVER." translation="[652,452]" width="588" height="48" font="font:LargeBoldSystemFont" color="0x00C8FFFF" />
+    <Label id="sourceHelpText" text="Choose a source with the arrow keys.&#10;Press OK for live TV or movies." translation="[652,510]" width="588" height="68" wrap="true" font="font:SmallSystemFont" color="0x91ABADFF" />
+  </children>
+</component>
