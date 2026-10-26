@@ -1,14 +1,14 @@
-<p align="center"><img src="assets/icon.png" alt="zer0 TV icon" width="112"></p>
-<h1 align="center">zer0 TV</h1>
+<p align="center"><img src="assets/icon.png" alt="zerØ TV icon" width="112"></p>
+<h1 align="center">zerØ TV</h1>
 <p align="center"><strong>Live TV and on-demand discovery for Roku</strong></p>
 <p align="center">Country guides · Live preview · Rare cinema · Version 1.5.0</p>
 
-zer0 TV brings public live-channel playlists and on-demand catalogs together in a dark neon interface. Browse by country, preview a channel in the guide, search for something to watch, or discover films and alternate cuts on Internet Archive.
+zerØ TV brings public live-channel playlists and on-demand catalogs together in a dark neon interface. Browse by country, preview a channel in the guide, search for something to watch, or discover films and alternate cuts on Internet Archive.
 
 <p align="center">
-  <a href="docs/screenshots/1.5.0/sources.jpg"><img src="docs/screenshots/1.5.0/sources.jpg" alt="zer0 TV 1.5.0 source menu with eight live TV and movie providers" width="960"></a>
+  <a href="docs/screenshots/1.5.0/sources.jpg"><img src="docs/screenshots/1.5.0/sources.jpg" alt="zerØ TV 1.5.0 source menu with eight live TV and movie providers" width="960"></a>
 </p>
-<p align="center"><em>Eight source choices, one familiar remote. Actual zer0 TV 1.5.0 Roku capture.</em></p>
+<p align="center"><em>Eight source choices, one familiar remote. Actual zerØ TV 1.5.0 Roku capture.</em></p>
 
 ## Download and install
 
@@ -25,11 +25,11 @@ Checksums sit beside both downloads in [releases](releases). The source archive 
 2. From a computer on the same network, open `http://ROKU_IP` in your browser.
 3. Sign in as `rokudev` using your installer password.
 4. Select **Upload**, choose `zer0tv-v1.5.0-roku.zip`, then select **Install**.
-5. Open zer0 TV and choose a source. Reinstalling replaces the existing sideloaded app.
+5. Open zerØ TV and choose a source. Reinstalling replaces the existing sideloaded app.
 
 See [Roku's developer setup](https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md) for the official instructions.
 
-## Explore zer0 TV
+## Explore zerØ TV
 
 ### A guide built for channel browsing
 
@@ -104,13 +104,13 @@ Guide coverage, titles and streams depend on upstream availability and regional 
 
 The source includes reusable guide rows, thumbnail-sized artwork, background workers and serialized playback transitions to keep browsing responsive. [Build instructions](docs/BUILDING.md) cover packaging and automated checks. [Release notes](CHANGELOG.md) describe 1.5.0.
 
-zer0 TV's application code is licensed under [GPL-3.0](LICENSE). Upstream playlists, schedules, movie metadata, artwork and video retain their respective terms. See [THIRD_PARTY.md](THIRD_PARTY.md).
+zerØ TV's application code is licensed under [GPL-3.0](LICENSE). Upstream playlists, schedules, movie metadata, artwork and video retain their respective terms. See [THIRD_PARTY.md](THIRD_PARTY.md).
 
-## Support zer0 TV
+## Support zerØ TV
 
 <img src="assets/bitcoin.svg" width="24" height="24" alt="Bitcoin">
 
-If zer0 TV is useful to you, consider supporting its development with a Bitcoin donation. Donations are optional and appreciated.
+If zerØ TV is useful to you, consider supporting its development with a Bitcoin donation. Donations are optional and appreciated.
 
 **Bitcoin (BTC):**
 `bc1qz8877p6vusc22qrctdj4h7w0uk2l9l9h8lwphy`
@@ -119,10 +119,10 @@ You can also scan the QR code in **About**.
 
 ## Contact
 
-Questions, feedback, a bug report or a custom build? Get in touch through the zer0 TV contact form.
+Questions, feedback, a bug report or a custom build? Get in touch through the zerØ TV contact form.
 
 <p align="center">
   <a href="https://snuffy420.github.io/zer0TV/docs/contact.html">
-    <img src="assets/contact-button.svg" alt="Contact zer0 TV" width="260">
+    <img src="assets/contact-button.svg" alt="Contact zerØ TV" width="260">
   </a>
 </p>
