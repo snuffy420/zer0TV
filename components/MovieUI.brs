@@ -10,6 +10,7 @@ sub init()
     m.menu = m.top.findNode("movieMenu")
     m.menuTitle = m.top.findNode("movieMenuTitle")
     m.menuList = m.top.findNode("movieMenuList")
+    m.gridTrap = m.top.findNode("movieGridTrap")
     m.menuList.observeField("itemSelected", "onMovieMenuSelected")
     m.catalog = CreateObject("roSGNode", "MovieCatalogTask")
     m.catalog.observeField("state", "onCatalogState")
@@ -30,6 +31,8 @@ sub init()
     m.cacheKeys = []
     m.top.observeField("openRequest", "openMovies")
     initMovieGrid()
+    initMovieSearch()
+    initMovieDetailsUI()
 end sub
 
 sub initMovieGrid()
@@ -65,6 +68,11 @@ end sub
 
 sub openMovies()
     m.opened = true
+    m.detailsActive = false
+    m.searchActive = false
+    m.top.searchActive = false
+    m.detailPanel.visible = false
+    m.movieSearchPanel.visible = false
     m.query = ""
     m.profile = "rare"
     m.page = 1
@@ -74,10 +82,16 @@ sub openMovies()
     m.detailCache = {}
     m.cacheKeys = []
     requestCatalog(1, true)
-    m.top.setFocus(true)
+    focusMovieGrid()
 end sub
 
 sub closeBrowsing()
+    suspendArtwork()
+    m.searchActive = false
+    m.top.searchActive = false
+    m.movieSearchPanel.visible = false
+    m.detailsActive = false
+    m.detailPanel.visible = false
     m.opened = false
     m.catalog.cancelled = true
     m.detail.cancelled = true
@@ -96,15 +110,25 @@ sub closeBrowsing()
     if m.keyboard <> invalid then m.keyboard.close = true
 end sub
 
+sub suspendArtwork()
+    for each card in m.cards
+        card.poster.uri = ""
+    end for
+    m.detailArtwork.uri = ""
+    m.detailPoster.uri = ""
+    m.detailTimer.control = "stop"
+end sub
+
 sub resumeBrowsing(message = "Choose a title to play, or press * for options." as String)
     m.top.visible = true
     m.playPending = false
-    m.top.setFocus(true)
+    focusMovieGrid()
     m.message.text = message
     drawMovies()
 end sub
 
 sub requestCatalog(page as Integer, fresh as Boolean)
+    m.detailsActive = false
     m.catalog.cancelled = true
     m.detail.cancelled = true
     m.detailPending = invalid
@@ -146,6 +170,7 @@ sub onCatalogState()
             if m.query <> "" then m.count.text = m.count.text + " | " + m.query
             m.message.text = result.message
             drawMovies()
+            if m.menu <> invalid and not m.menu.visible then focusMovieGrid()
             m.detailTimer.control = "start"
         else
             m.loading = false
@@ -159,23 +184,30 @@ sub onCatalogState()
 end sub
 
 sub drawMovies()
+    gridVisible = m.detailsActive <> true and not movieHierarchyView()
+    drawMovieDetailsPanel()
     for i = 0 to 7
         card = m.cards[i]
-        card.group.visible = i < m.items.Count()
+        card.group.visible = i < m.items.Count() and gridVisible
         card.border.color = "0x2D4248FF"
         if i = m.focus then card.border.color = "0x39FF14FF"
         if i < m.items.Count()
             item = m.items[i]
             card.title.text = item.name
+            if epgString(item.cardTitle) then card.title.text = item.cardTitle
             card.poster.failedBitmapUri = item.logo
             card.poster.loadingBitmapUri = item.logo
-            if card.poster.uri <> item.poster then card.poster.uri = item.poster
+            if gridVisible
+                if card.poster.uri <> item.poster then card.poster.uri = item.poster
+            else
+                card.poster.uri = ""
+            end if
         else
             card.poster.uri = ""
         end if
     end for
     if m.items.Count() = 0
-        m.title.text = "No matching movies"
+        m.title.text = "No matching titles"
         m.meta.text = "Replay to search | * to change filters"
         m.plot.text = ""
         return
@@ -189,15 +221,18 @@ sub drawMovies()
     parts = []
     if movieText(item.year) <> "" then parts.Push(movieText(item.year))
     if movieText(item.genre) <> "" then parts.Push(movieText(item.genre))
+    if movieText(item.addedDate) <> "" then parts.Push("Added " + movieText(item.addedDate))
     if epgNumber(item.durationSeconds) then parts.Push(Int(item.durationSeconds / 60).ToStr() + " min")
     m.meta.text = parts.Join(" | ")
     m.plot.text = movieText(item.description)
     if m.plot.text = "" then m.plot.text = "Loading title details..."
+    if item.kind = "series" and movieText(item.description) = "" then m.plot.text = "Press OK to choose a season."
 end sub
 
 sub loadFocusedDetails()
-    if not m.opened or not m.top.visible or m.loading or m.items.Count() = 0 or m.playPending then return
+    if not m.opened or not m.top.visible or m.loading or m.items.Count() = 0 or m.playPending or m.searchActive = true then return
     item = m.items[m.focus]
+    if item.kind = "series" or item.kind = "season" then return
     if m.detailCache.DoesExist(item.id) then return
     requestDetails(item, "info")
 end sub
@@ -237,12 +272,15 @@ sub onDetailState()
                 old = m.cacheKeys.Shift()
                 m.detailCache.Delete(old)
             end if
+            for i = 0 to m.items.Count() - 1
+                if m.items[i].id = item.id then m.items[i] = item
+            end for
             if m.top.visible then drawMovies()
             if result.mode = "play"
                 m.playPending = false
                 if result.error <> ""
                     m.message.text = result.error
-                else if item.url <> "" and m.top.visible
+                else if item.url <> "" and m.top.visible and m.searchActive <> true
                     m.top.selectedMovie = item
                 end if
             end if
@@ -254,31 +292,6 @@ sub onDetailState()
     m.detail.result = {}
     m.detail.item = {}
     startDetails()
-end sub
-
-sub openMovieSearch()
-    cancelMovieSelection()
-    m.detailTimer.control = "stop"
-    keyboard = CreateObject("roSGNode", "KeyboardDialog")
-    keyboard.title = "Search movie titles"
-    keyboard.text = m.query
-    keyboard.buttons = ["Search", "Cancel"]
-    keyboard.observeField("buttonSelected", "onMovieSearchSelected")
-    m.keyboard = keyboard
-    m.top.getScene().dialog = keyboard
-end sub
-
-sub onMovieSearchSelected()
-    if m.keyboard = invalid then return
-    selected = m.keyboard.buttonSelected
-    query = m.keyboard.text
-    m.keyboard.close = true
-    m.keyboard = invalid
-    m.top.setFocus(true)
-    if selected = 0
-        m.query = query.Trim()
-        requestCatalog(1, true)
-    end if
 end sub
 
 sub openMovieMenu(filters = false as Boolean)
@@ -312,16 +325,31 @@ end sub
 
 sub closeMovieMenu()
     m.menu.visible = false
-    m.top.setFocus(true)
+    ' A hidden LabelList can still own focus. Move to a sibling leaf explicitly.
+    m.menuList.setFocus(false)
+    focusMovieGrid()
+end sub
+
+sub focusMovieGrid()
+    if m.searchActive = true
+        m.movieSearchTrap.setFocus(true)
+        return
+    end if
+    if m.detailsActive = true
+        m.detailTrap.setFocus(true)
+        return
+    end if
+    if m.gridTrap <> invalid then m.gridTrap.setFocus(true)
 end sub
 
 sub onMovieMenuSelected()
+    if m.searchActive = true then return
     index = m.menuList.itemSelected
     if index < 0 or index >= m.menuActions.Count() then return
     action = m.menuActions[index]
     closeMovieMenu()
     if action = "Search movies"
-        openMovieSearch()
+        openMovieSearch("OK")
     else if action = "Refresh catalog"
         requestCatalog(1, true)
     else if action = "Archive discovery filters"
@@ -339,7 +367,13 @@ sub onMovieMenuSelected()
 end sub
 
 function onKeyEvent(key as String, press as Boolean) as Boolean
-    if not press or not m.top.visible then return false
+    if not m.top.visible then return false
+    if m.keyReleaseGate <> invalid and m.keyReleaseGate = key
+        if not press then m.keyReleaseGate = ""
+        return true
+    end if
+    if not press then return false
+    if movieSearchKey(key) then return true
     if m.menu.visible
         if key = "back" or key = "options"
             closeMovieMenu()
@@ -347,15 +381,16 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
         end if
         return false
     end if
+    if movieDetailsKey(key) then return true
     if key = "back" then return false
     if key = "options"
         openMovieMenu()
         return true
     else if key = "replay"
-        openMovieSearch()
+        openMovieSearch(key)
         return true
     end if
-    if m.loading or m.playPending then return true
+    if m.loading or m.playPending or m.searchActive = true then return true
     if key = "fastforward" and m.page < m.pages
         requestCatalog(m.page + 1, false)
         return true
@@ -363,14 +398,25 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
         requestCatalog(m.page - 1, false)
         return true
     else if key = "OK" or key = "play"
-        if m.items.Count() > 0 then requestDetails(m.items[m.focus], "play")
+        if m.items.Count() > 0
+            m.keyReleaseGate = key
+            showMovieDetails(m.items[m.focus], key)
+        end if
         return true
     end if
     target = m.focus
+    if movieHierarchyView()
+        if key = "up" and target > 0 then target = target - 1
+        if key = "down" and target + 1 < m.items.Count() then target = target + 1
+    else
     if key = "left" and target mod 4 > 0 then target = target - 1
     if key = "right" and target mod 4 < 3 and target + 1 < m.items.Count() then target = target + 1
     if key = "up" and target >= 4 then target = target - 4
-    if key = "down" and target < 4 and target + 4 < m.items.Count() then target = target + 4
+    if key = "down" and target < 4 and m.items.Count() > 4
+        target = target + 4
+        if target >= m.items.Count() then target = m.items.Count() - 1
+    end if
+    end if
     if target <> m.focus
         m.focus = target
         drawMovies()

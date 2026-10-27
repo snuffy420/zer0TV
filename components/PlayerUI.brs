@@ -8,6 +8,13 @@ sub initPlayerUI()
     m.npFade = m.top.findNode("npFade")
     m.npTimer.duration = 5
     m.playingChannel = invalid
+    m.movieProgress = m.top.findNode("movieProgress")
+    m.movieProgressFill = m.top.findNode("movieProgressFill")
+    m.movieProgressHead = m.top.findNode("movieProgressHead")
+    m.seekActive = false
+    m.video.notificationInterval = 1
+    m.video.observeField("position", "onMovieProgress")
+    m.video.observeField("duration", "onMovieProgress")
     m.video.observeField("availableSubtitleTracks", "onPlayerTracksChanged")
     m.video.observeField("availableAudioTracks", "onPlayerTracksChanged")
 end sub
@@ -32,6 +39,7 @@ sub showNowPlayingBanner(ch = invalid as Dynamic)
     if m.npLogo.uri <> uri then m.npLogo.uri = uri
     now = CreateObject("roDateTime").AsSeconds()
     m.npClock.text = guideTime(now)
+    m.npProgramme.translation = [160, 554]
     m.npProgramme.text = "Live programming · no schedule information"
     for each p in guidePrograms(ch)
         if p.start <= now and p.stop > now
@@ -45,12 +53,13 @@ sub showNowPlayingBanner(ch = invalid as Dynamic)
         parts = []
         if epgString(ch.year) and ch.year <> "" then parts.Push(ch.year)
         if epgString(ch.genre) and ch.genre <> "" then parts.Push(ch.genre)
-        if epgNumber(m.video.position) then parts.Push(movieClock(m.video.position))
         m.npProgramme.text = parts.Join(" | ")
-        m.npDetails.text = "ON DEMAND | CC " + mode + " | Play Pause | Left/Right Seek | * Audio/CC | Back Movies"
+        m.npDetails.text = "Left/Right 10s | REW/FF 1m | OK Seek | Play Pause | * Audio / CC"
     end if
+    onMovieProgress()
     m.npTimer.control = "stop"
     m.npTimer.control = "start"
+    if ch.isMovie = true and (m.video.state = "paused" or m.seekActive = true) then m.npTimer.control = "stop"
 end sub
 
 sub hidePlayerBanner()
@@ -154,19 +163,36 @@ end sub
 function playerKey(key as String) as Boolean
     if m.playingChannel <> invalid
         if m.playingChannel.isMovie = true and (key = "left" or key = "right" or key = "rewind" or key = "fastforward")
+            if not epgNumber(m.video.duration) or m.video.duration <= 0
+                showNowPlayingBanner()
+                return true
+            end if
             stepSeconds = 10
             if key = "rewind" or key = "fastforward" then stepSeconds = 60
             if key = "left" or key = "rewind" then stepSeconds = -stepSeconds
-            if epgNumber(m.video.position)
-                target = m.video.position + stepSeconds
-                if target < 0 then target = 0
-                if epgNumber(m.video.duration) and m.video.duration > 0
-                    if target >= m.video.duration then target = m.video.duration - 1
-                end if
-                m.video.seek = target
+            if m.seekActive <> true
+                m.seekActive = true
+                m.seekTarget = 0
+                if epgNumber(m.video.position) then m.seekTarget = m.video.position
+                m.seekWasPlaying = m.video.state = "playing"
+                if m.seekWasPlaying then m.video.control = "pause"
             end if
+            m.seekTarget = m.seekTarget + stepSeconds
+            if m.seekTarget < 0 then m.seekTarget = 0
+            if m.seekTarget >= m.video.duration then m.seekTarget = m.video.duration - 1
             showNowPlayingBanner()
             return true
+        end if
+    end if
+    if m.seekActive = true
+        if key = "OK" or key = "play"
+            finishMovieSeek(true, key = "play")
+            return true
+        else if key = "back"
+            finishMovieSeek(false)
+            return true
+        else if key = "options" or key = "replay"
+            finishMovieSeek(false)
         end if
     end if
     if key = "options" or key = "replay"
@@ -225,3 +251,41 @@ function nextGuideLetterIndex(channels as Object, index as Object, current as In
     end for
     return current
 end function
+
+sub onMovieProgress()
+    if m.movieProgress = invalid then return
+    movie = false
+    if m.playingChannel <> invalid then movie = m.playingChannel.isMovie = true
+    m.movieProgress.visible = movie
+    if not movie then return
+    if not m.npBar.visible or m.npBar.opacity < 0.5 then return
+    duration = 0
+    position = 0
+    if epgNumber(m.video.duration) then duration = m.video.duration
+    if epgNumber(m.video.position) then position = m.video.position
+    if m.seekActive = true then position = m.seekTarget
+    fraction = 0
+    if duration > 0 then fraction = position / duration
+    if fraction < 0 then fraction = 0
+    if fraction > 1 then fraction = 1
+    m.movieProgressFill.width = 1080 * fraction
+    m.movieProgressHead.translation = [1076 * fraction, -3]
+    state = "Playing"
+    if m.video.state = "paused" then state = "Paused"
+    if m.seekActive = true then state = "Seek | OK confirm | Back cancel"
+    total = "--:--"
+    if duration > 0 then total = movieClock(duration)
+    m.npProgramme.text = movieClock(position) + " / " + total + " | " + state
+    m.npProgramme.translation = [160, 548]
+end sub
+
+sub finishMovieSeek(commit as Boolean, forcePlay = false as Boolean)
+    if m.seekActive <> true then return
+    m.seekActive = false
+    if commit
+        m.video.autoPlayAfterSeek = m.seekWasPlaying or forcePlay
+        m.video.seek = m.seekTarget
+    end if
+    if m.seekWasPlaying or forcePlay then m.video.control = "resume"
+    showNowPlayingBanner()
+end sub

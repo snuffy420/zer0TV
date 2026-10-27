@@ -14,7 +14,7 @@ args.brs = shutil.which(args.brs) or args.brs
 args.bsc = shutil.which(args.bsc) or args.bsc
 cases = [
     ["components/MovieCommon.brs", "components/EpgUtils.brs", "tests/test_movies.brs"],
-    ["components/MovieUI.brs", "components/MovieCommon.brs", "components/EpgUtils.brs", "tests/test_movie_grid.brs"],
+    ["components/MovieUI.brs", "components/MovieSearch.brs", "components/MovieDetailsUI.brs", "components/MovieCommon.brs", "components/EpgUtils.brs", "tests/test_movie_grid.brs"],
     ["components/SourceMenu.brs", "tests/test_source_menu.brs"],
     ["components/Providers.brs", "components/EpgUtils.brs", "components/EpgStore.brs", "tests/test_provider_guides.brs"],
     ["components/CountryUI.brs", "tests/test_countries.brs"],

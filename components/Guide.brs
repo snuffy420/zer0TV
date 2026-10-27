@@ -59,6 +59,12 @@ end sub
 function countryForGuide() as String
     if m.selectedCountry = invalid then return ""
     code = LCase(m.selectedCountry.code)
+    if m.source = "freetv"
+        regions = ParseJson(ReadAsciiFile("pkg:/config/freetv-regions.json"))
+        if type(regions) = "roAssociativeArray"
+            if regions.DoesExist(m.selectedCountry.name) then return regions[m.selectedCountry.name]
+        end if
+    end if
     if code = "uk" then return "gb"
     if Len(code) = 2 then return code
     for each c in getBuiltInCountries()
@@ -91,7 +97,7 @@ sub loadCountryGuide()
     config = ParseJson(ReadAsciiFile("pkg:/config/epg.json"))
     base = ""
     if config <> invalid and config.jsonBase <> invalid then base = config.jsonBase
-    if isLiveProvider(m.source) then base = ""
+    if isLiveProvider(m.source) and base <> "" then base = base + "/providers/" + m.source
     m.epgTask.cancelled = true
     m.guidePending = {code: code, provider: m.source, base: base}
     startGuideRequest()
@@ -111,7 +117,14 @@ sub startGuideRequest()
     m.epgTask.channels = channels
     m.epgTask.jsonBase = request.base
     m.epgTask.xmlUrl = ""
-    if isLiveProvider(request.provider) then m.epgTask.xmlUrl = m.providers[request.provider].liveEpgUrl
+    if isLiveProvider(request.provider)
+        m.epgTask.xmlUrl = providerCountry(m.providers[request.provider], request.code).liveEpgUrl
+    else
+        feeds = ParseJson(ReadAsciiFile("pkg:/config/epg-sources.json"))
+        if type(feeds) = "roAssociativeArray"
+            if feeds.DoesExist(request.code) then m.epgTask.xmlUrl = feeds[request.code].Replace(".gz", "")
+        end if
+    end if
     m.epgTask.requestId = m.guideRequestCount.ToStr()
     m.epgTask.cancelled = false
     m.epgTask.done = false
@@ -450,6 +463,8 @@ sub startPendingPlayback()
         if m.displayList[m.guideIndex].url <> request.channel.url then return
     end if
     m.video.content = invalid
+    m.video.subtitleTrack = ""
+    m.video.audioTrack = ""
     m.releaseVideo = false
     ch = request.channel
     m.playingChannel = ch
@@ -459,7 +474,20 @@ sub startPendingPlayback()
     content.streamFormat = "hls"
     if epgString(ch.streamFormat) then content.streamFormat = ch.streamFormat
     content.live = ch.isMovie <> true
+    if ch.isMovie = true
+        content.contentType = "movie"
+        if type(ch.subtitleTracks) = "roArray" then content.subtitleTracks = ch.subtitleTracks
+        if epgNumber(ch.resumePosition) then content.playStart = ch.resumePosition
+    end if
+    content.httpHeaders = []
+    if type(ch.httpHeaders) = "roArray" then content.httpHeaders = ch.httpHeaders
+    content.httpCertificatesFile = "common:/certs/ca-bundle.crt"
     m.video.content = content
+    m.video.autoPlayAfterSeek = true
+    m.seekActive = false
+    m.resumeMoviePaused = ch.resumePaused = true
+    if epgString(ch.selectedAudio) then m.video.audioTrack = ch.selectedAudio
+    if epgString(ch.selectedSubtitle) then m.video.subtitleTrack = ch.selectedSubtitle
     m.previewUrl = ch.url
     m.video.enableUI = false
     if request.fullScreen
@@ -504,8 +532,13 @@ sub onVideoState()
     end if
     if state = "playing"
         m.previewWatchdog.control = "stop"
+        if m.resumeMoviePaused = true
+            m.resumeMoviePaused = false
+            m.video.control = "pause"
+        end if
         if m.view = "video" then showNowPlayingBanner()
     end if
+    if state = "paused" and m.view = "video" then showNowPlayingBanner()
     if m.playRequest <> invalid then return
     if m.guideActive and m.view = "channels"
         if state = "playing"
@@ -564,6 +597,7 @@ sub expandGuideVideo()
 end sub
 
 sub returnFromPlayer()
+    m.seekActive = false
     hidePlayerBanner()
     m.playerTrap.visible = false
     m.npTimer.control = "stop"

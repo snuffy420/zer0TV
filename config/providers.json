@@ -2,14 +2,121 @@
   {
     "id": "plutotv",
     "title": "Pluto TV",
-    "meta": "US live channels - community playlist + matching EPG",
+    "meta": "Live channels and EPG in 14 countries",
     "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_us.m3u",
     "epgUrl": "https://i.mjh.nz/PlutoTV/us.xml.gz",
     "countries": [
       {
+        "code": "AR",
+        "name": "Argentina",
+        "flag": "AR",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_ar.m3u",
+        "epgUrl": "https://i.mjh.nz/PlutoTV/ar.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/ar.xml"
+      },
+      {
+        "code": "BR",
+        "name": "Brazil",
+        "flag": "BR",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_br.m3u",
+        "epgUrl": "https://i.mjh.nz/PlutoTV/br.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/br.xml"
+      },
+      {
+        "code": "CA",
+        "name": "Canada",
+        "flag": "CA",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_ca.m3u",
+        "epgUrl": "https://i.mjh.nz/PlutoTV/ca.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/ca.xml"
+      },
+      {
+        "code": "CL",
+        "name": "Chile",
+        "flag": "CL",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_cl.m3u",
+        "epgUrl": "https://i.mjh.nz/PlutoTV/cl.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/cl.xml"
+      },
+      {
+        "code": "DE",
+        "name": "Germany",
+        "flag": "DE",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_de.m3u",
+        "epgUrl": "https://i.mjh.nz/PlutoTV/de.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/de.xml"
+      },
+      {
+        "code": "DK",
+        "name": "Denmark",
+        "flag": "DK",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_dk.m3u",
+        "epgUrl": "https://i.mjh.nz/PlutoTV/dk.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/dk.xml"
+      },
+      {
+        "code": "ES",
+        "name": "Spain",
+        "flag": "ES",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_es.m3u",
+        "epgUrl": "https://i.mjh.nz/PlutoTV/es.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/es.xml"
+      },
+      {
+        "code": "FR",
+        "name": "France",
+        "flag": "FR",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_fr.m3u",
+        "epgUrl": "https://i.mjh.nz/PlutoTV/fr.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/fr.xml"
+      },
+      {
+        "code": "GB",
+        "name": "United Kingdom",
+        "flag": "GB",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_gb.m3u",
+        "epgUrl": "https://i.mjh.nz/PlutoTV/gb.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/gb.xml"
+      },
+      {
+        "code": "IT",
+        "name": "Italy",
+        "flag": "IT",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_it.m3u",
+        "epgUrl": "https://i.mjh.nz/PlutoTV/it.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/it.xml"
+      },
+      {
+        "code": "MX",
+        "name": "Mexico",
+        "flag": "MX",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_mx.m3u",
+        "epgUrl": "https://i.mjh.nz/PlutoTV/mx.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/mx.xml"
+      },
+      {
+        "code": "NO",
+        "name": "Norway",
+        "flag": "NO",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_no.m3u",
+        "epgUrl": "https://i.mjh.nz/PlutoTV/no.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/no.xml"
+      },
+      {
+        "code": "SE",
+        "name": "Sweden",
+        "flag": "SE",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_se.m3u",
+        "epgUrl": "https://i.mjh.nz/PlutoTV/se.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/se.xml"
+      },
+      {
         "code": "US",
         "name": "United States",
-        "flag": "US"
+        "flag": "US",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plutotv_us.m3u",
+        "epgUrl": "https://i.mjh.nz/PlutoTV/us.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/us.xml"
       }
     ],
     "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/PlutoTV/us.xml"
@@ -17,14 +124,97 @@
   {
     "id": "samsungtvplus",
     "title": "Samsung TV Plus",
-    "meta": "US live channels - community playlist + matching EPG",
+    "meta": "Live channels and EPG in 11 countries",
     "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_us.m3u",
     "epgUrl": "https://i.mjh.nz/SamsungTVPlus/us.xml.gz",
     "countries": [
       {
+        "code": "AT",
+        "name": "Austria",
+        "flag": "AT",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_at.m3u",
+        "epgUrl": "https://i.mjh.nz/SamsungTVPlus/at.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/SamsungTVPlus/at.xml"
+      },
+      {
+        "code": "CA",
+        "name": "Canada",
+        "flag": "CA",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_ca.m3u",
+        "epgUrl": "https://i.mjh.nz/SamsungTVPlus/ca.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/SamsungTVPlus/ca.xml"
+      },
+      {
+        "code": "CH",
+        "name": "Switzerland",
+        "flag": "CH",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_ch.m3u",
+        "epgUrl": "https://i.mjh.nz/SamsungTVPlus/ch.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/SamsungTVPlus/ch.xml"
+      },
+      {
+        "code": "DE",
+        "name": "Germany",
+        "flag": "DE",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_de.m3u",
+        "epgUrl": "https://i.mjh.nz/SamsungTVPlus/de.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/SamsungTVPlus/de.xml"
+      },
+      {
+        "code": "ES",
+        "name": "Spain",
+        "flag": "ES",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_es.m3u",
+        "epgUrl": "https://i.mjh.nz/SamsungTVPlus/es.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/SamsungTVPlus/es.xml"
+      },
+      {
+        "code": "FR",
+        "name": "France",
+        "flag": "FR",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_fr.m3u",
+        "epgUrl": "https://i.mjh.nz/SamsungTVPlus/fr.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/SamsungTVPlus/fr.xml"
+      },
+      {
+        "code": "GB",
+        "name": "United Kingdom",
+        "flag": "GB",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_gb.m3u",
+        "epgUrl": "https://i.mjh.nz/SamsungTVPlus/gb.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/SamsungTVPlus/gb.xml"
+      },
+      {
+        "code": "IN",
+        "name": "India",
+        "flag": "IN",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_in.m3u",
+        "epgUrl": "https://i.mjh.nz/SamsungTVPlus/in.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/SamsungTVPlus/in.xml"
+      },
+      {
+        "code": "IT",
+        "name": "Italy",
+        "flag": "IT",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_it.m3u",
+        "epgUrl": "https://i.mjh.nz/SamsungTVPlus/it.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/SamsungTVPlus/it.xml"
+      },
+      {
+        "code": "KR",
+        "name": "South Korea",
+        "flag": "KR",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_kr.m3u",
+        "epgUrl": "https://i.mjh.nz/SamsungTVPlus/kr.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/SamsungTVPlus/kr.xml"
+      },
+      {
         "code": "US",
         "name": "United States",
-        "flag": "US"
+        "flag": "US",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_us.m3u",
+        "epgUrl": "https://i.mjh.nz/SamsungTVPlus/us.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/SamsungTVPlus/us.xml"
       }
     ],
     "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/SamsungTVPlus/us.xml"
@@ -32,14 +222,73 @@
   {
     "id": "plex",
     "title": "Plex Live TV",
-    "meta": "US live channels - community playlist + matching EPG",
+    "meta": "Live channels and EPG in 8 countries",
     "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plex_us.m3u",
     "epgUrl": "https://i.mjh.nz/Plex/us.xml.gz",
     "countries": [
       {
+        "code": "AU",
+        "name": "Australia",
+        "flag": "AU",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plex_au.m3u",
+        "epgUrl": "https://i.mjh.nz/Plex/au.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/Plex/au.xml"
+      },
+      {
+        "code": "CA",
+        "name": "Canada",
+        "flag": "CA",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plex_ca.m3u",
+        "epgUrl": "https://i.mjh.nz/Plex/ca.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/Plex/ca.xml"
+      },
+      {
+        "code": "ES",
+        "name": "Spain",
+        "flag": "ES",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plex_es.m3u",
+        "epgUrl": "https://i.mjh.nz/Plex/es.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/Plex/es.xml"
+      },
+      {
+        "code": "FR",
+        "name": "France",
+        "flag": "FR",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plex_fr.m3u",
+        "epgUrl": "https://i.mjh.nz/Plex/fr.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/Plex/fr.xml"
+      },
+      {
+        "code": "GB",
+        "name": "United Kingdom",
+        "flag": "GB",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plex_gb.m3u",
+        "epgUrl": "https://i.mjh.nz/Plex/gb.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/Plex/gb.xml"
+      },
+      {
+        "code": "MX",
+        "name": "Mexico",
+        "flag": "MX",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plex_mx.m3u",
+        "epgUrl": "https://i.mjh.nz/Plex/mx.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/Plex/mx.xml"
+      },
+      {
+        "code": "NZ",
+        "name": "New Zealand",
+        "flag": "NZ",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plex_nz.m3u",
+        "epgUrl": "https://i.mjh.nz/Plex/nz.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/Plex/nz.xml"
+      },
+      {
         "code": "US",
         "name": "United States",
-        "flag": "US"
+        "flag": "US",
+        "playlistUrl": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/plex_us.m3u",
+        "epgUrl": "https://i.mjh.nz/Plex/us.xml.gz",
+        "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/Plex/us.xml"
       }
     ],
     "liveEpgUrl": "https://raw.githubusercontent.com/matthuisman/i.mjh.nz/master/Plex/us.xml"

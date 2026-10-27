@@ -280,9 +280,11 @@ end sub
 
 sub onMoviePlaySelected()
     if m.view <> "movies" then return
+    if m.movieUI.searchActive then return
     movie = m.movieUI.selectedMovie
     if movie = invalid then return
     if movie.url = invalid or movie.url = "" then return
+    m.movieUI.callFunc("suspendArtwork")
     m.movieUI.visible = false
     m.playerReturn = "movies"
     m.view = "video"
@@ -511,7 +513,7 @@ sub loadChannelsForCountry(code as String, displayName as String)
     m.task.url = ""
     m.task.cacheKey = LCase(code + "")
     if isLiveProvider(m.source)
-        provider = m.providers[m.source]
+        provider = providerCountry(m.providers[m.source], code)
         m.task.countryCode = ""
         m.task.url = provider.playlistUrl
         m.task.cacheKey = m.source + "_" + LCase(code)
@@ -1041,7 +1043,7 @@ sub showAbout()
     m.view = "about"
     body = "zer0 Software" + Chr(10)
     body = body + "Created by snuffy420" + Chr(10)
-    body = body + "Version 1.5.0" + Chr(10) + Chr(10)
+    body = body + "Version 1.5.5" + Chr(10) + Chr(10)
     body = body + "Live TV and on-demand movies for Roku." + Chr(10)
     body = body + "Public playlists and Archive catalogs." + Chr(10) + Chr(10)
     body = body + "Donate BTC:" + Chr(10)
@@ -1218,6 +1220,10 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             focusPlayer()
             return true
         else if m.view = "video"
+            if m.seekActive = true
+                finishMovieSeek(false)
+                return true
+            end if
             returnFromPlayer()
             return true
         else if m.view = "movies"

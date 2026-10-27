@@ -25,8 +25,12 @@ sub main()
             require(m.wanted.DoesExist(id), "retain provider station IDs")
             require(m.schedules[id].Count() <= m.stationProgramLimit, "fair per-station limit")
         end for
-        print "PASS: provider "; provider.id; " · retained stations="; m.schedules.Count(); " programmes="; m.programCount
+        print "PASS: provider "; provider.id; " Â· retained stations="; m.schedules.Count(); " programmes="; m.programCount
     end for
+    gb = providerCountry(m.providers.plutotv, "gb")
+    us = providerCountry(m.providers.plutotv, "us")
+    require(gb.playlistUrl <> us.playlistUrl and gb.liveEpgUrl <> us.liveEpgUrl, "country-specific playlists and guides do not reuse US endpoints")
+    require(gb.code = "GB", "selected provider country identity")
     require(not isLiveProvider("iptvorg"), "legacy provider stays outside experimental catalog")
 end sub
 

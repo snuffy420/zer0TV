@@ -45,10 +45,26 @@ sub main()
     m.playingChannel = {name: "Movie", tvgId: "", logo: "", isMovie: true, year: "1968", genre: "Rare cut"}
     m.video.position = 5
     m.video.duration = 100
-    require(playerKey("left") and m.video.seek = 0, "movie seek clamps at start")
+    m.movieProgress = {visible: false}
+    m.movieProgressFill = {width: 0}
+    m.movieProgressHead = {translation: [0, 0]}
+    m.video.state = "playing"
+    require(playerKey("left") and m.seekTarget = 0 and m.seekActive, "movie seek draft clamps at start")
+    require(playerKey("OK") and m.video.seek = 0 and not m.seekActive, "OK commits seek")
     m.video.position = 95
-    require(playerKey("fastforward") and m.video.seek = 99, "movie seek clamps at end")
-    require(m.npDetails.text.Instr("ON DEMAND") >= 0 and m.npProgramme.text.Instr("Rare cut") >= 0, "movie banner uses on-demand metadata")
+    require(playerKey("fastforward") and m.seekTarget = 99, "movie seek draft clamps at end")
+    require(playerKey("back") and not m.seekActive and m.video.seek = 0, "Back cancels draft without issuing another seek")
+    m.video.position = 20
+    playerKey("right")
+    playerKey("right")
+    require(m.seekTarget = 40, "repeated presses accumulate even before decoder position advances")
+    playerKey("OK")
+    require(m.video.seek = 40 and m.movieProgressFill.width = 216, "seek commit updates native position with progress bar")
+    m.video.duration = 0
+    m.video.seek = 7
+    playerKey("right")
+    require(m.video.seek = 7 and not m.seekActive, "unknown duration cannot seek out of bounds")
+    require(m.npDetails.text.Instr("Audio") >= 0 and m.npProgramme.text.Instr("20:00") < 0, "movie controls show playback options")
     print "PASS: app captions/audio menu, writable fields and playback banner"
 end sub
 

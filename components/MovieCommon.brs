@@ -24,7 +24,7 @@ function movieHttp(url as String, limit = 2000000 as Integer) as Dynamic
     transfer.SetCertificatesFile("common:/certs/ca-bundle.crt")
     transfer.InitClientCertificates()
     transfer.EnableEncodings(true)
-    transfer.AddHeader("User-Agent", "zer0TV/1.5.0")
+    transfer.AddHeader("User-Agent", "zer0TV/1.5.5")
     transfer.AddHeader("Cache-Control", "no-cache")
     transfer.SetUrl(url)
     path = "cachefs:/zer0_movie_" + m.httpKey + ".dat"

@@ -2,23 +2,54 @@
   <interface>
     <field id="provider" type="string" />
     <field id="openRequest" type="integer" value="0" alwaysNotify="true" />
+    <field id="searchActive" type="boolean" value="false" />
     <field id="selectedMovie" type="assocarray" alwaysNotify="true" />
     <function name="closeBrowsing" />
     <function name="resumeBrowsing" />
+    <function name="suspendArtwork" />
   </interface>
   <script type="text/brightscript" uri="pkg:/components/MovieUI.brs" />
   <script type="text/brightscript" uri="pkg:/components/MovieCommon.brs" />
   <script type="text/brightscript" uri="pkg:/components/EpgUtils.brs" />
+  <script type="text/brightscript" uri="pkg:/components/MovieSearch.brs" />
+  <script type="text/brightscript" uri="pkg:/components/MovieDetailsUI.brs" />
   <children>
     <Rectangle translation="[0,94]" width="1280" height="586" color="0x10171CFF" />
     <Label id="movieCount" translation="[190,50]" width="1030" height="28" font="font:SmallSystemFont" color="0x00C8FFFF" />
     <Group id="movieCards" />
+    <Rectangle id="movieGridTrap" width="1" height="1" color="0x00000000" focusable="true" />
     <Label id="movieTitle" translation="[740,120]" width="500" height="110" wrap="true" maxLines="3" font="font:MediumBoldSystemFont" color="0xF0F6F4FF" />
     <Label id="movieMeta" translation="[740,241]" width="500" height="62" wrap="true" maxLines="2" font="font:SmallBoldSystemFont" color="0x39FF14FF" />
     <Label id="moviePlot" translation="[740,315]" width="500" height="225" wrap="true" maxLines="9" font="font:SmallSystemFont" color="0xA7BCBCFF" />
     <Label id="movieMessage" translation="[740,555]" width="500" height="96" wrap="true" maxLines="4" font="font:SmallSystemFont" color="0x00C8FFFF" />
-    <Label id="movieFooter" text="Arrows Browse | REW/FF Page | Replay Search | OK Play | * Options | Back Sources" translation="[40,688]" width="1200" height="28" font="font:SmallSystemFont" color="0x8AA898FF" />
+    <Label id="movieFooter" text="Arrows Browse | REW/FF Page | Replay Search | OK Details | * Options | Back Sources" translation="[40,688]" width="1200" height="28" font="font:SmallSystemFont" color="0x8AA898FF" />
     <Label id="movieFont" font="font:SmallBoldSystemFont" visible="false" />
+    <Group id="movieDetailPanel" translation="[40,126]" visible="false">
+      <Rectangle width="652" height="510" color="0x101A20FF" />
+      <Poster id="movieDetailArtwork" width="652" height="194" loadWidth="652" loadHeight="194" loadDisplayMode="scaleToFit" />
+      <Rectangle width="652" height="194" color="0x08130DAA" />
+      <Rectangle width="652" height="3" color="0x39FF14FF" />
+      <Poster id="movieDetailPoster" translation="[18,24]" width="104" height="148" loadWidth="208" loadHeight="296" loadDisplayMode="scaleToFit" />
+      <Label id="movieDetailHeading" translation="[142,22]" width="490" height="90" font="font:MediumBoldSystemFont" color="0xF1FFF5FF" wrap="true" maxLines="3" />
+      <Label id="movieDetailMetaLabel" translation="[142,120]" width="490" height="56" font="font:SmallSystemFont" color="0x00C8FFFF" wrap="true" maxLines="2" />
+      <Label id="movieDetailActions" translation="[20,228]" width="612" height="40" font="font:MediumBoldSystemFont" color="0x39FF14FF" />
+      <Label id="movieDetailOverview" translation="[20,296]" width="612" height="172" font="font:SmallSystemFont" color="0xBCD0CCFF" wrap="true" maxLines="7" />
+      <Label id="movieDetailPrompt" translation="[12,192]" width="630" height="26" font="font:SmallSystemFont" color="0x8AADA0FF" />
+      <Group id="movieEpisodeRows" translation="[0,220]" />
+      <Rectangle id="movieDetailTrap" width="1" height="1" color="0x00000000" focusable="true" />
+    </Group>
+    <Group id="movieSearchPanel" translation="[40,126]" visible="false">
+      <Rectangle width="652" height="510" color="0x1A1C1EF5" />
+      <Rectangle width="652" height="3" color="0x39FF14FF" />
+      <Label translation="[20,12]" width="612" height="34" text="Search movies and shows" font="font:MediumBoldSystemFont" color="0x39FF14FF" />
+      <Label translation="[20,52]" width="612" height="26" text="D-pad moves keys | OK types | Play searches" font="font:SmallSystemFont" color="0x8AA898FF" />
+      <Rectangle translation="[20,88]" width="612" height="48" color="0x0E1012FF" />
+      <Rectangle translation="[20,88]" width="612" height="2" color="0x00C8FFFF" />
+      <Label id="movieSearchQuery" translation="[30,96]" width="592" height="34" font="font:MediumSystemFont" color="0x00C8FFFF" />
+      <Label id="movieSearchKeys" translation="[30,150]" width="592" height="320" font="font:SmallBoldSystemFont" color="0xD5E4DBFF" />
+      <Label translation="[20,477]" width="612" height="26" text="Replay delete | * space | Back cancel" font="font:SmallSystemFont" color="0x8AA898FF" />
+      <Rectangle id="movieSearchTrap" width="1" height="1" color="0x00000000" focusable="true" />
+    </Group>
     <Group id="movieMenu" visible="false">
       <Rectangle width="1280" height="720" color="0x080D12DD" />
       <Rectangle translation="[280,130]" width="720" height="460" color="0x18242AFF" />

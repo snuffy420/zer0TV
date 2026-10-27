@@ -1,3 +1,17 @@
+## 1.5.5 - October 27, 2026
+
+- Add a themed in-panel movie details page with artwork, synopsis, available metadata and an explicit Play action. Keep the top header and right information panel visible.
+- Replace the native movie search dialog with the channel-style keyboard. Submit explicitly with Search or Play; prevent held OK presses and delayed playback results from opening a movie while typing.
+- Add an on-demand elapsed/total timeline and seek preview: Left/Right moves 10 seconds, REW/FF moves one minute, OK confirms, and Back cancels. Preserve paused state; enable seeking only when duration is known.
+- Fix hidden menu focus and navigation to partially filled poster rows. Release inactive poster artwork before playback.
+- Expand live-provider country selection and country-specific playlist/EPG routing across available public feeds. Keep channels with no matching programme data visible and playable.
+- Refresh guides automatically every six hours through GitHub Actions, rediscover available feeds, retain successful updates when another upstream fails, and publish coverage reports.
+- Bound guide downloads, parsing, caches and per-channel programme counts; refresh the four bundled fallback guides.
+- Update About, startup text, installer version and both splash-screen sizes to 1.5.5.
+- Keep all eight public sources and existing public favorites/history settings. No private sources, resolvers, helper connections or access keys are included.
+
+The current public on-demand feeds provide movie/episode items; this release does not invent a series catalog where a source supplies none. New search/details, seeking and expanded country playback need Roku device testing; off-device validation is recorded with the release.
+
 # Changelog
 
 ## 1.5.0

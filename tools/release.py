@@ -14,7 +14,7 @@ if not sevenzip:
         sevenzip = str(candidate)
 if not sevenzip:
     raise SystemExit("Install 7-Zip and place 7z on PATH to build the source archive.")
-output = root / "releases/zer0tv-v1.5.0-source.7z"
+output = root / "releases/zer0tv-v1.5.5-source.7z"
 excluded = {"releases", ".git", "__pycache__", "node_modules", ".staging", "out"}
 files = [p.relative_to(root).as_posix() for p in sorted(root.rglob("*"))
          if p.is_file() and not set(p.relative_to(root).parts) & excluded

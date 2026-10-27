@@ -4,7 +4,7 @@ import zipfile
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
-output = root / "releases/zer0tv-v1.5.0-roku.zip"
+output = root / "releases/zer0tv-v1.5.5-roku.zip"
 output.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(output, "w", zipfile.ZIP_DEFLATED) as archive:
     archive.write(root / "manifest", "manifest")

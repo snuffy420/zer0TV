@@ -21,7 +21,7 @@ sub main()
     require(m.title.text = "Rare film 7", "focused metadata follows poster selection")
     m.items = []
     drawMovies()
-    require(m.title.text = "No matching movies", "empty movie search handled")
+    require(m.title.text = "No matching titles", "empty movie search handled")
     m.top = {visible: false, provider: "archive"}
     m.opened = true
     m.detailPending = invalid
@@ -58,7 +58,43 @@ sub main()
     require(m.catalog.page = 99 and m.catalog.cancelled, "do not overlap catalog tasks")
     onCatalogState()
     require(m.catalogBusy and m.catalog.page = 2 and m.catalog.query = "latest", "catalog worker consumes latest queued search")
-    print "PASS: eight-poster grid, fixed node count and movie details"
+    m.top.visible = true
+    m.loading = false
+    m.playPending = false
+    m.menu = {visible: false}
+    m.menuList = {focusOwned: true}
+    m.menuList.setFocus = function(value as Boolean) as Boolean
+        m.focusOwned = value
+        return true
+    end function
+    m.gridTrap = {focusOwned: false}
+    m.gridTrap.setFocus = function(value as Boolean) as Boolean
+        m.focusOwned = value
+        return true
+    end function
+    m.menu.visible = true
+    m.menuList.focusOwned = true
+    closeMovieMenu()
+    require(not m.menuList.focusOwned and m.gridTrap.focusOwned, "closing category releases hidden list focus and focuses poster controls")
+    m.top.lookup = {movieSearchPanel: {visible: false}, movieSearchKeys: {text: ""}, movieSearchQuery: {text: ""}, movieSearchTrap: m.gridTrap}
+    m.top.findNode = function(id as String) as Dynamic
+        return m.lookup[id]
+    end function
+    initMovieSearch()
+    m.query = ""
+    m.top.selectedMovie = invalid
+    openMovieSearch()
+    require(onKeyEvent("OK", true) and m.movieSearchText = "A" and m.searchActive, "OK types a search character instead of selecting a movie")
+    require(m.top.selectedMovie = invalid and m.detail.cancelled, "typing cancels pending playback and emits no movie selection")
+    m.movieSearchRow = 6
+    m.movieSearchCol = 0
+    require(onKeyEvent("OK", true) and not m.searchActive and m.query = "A", "explicit Search submits the completed title")
+    require(onKeyEvent("OK", true) and m.top.selectedMovie = invalid, "held submit button cannot select a result after search closes")
+    require(onKeyEvent("OK", false) and m.keyReleaseGate = "", "release clears the held-key barrier")
+    openMovieSearch()
+    m.movieSearchText = "CANCELLED"
+    require(movieSearchKey("back") and m.query = "A", "Back cancels unfinished search without changing the catalog query")
+    print "PASS: eight-poster grid, search submission, held keys and focus restoration"
 end sub
 
 function descendantCount(node as Object) as Integer

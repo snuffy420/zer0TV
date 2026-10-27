@@ -26,8 +26,10 @@ sub loadGuideData()
         if name <> "" then m.names[name] = true
     end for
     m.stationProgramLimit = 32
-    if providerGuide and m.wanted.Count() > 0
-        m.stationProgramLimit = Int(3000# / m.wanted.Count())
+    stationCount = m.wanted.Count()
+    if m.names.Count() > stationCount then stationCount = m.names.Count()
+    if stationCount > 0
+        m.stationProgramLimit = Int(2800# / stationCount)
         if m.stationProgramLimit > 32 then m.stationProgramLimit = 32
         if m.stationProgramLimit < 2 then m.stationProgramLimit = 2
     end if
@@ -49,14 +51,14 @@ sub loadGuideData()
     end if
     if m.top.cancelled then return
 
-    if not loaded and providerGuide and m.top.xmlUrl <> ""
+    if not loaded and m.top.xmlUrl <> ""
         path = download + ".xml"
         if epgDownload(m.top.xmlUrl, path, 45000, 16000000)
             parseGuideFile(path)
             loaded = m.programCount > 0
         end if
         DeleteFile(path)
-        message = "Fresh provider guide - bounded live window"
+        message = "Fresh public guide - bounded live window"
     end if
     if m.top.cancelled then return
 
@@ -65,7 +67,9 @@ sub loadGuideData()
         if loaded then message = "Included country guide - six-hour window"
     end if
     if not loaded and type(stored) = "roAssociativeArray"
-        if stored.identity = identity and stored.data <> invalid
+        recent = false
+        if epgNumber(stored.fetched) then recent = m.now - stored.fetched <= 86400 and stored.fetched <= m.now + 3600
+        if recent and stored.identity = identity and stored.data <> invalid
             publishGuide(stored.data, "Network unavailable - this session's cached guide")
             return
         end if
@@ -131,6 +135,7 @@ function epgDownload(url as String, path as String, timeout as Integer, limit as
     transfer.InitClientCertificates()
     transfer.SetUrl(url)
     transfer.EnableEncodings(true)
+    transfer.AddHeader("Cache-Control", "no-cache")
     if not transfer.AsyncGetToFile(path) then return false
     clock = CreateObject("roTimespan")
     fs = CreateObject("roFileSystem")
