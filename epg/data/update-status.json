@@ -1,0 +1,55 @@
+{
+  "generated": 1793104570,
+  "failures": [],
+  "groups": [
+    {
+      "group": "group-documentariesar",
+      "status": "ok",
+      "channels": 1
+    },
+    {
+      "group": "group-documentariesen",
+      "status": "no-public-listings"
+    },
+    {
+      "group": "group-vodmoviesen",
+      "status": "ok",
+      "channels": 60
+    },
+    {
+      "group": "group-musicen",
+      "status": "ok",
+      "channels": 5
+    },
+    {
+      "group": "group-newsar",
+      "status": "ok",
+      "channels": 114
+    },
+    {
+      "group": "group-news",
+      "status": "ok",
+      "channels": 257
+    },
+    {
+      "group": "group-business",
+      "status": "ok",
+      "channels": 44
+    },
+    {
+      "group": "group-weather",
+      "status": "ok",
+      "channels": 10
+    },
+    {
+      "group": "group-newses",
+      "status": "ok",
+      "channels": 11
+    },
+    {
+      "group": "group-voditaly",
+      "status": "ok",
+      "channels": 179
+    }
+  ]
+}
