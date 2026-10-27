@@ -1,35 +1,47 @@
-name: Update country guides
+name: Update all public guides
 on:
   workflow_dispatch:
   schedule:
     - cron: '17 */6 * * *'
+  push:
+    paths:
+      - '.github/workflows/epg.yml'
+      - 'tools/build_epg.py'
+      - 'tools/build_provider_guides.py'
+      - 'tools/discover_epg_sources.py'
+      - 'tools/update_all_guides.py'
+      - 'tools/guide_http.py'
+      - 'epg/sources.json'
+      - 'epg/providers.json'
 permissions:
   contents: write
 concurrency:
-  group: country-guides
+  group: all-public-guides
   cancel-in-progress: false
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Build guide JSON
+      - name: Refresh country, provider and Free-TV theme guides
         id: build
         continue-on-error: true
-        run: python tools/build_epg.py
-      - name: Commit updated guides
+        run: python tools/update_all_guides.py --workers 4
+      - name: Publish successful updates and coverage report
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add epg/data
+          git add epg/data epg/sources.json epg/providers.json config/epg-sources.json config/freetv-regions.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Update country EPG data'
+            git commit -m 'Refresh public EPG data and country coverage'
             git push
           fi
-      - name: Report feed failures
+      - name: Report upstream errors
         if: steps.build.outcome == 'failure'
-        run: exit 1
+        run: |
+          echo 'Some upstream feeds failed. Successful guides were published; failed guides retain their last good data and will be retried.'
+          exit 1
