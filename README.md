@@ -1,12 +1,12 @@
-<p align="center"><img src="assets/icon.png" alt="zerÃ˜ TV icon" width="112"></p>
-<h1 align="center">zerÃ˜ TV</h1>
+<p align="center"><img src="assets/icon.png" alt="zerØ TV icon" width="112"></p>
+<h1 align="center">zerØ TV</h1>
 <p align="center"><strong>Live TV and on-demand discovery for Roku</strong></p>
-<p align="center">Country guides Â· Live preview Â· Rare cinema Â· Version 1.5.5</p>
+<p align="center">Country guides · Live preview · Rare cinema · Version 1.5.5</p>
 
-zerÃ˜ TV brings public live-channel playlists and on-demand catalogs together in a dark neon interface. Browse by country, preview a channel in the guide, search for something to watch, or discover films and alternate cuts on Internet Archive.
+zerØ TV brings public live-channel playlists and on-demand catalogs together in a dark neon interface. Browse by country, preview a channel in the guide, search for something to watch, or discover films and alternate cuts on Internet Archive.
 
-![zerÃ˜ TV 1.5.0 source menu with eight live TV and movie providers](assets/screenshot-sources.jpg)
-<p align="center"><em>Eight source choices, one familiar remote. Actual zerÃ˜ TV 1.5.0 Roku capture.</em></p>
+![zerØ TV 1.5.0 source menu with eight live TV and movie providers](assets/screenshot-sources.jpg)
+<p align="center"><em>Eight source choices, one familiar remote. Actual zerØ TV 1.5.0 Roku capture.</em></p>
 
 ## Download and install
 
@@ -23,11 +23,11 @@ Checksums sit beside both downloads on the [release page](https://github.com/snu
 2. From a computer on the same network, open `http://ROKU_IP` in your browser.
 3. Sign in as `rokudev` using your installer password.
 4. Select **Upload**, choose `zer0tv-v1.5.5-roku.zip`, then select **Install**.
-5. Open zerÃ˜ TV and choose a source. Reinstalling replaces the existing sideloaded app.
+5. Open zerØ TV and choose a source. Reinstalling replaces the existing sideloaded app.
 
 See [Roku's developer setup](https://developer.roku.com/docs/developer-program/getting-started/developer-setup.md) for the official instructions.
 
-## Explore zerÃ˜ TV
+## Explore zerØ TV
 
 ### A guide built for channel browsing
 
@@ -76,7 +76,7 @@ Internet Archive opens with rare finds. Press **Options (*)** to choose Workprin
 | --- | --- |
 | **Sources** | Arrows choose a card; OK opens; * About; Back exits |
 | **Countries** | Up/Down browse; Left/Right jump letters; Replay pin/unpin; * options; Back sources |
-| **Live guide** | Up/Down channels; Left/Right timeline; REW/FF jump Aâ€“Z; Replay search; OK/Play full screen; * options |
+| **Live guide** | Up/Down channels; Left/Right timeline; REW/FF jump A–Z; Replay search; OK/Play full screen; * options |
 | **Movies** | Arrows browse; REW/FF page; Replay search; OK/Play watch; * search, refresh and Archive filters |
 | **Playing** | Play pause/resume; OK information banner; * captions/audio; Back guide or movie browser |
 | **Movie seeking** | Left/Right 10 seconds; REW/FF 60 seconds |
@@ -87,7 +87,7 @@ Caption and audio choices depend on tracks supplied by the stream. The transluce
 
 Playlists and movie catalogs fetch when their source or country opens. Pluto, Samsung, Plex and Tubi guides fetch matching XMLTV directly; no hosting setup is needed for those entries. Movie posters and details load as you browse, and playback files are checked again when selected. Small network fallback caches last for the current app session. Favorites, preferences and country history are saved separately.
 
-**IPTV.org and Free-TV country EPG updates use this repository.** The app is already configured for `snuffy420/zer0TV/main/epg/data`. After uploading the repository files, open **Actions â†’ Update country guides â†’ Run workflow** once. The included workflow then refreshes the configured US, UK, Canadian and Australian guides every six hours. GitHub Actions must be enabled with permission to write repository contents. Bundled snapshots are a temporary fallback and expire after 24 hours; ongoing listings depend on successful workflow runs. No manual JSON editing is needed.
+**IPTV.org and Free-TV country EPG updates use this repository.** The app is already configured for `snuffy420/zer0TV/main/epg/data`. After uploading the repository files, open **Actions → Update country guides → Run workflow** once. The included workflow then refreshes the configured US, UK, Canadian and Australian guides every six hours. GitHub Actions must be enabled with permission to write repository contents. Bundled snapshots are a temporary fallback and expire after 24 hours; ongoing listings depend on successful workflow runs. No manual JSON editing is needed.
 
 Guide coverage, titles and streams depend on upstream availability and regional restrictions. Pluto On Demand shows the public feed's selection, which may be smaller than Pluto's complete catalog. The Tubi entry is live TV; it does not include Tubi's on-demand movie library. The app does not host or record video. See [guide setup](docs/EPG_GUIDE.md), the [complete source register](docs/SOURCES.md) and [third-party notices](THIRD_PARTY.md).
 
@@ -95,13 +95,13 @@ Guide coverage, titles and streams depend on upstream availability and regional 
 
 The source includes reusable guide rows, thumbnail-sized artwork, background workers and serialized playback transitions to keep browsing responsive. [Build instructions](docs/BUILDING.md) cover packaging and automated checks. [Release notes](CHANGELOG.md) describe 1.5.0.
 
-zerÃ˜ TV's application code is licensed under [GPL-3.0](LICENSE). Upstream playlists, schedules, movie metadata, artwork and video retain their respective terms. See [THIRD_PARTY.md](THIRD_PARTY.md).
+zerØ TV's application code is licensed under [GPL-3.0](LICENSE). Upstream playlists, schedules, movie metadata, artwork and video retain their respective terms. See [THIRD_PARTY.md](THIRD_PARTY.md).
 
-## Support zerÃ˜ TV
+## Support zerØ TV
 
 <img src="assets/bitcoin.svg" width="24" height="24" alt="Bitcoin">
 
-If zerÃ˜ TV is useful to you, consider supporting its development with a Bitcoin donation. Donations are optional and appreciated.
+If zerØ TV is useful to you, consider supporting its development with a Bitcoin donation. Donations are optional and appreciated.
 
 **Bitcoin (BTC):**
 `bc1qz8877p6vusc22qrctdj4h7w0uk2l9l9h8lwphy`
@@ -110,10 +110,10 @@ You can also scan the QR code in **About**.
 
 ## Contact
 
-Questions, feedback, a bug report or a custom build? Get in touch through the zerÃ˜ TV contact form.
+Questions, feedback, a bug report or a custom build? Get in touch through the zerØ TV contact form.
 
 <p align="center">
   <a href="https://snuffy420.github.io/zer0TV/docs/contact.html">
-    <img src="assets/contact-button.svg" alt="Contact zerÃ˜ TV" width="260">
+    <img src="assets/contact-button.svg" alt="Contact zerØ TV" width="260">
   </a>
 </p>
