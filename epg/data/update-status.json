@@ -1,8 +1,6 @@
 {
-  "generated": 1793139766,
-  "failures": [
-    "Countries: Country feeds failed: ca, cr, gb"
-  ],
+  "generated": 1793166736,
+  "failures": [],
   "groups": [
     {
       "group": "group-documentariesar",
@@ -26,17 +24,17 @@
     {
       "group": "group-newsar",
       "status": "ok",
-      "channels": 115
+      "channels": 113
     },
     {
       "group": "group-news",
       "status": "ok",
-      "channels": 263
+      "channels": 249
     },
     {
       "group": "group-business",
       "status": "ok",
-      "channels": 46
+      "channels": 44
     },
     {
       "group": "group-weather",
@@ -46,12 +44,12 @@
     {
       "group": "group-newses",
       "status": "ok",
-      "channels": 10
+      "channels": 11
     },
     {
       "group": "group-voditaly",
       "status": "ok",
-      "channels": 178
+      "channels": 182
     }
   ]
 }
