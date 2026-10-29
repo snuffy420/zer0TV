@@ -1,5 +1,5 @@
 {
-  "generated": 1793253363,
+  "generated": 1793279555,
   "failures": [],
   "groups": [
     {
@@ -44,12 +44,12 @@
     {
       "group": "group-newses",
       "status": "ok",
-      "channels": 13
+      "channels": 14
     },
     {
       "group": "group-voditaly",
       "status": "ok",
-      "channels": 184
+      "channels": 185
     }
   ]
 }
