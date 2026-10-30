@@ -1,8 +1,6 @@
 {
-  "generated": 1793314293,
-  "failures": [
-    "Discovery: HTTP Error 403: rate limit exceeded"
-  ],
+  "generated": 1793339890,
+  "failures": [],
   "groups": [
     {
       "group": "group-documentariesar",
@@ -26,17 +24,17 @@
     {
       "group": "group-newsar",
       "status": "ok",
-      "channels": 110
+      "channels": 112
     },
     {
       "group": "group-news",
       "status": "ok",
-      "channels": 256
+      "channels": 259
     },
     {
       "group": "group-business",
       "status": "ok",
-      "channels": 43
+      "channels": 44
     },
     {
       "group": "group-weather",
@@ -51,7 +49,7 @@
     {
       "group": "group-voditaly",
       "status": "ok",
-      "channels": 185
+      "channels": 187
     }
   ]
 }
