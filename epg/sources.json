@@ -37,6 +37,7 @@
   "in": "https://iptv-epg.org/files/epg-in.xml.gz",
   "is": "https://iptv-epg.org/files/epg-is.xml.gz",
   "it": "https://iptv-epg.org/files/epg-it.xml.gz",
+  "jm": "https://iptv-epg.org/files/epg-jm.xml.gz",
   "jp": "https://iptv-epg.org/files/epg-jp.xml.gz",
   "lu": "https://iptv-epg.org/files/epg-lu.xml.gz",
   "lv": "https://iptv-epg.org/files/epg-lv.xml.gz",

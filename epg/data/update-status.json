@@ -1,6 +1,8 @@
 {
-  "generated": 1793339890,
-  "failures": [],
+  "generated": 1793365493,
+  "failures": [
+    "Countries: Country feeds failed: rs"
+  ],
   "groups": [
     {
       "group": "group-documentariesar",
@@ -14,7 +16,7 @@
     {
       "group": "group-vodmoviesen",
       "status": "ok",
-      "channels": 61
+      "channels": 59
     },
     {
       "group": "group-musicen",
@@ -49,7 +51,7 @@
     {
       "group": "group-voditaly",
       "status": "ok",
-      "channels": 187
+      "channels": 181
     }
   ]
 }
