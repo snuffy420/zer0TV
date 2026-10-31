@@ -1,233 +1,233 @@
 {
-  "generated": 1793399256,
+  "generated": 1793426049,
   "feeds": [
     {
       "country": "al",
       "status": "ok",
       "channels": 27,
-      "bytes": 110894
+      "bytes": 86202
     },
     {
       "country": "am",
       "status": "ok",
       "channels": 3,
-      "bytes": 23175
+      "bytes": 23638
     },
     {
       "country": "ar",
       "status": "ok",
       "channels": 42,
-      "bytes": 283593
+      "bytes": 277828
     },
     {
       "country": "at",
       "status": "ok",
       "channels": 50,
-      "bytes": 550658
+      "bytes": 562825
     },
     {
       "country": "au",
       "status": "ok",
       "channels": 19,
-      "bytes": 174263
+      "bytes": 173133
     },
     {
       "country": "ba",
       "status": "ok",
       "channels": 20,
-      "bytes": 242349
+      "bytes": 248476
     },
     {
       "country": "be",
       "status": "ok",
       "channels": 42,
-      "bytes": 409849
+      "bytes": 434614
     },
     {
       "country": "bg",
       "status": "ok",
       "channels": 44,
-      "bytes": 194509
+      "bytes": 186936
     },
     {
       "country": "bo",
       "status": "ok",
       "channels": 10,
-      "bytes": 48244
+      "bytes": 40747
     },
     {
       "country": "br",
       "status": "ok",
       "channels": 44,
-      "bytes": 469034
+      "bytes": 472540
     },
     {
       "country": "by",
       "status": "ok",
       "channels": 12,
-      "bytes": 257202
+      "bytes": 261079
     },
     {
       "country": "ca",
       "status": "ok",
       "channels": 57,
-      "bytes": 446361
+      "bytes": 431588
     },
     {
       "country": "ch",
       "status": "ok",
       "channels": 134,
-      "bytes": 1311831
+      "bytes": 1346983
     },
     {
       "country": "cl",
       "status": "ok",
-      "channels": 30,
-      "bytes": 279290
+      "channels": 27,
+      "bytes": 263186
     },
     {
       "country": "co",
       "status": "ok",
       "channels": 40,
-      "bytes": 402497
+      "bytes": 389381
     },
     {
       "country": "cr",
       "status": "ok",
       "channels": 16,
-      "bytes": 62232
+      "bytes": 57685
     },
     {
       "country": "cw",
       "status": "ok",
       "channels": 9,
-      "bytes": 92746
+      "bytes": 88761
     },
     {
       "country": "cz",
       "status": "ok",
       "channels": 76,
-      "bytes": 631225
+      "bytes": 655378
     },
     {
       "country": "de",
       "status": "ok",
-      "channels": 90,
-      "bytes": 1040984
+      "channels": 89,
+      "bytes": 1053106
     },
     {
       "country": "dk",
       "status": "ok",
       "channels": 32,
-      "bytes": 331719
+      "bytes": 343134
     },
     {
       "country": "do",
       "status": "ok",
       "channels": 13,
-      "bytes": 59008
+      "bytes": 47447
     },
     {
       "country": "es",
       "status": "ok",
       "channels": 61,
-      "bytes": 501417
+      "bytes": 511167
     },
     {
       "country": "fi",
       "status": "ok",
       "channels": 35,
-      "bytes": 370617
+      "bytes": 389850
     },
     {
       "country": "fr",
       "status": "ok",
-      "channels": 82,
-      "bytes": 574115
+      "channels": 81,
+      "bytes": 613371
     },
     {
       "country": "gb",
       "status": "ok",
-      "channels": 110,
-      "bytes": 938154
+      "channels": 114,
+      "bytes": 959642
     },
     {
       "country": "ge",
       "status": "ok",
       "channels": 6,
-      "bytes": 32635
+      "bytes": 30995
     },
     {
       "country": "gh",
       "status": "ok",
       "channels": 17,
-      "bytes": 132220
+      "bytes": 134243
     },
     {
       "country": "gr",
       "status": "ok",
       "channels": 35,
-      "bytes": 345491
+      "bytes": 344564
     },
     {
       "country": "gt",
       "status": "ok",
       "channels": 12,
-      "bytes": 82954
+      "bytes": 79167
     },
     {
       "country": "hk",
       "status": "ok",
       "channels": 19,
-      "bytes": 234874
+      "bytes": 233743
     },
     {
       "country": "hn",
       "status": "ok",
       "channels": 18,
-      "bytes": 114996
+      "bytes": 111528
     },
     {
       "country": "hr",
       "status": "ok",
       "channels": 46,
-      "bytes": 425743
+      "bytes": 444367
     },
     {
       "country": "hu",
       "status": "ok",
       "channels": 73,
-      "bytes": 797380
+      "bytes": 819718
     },
     {
       "country": "id",
       "status": "ok",
       "channels": 23,
-      "bytes": 89189
+      "bytes": 83820
     },
     {
       "country": "il",
       "status": "ok",
       "channels": 21,
-      "bytes": 256164
+      "bytes": 258102
     },
     {
       "country": "in",
       "status": "ok",
       "channels": 252,
-      "bytes": 2101224
+      "bytes": 2139768
     },
     {
       "country": "is",
       "status": "ok",
       "channels": 16,
-      "bytes": 161881
+      "bytes": 158317
     },
     {
       "country": "it",
       "status": "ok",
       "channels": 75,
-      "bytes": 586415
+      "bytes": 599189
     },
     {
       "country": "jm",
@@ -244,193 +244,193 @@
       "country": "lt",
       "status": "ok",
       "channels": 31,
-      "bytes": 159067
+      "bytes": 160973
     },
     {
       "country": "lu",
       "status": "ok",
       "channels": 57,
-      "bytes": 627071
+      "bytes": 652703
     },
     {
       "country": "lv",
       "status": "ok",
       "channels": 28,
-      "bytes": 215201
+      "bytes": 222078
     },
     {
       "country": "me",
       "status": "ok",
       "channels": 23,
-      "bytes": 326176
+      "bytes": 343865
     },
     {
       "country": "mt",
       "status": "ok",
       "channels": 39,
-      "bytes": 345639
+      "bytes": 361962
     },
     {
       "country": "mx",
       "status": "ok",
       "channels": 28,
-      "bytes": 161031
+      "bytes": 161749
     },
     {
       "country": "my",
       "status": "ok",
       "channels": 16,
-      "bytes": 131756
+      "bytes": 136768
     },
     {
       "country": "ng",
       "status": "ok",
       "channels": 19,
-      "bytes": 184690
+      "bytes": 182844
     },
     {
       "country": "ni",
       "status": "ok",
       "channels": 9,
-      "bytes": 58765
+      "bytes": 50032
     },
     {
       "country": "nl",
       "status": "ok",
       "channels": 47,
-      "bytes": 490911
+      "bytes": 506408
     },
     {
       "country": "no",
       "status": "ok",
       "channels": 15,
-      "bytes": 129925
+      "bytes": 136776
     },
     {
       "country": "nz",
       "status": "ok",
       "channels": 12,
-      "bytes": 117288
+      "bytes": 116415
     },
     {
       "country": "pa",
       "status": "ok",
       "channels": 11,
-      "bytes": 58173
+      "bytes": 50297
     },
     {
       "country": "pe",
       "status": "ok",
       "channels": 26,
-      "bytes": 235615
+      "bytes": 239348
     },
     {
       "country": "pl",
       "status": "ok",
       "channels": 140,
-      "bytes": 1618195
+      "bytes": 1672835
     },
     {
       "country": "pt",
       "status": "ok",
       "channels": 69,
-      "bytes": 590749
+      "bytes": 601094
     },
     {
       "country": "py",
       "status": "ok",
       "channels": 14,
-      "bytes": 115247
+      "bytes": 101471
     },
     {
       "country": "ro",
       "status": "ok",
       "channels": 118,
-      "bytes": 726434
+      "bytes": 745126
     },
     {
       "country": "rs",
       "status": "ok",
       "channels": 43,
-      "bytes": 413465
+      "bytes": 414759
     },
     {
       "country": "ru",
       "status": "ok",
       "channels": 52,
-      "bytes": 737432
+      "bytes": 743275
     },
     {
       "country": "se",
       "status": "ok",
       "channels": 16,
-      "bytes": 157678
+      "bytes": 159005
     },
     {
       "country": "sg",
       "status": "ok",
       "channels": 19,
-      "bytes": 227585
+      "bytes": 224112
     },
     {
       "country": "sv",
       "status": "ok",
       "channels": 13,
-      "bytes": 144016
+      "bytes": 138439
     },
     {
       "country": "th",
       "status": "ok",
       "channels": 8,
-      "bytes": 81656
+      "bytes": 72163
     },
     {
       "country": "tr",
       "status": "ok",
-      "channels": 47,
-      "bytes": 511551
+      "channels": 48,
+      "bytes": 551813
     },
     {
       "country": "tw",
       "status": "ok",
       "channels": 27,
-      "bytes": 137849
+      "bytes": 134388
     },
     {
       "country": "ug",
       "status": "ok",
       "channels": 19,
-      "bytes": 144613
+      "bytes": 146388
     },
     {
       "country": "us",
       "status": "ok",
-      "channels": 287,
-      "bytes": 2215738
+      "channels": 286,
+      "bytes": 2166780
     },
     {
       "country": "uy",
       "status": "ok",
       "channels": 17,
-      "bytes": 216352
+      "bytes": 214148
     },
     {
       "country": "ve",
       "status": "ok",
       "channels": 6,
-      "bytes": 38172
+      "bytes": 32038
     },
     {
       "country": "za",
       "status": "ok",
       "channels": 22,
-      "bytes": 203382
+      "bytes": 156072
     },
     {
       "country": "zw",
       "status": "ok",
       "channels": 14,
-      "bytes": 107557
+      "bytes": 107223
     }
   ]
 }
