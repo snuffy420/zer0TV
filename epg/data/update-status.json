@@ -1,5 +1,5 @@
 {
-  "generated": 1793570948,
+  "generated": 1793600399,
   "failures": [],
   "groups": [
     {
@@ -14,7 +14,7 @@
     {
       "group": "group-vodmoviesen",
       "status": "ok",
-      "channels": 63
+      "channels": 61
     },
     {
       "group": "group-musicen",
@@ -29,7 +29,7 @@
     {
       "group": "group-news",
       "status": "ok",
-      "channels": 262
+      "channels": 255
     },
     {
       "group": "group-business",
@@ -49,7 +49,7 @@
     {
       "group": "group-voditaly",
       "status": "ok",
-      "channels": 196
+      "channels": 181
     }
   ]
 }
