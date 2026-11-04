@@ -1,5 +1,5 @@
 {
-  "generated": 1793734464,
+  "generated": 1793774204,
   "failures": [],
   "groups": [
     {
@@ -24,17 +24,17 @@
     {
       "group": "group-newsar",
       "status": "ok",
-      "channels": 115
+      "channels": 113
     },
     {
       "group": "group-news",
       "status": "ok",
-      "channels": 260
+      "channels": 257
     },
     {
       "group": "group-business",
       "status": "ok",
-      "channels": 42
+      "channels": 43
     },
     {
       "group": "group-weather",
@@ -44,12 +44,12 @@
     {
       "group": "group-newses",
       "status": "ok",
-      "channels": 13
+      "channels": 11
     },
     {
       "group": "group-voditaly",
       "status": "ok",
-      "channels": 181
+      "channels": 183
     }
   ]
 }
