@@ -1,4 +1,5 @@
 {
+  "al": "https://iptv-epg.org/files/epg-al.xml.gz",
   "am": "https://iptv-epg.org/files/epg-am.xml.gz",
   "ar": "https://iptv-epg.org/files/epg-ar.xml.gz",
   "at": "https://iptv-epg.org/files/epg-at.xml.gz",
@@ -18,6 +19,7 @@
   "cz": "https://iptv-epg.org/files/epg-cz.xml.gz",
   "de": "https://iptv-epg.org/files/epg-de.xml.gz",
   "dk": "https://iptv-epg.org/files/epg-dk.xml.gz",
+  "do": "https://iptv-epg.org/files/epg-do.xml.gz",
   "es": "https://iptv-epg.org/files/epg-es.xml.gz",
   "fi": "https://iptv-epg.org/files/epg-fi.xml.gz",
   "fr": "https://iptv-epg.org/files/epg-fr.xml.gz",
@@ -31,6 +33,8 @@
   "hr": "https://iptv-epg.org/files/epg-hr.xml.gz",
   "hu": "https://iptv-epg.org/files/epg-hu.xml.gz",
   "id": "https://iptv-epg.org/files/epg-id.xml.gz",
+  "il": "https://iptv-epg.org/files/epg-il.xml.gz",
+  "in": "https://iptv-epg.org/files/epg-in.xml.gz",
   "is": "https://iptv-epg.org/files/epg-is.xml.gz",
   "it": "https://iptv-epg.org/files/epg-it.xml.gz",
   "jm": "https://iptv-epg.org/files/epg-jm.xml.gz",
@@ -57,6 +61,7 @@
   "ru": "https://iptv-epg.org/files/epg-ru.xml.gz",
   "se": "https://iptv-epg.org/files/epg-se.xml.gz",
   "sg": "https://iptv-epg.org/files/epg-sg.xml.gz",
+  "sv": "https://iptv-epg.org/files/epg-sv.xml.gz",
   "th": "https://iptv-epg.org/files/epg-th.xml.gz",
   "tr": "https://iptv-epg.org/files/epg-tr.xml.gz",
   "tw": "https://iptv-epg.org/files/epg-tw.xml.gz",
@@ -64,5 +69,6 @@
   "us": "https://iptv-epg.org/files/epg-us.xml.gz",
   "uy": "https://iptv-epg.org/files/epg-uy.xml.gz",
   "ve": "https://iptv-epg.org/files/epg-ve.xml.gz",
+  "za": "https://iptv-epg.org/files/epg-za.xml.gz",
   "zw": "https://iptv-epg.org/files/epg-zw.xml.gz"
 }
