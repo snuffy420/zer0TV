@@ -15,7 +15,6 @@
   "cl": "https://iptv-epg.org/files/epg-cl.xml.gz",
   "co": "https://iptv-epg.org/files/epg-co.xml.gz",
   "cr": "https://iptv-epg.org/files/epg-cr.xml.gz",
-  "cw": "https://iptv-epg.org/files/epg-cw.xml.gz",
   "cz": "https://iptv-epg.org/files/epg-cz.xml.gz",
   "de": "https://iptv-epg.org/files/epg-de.xml.gz",
   "dk": "https://iptv-epg.org/files/epg-dk.xml.gz",
@@ -52,7 +51,6 @@
   "no": "https://iptv-epg.org/files/epg-no.xml.gz",
   "nz": "https://iptv-epg.org/files/epg-nz.xml.gz",
   "pa": "https://iptv-epg.org/files/epg-pa.xml.gz",
-  "pe": "https://iptv-epg.org/files/epg-pe.xml.gz",
   "pl": "https://iptv-epg.org/files/epg-pl.xml.gz",
   "pt": "https://iptv-epg.org/files/epg-pt.xml.gz",
   "py": "https://iptv-epg.org/files/epg-py.xml.gz",
@@ -67,7 +65,6 @@
   "tw": "https://iptv-epg.org/files/epg-tw.xml.gz",
   "ug": "https://iptv-epg.org/files/epg-ug.xml.gz",
   "us": "https://iptv-epg.org/files/epg-us.xml.gz",
-  "uy": "https://iptv-epg.org/files/epg-uy.xml.gz",
   "ve": "https://iptv-epg.org/files/epg-ve.xml.gz",
   "za": "https://iptv-epg.org/files/epg-za.xml.gz",
   "zw": "https://iptv-epg.org/files/epg-zw.xml.gz"

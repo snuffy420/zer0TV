@@ -1,8 +1,6 @@
 {
-  "generated": 1793909070,
-  "failures": [
-    "Countries: Country feeds failed: gb, il, jp, lu"
-  ],
+  "generated": 1793948257,
+  "failures": [],
   "groups": [
     {
       "group": "group-documentariesar",
@@ -16,7 +14,7 @@
     {
       "group": "group-vodmoviesen",
       "status": "ok",
-      "channels": 63
+      "channels": 61
     },
     {
       "group": "group-musicen",
@@ -31,12 +29,12 @@
     {
       "group": "group-news",
       "status": "ok",
-      "channels": 252
+      "channels": 251
     },
     {
       "group": "group-business",
       "status": "ok",
-      "channels": 44
+      "channels": 42
     },
     {
       "group": "group-weather",
@@ -46,12 +44,12 @@
     {
       "group": "group-newses",
       "status": "ok",
-      "channels": 8
+      "channels": 9
     },
     {
       "group": "group-voditaly",
       "status": "ok",
-      "channels": 192
+      "channels": 179
     }
   ]
 }
