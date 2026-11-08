@@ -1,335 +1,203 @@
 {
-  "generated": 1794118353,
+  "generated": 1794144845,
   "feeds": [
     {
       "provider": "plutotv",
       "country": "ar",
-      "playlist_channels": 192,
-      "guide_channels": 192,
-      "exact_id_matches": 192,
-      "fixture_bytes": 795854,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plutotv",
       "country": "br",
-      "playlist_channels": 185,
-      "guide_channels": 185,
-      "exact_id_matches": 185,
-      "fixture_bytes": 785280,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plutotv",
       "country": "ca",
-      "playlist_channels": 242,
-      "guide_channels": 241,
-      "exact_id_matches": 241,
-      "fixture_bytes": 1054689,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plutotv",
       "country": "cl",
-      "playlist_channels": 242,
-      "guide_channels": 241,
-      "exact_id_matches": 241,
-      "fixture_bytes": 1054689,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plutotv",
       "country": "de",
-      "playlist_channels": 199,
-      "guide_channels": 199,
-      "exact_id_matches": 199,
-      "fixture_bytes": 925541,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plutotv",
       "country": "dk",
-      "playlist_channels": 275,
-      "guide_channels": 275,
-      "exact_id_matches": 275,
-      "fixture_bytes": 1266411,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plutotv",
       "country": "es",
-      "playlist_channels": 152,
-      "guide_channels": 152,
-      "exact_id_matches": 152,
-      "fixture_bytes": 696048,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plutotv",
       "country": "fr",
-      "playlist_channels": 149,
-      "guide_channels": 149,
-      "exact_id_matches": 149,
-      "fixture_bytes": 751639,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plutotv",
       "country": "gb",
-      "playlist_channels": 182,
-      "guide_channels": 182,
-      "exact_id_matches": 182,
-      "fixture_bytes": 785060,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plutotv",
       "country": "it",
-      "playlist_channels": 129,
-      "guide_channels": 129,
-      "exact_id_matches": 129,
-      "fixture_bytes": 575765,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plutotv",
       "country": "mx",
-      "playlist_channels": 198,
-      "guide_channels": 198,
-      "exact_id_matches": 198,
-      "fixture_bytes": 808415,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plutotv",
       "country": "no",
-      "playlist_channels": 215,
-      "guide_channels": 215,
-      "exact_id_matches": 215,
-      "fixture_bytes": 1002821,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plutotv",
       "country": "se",
-      "playlist_channels": 236,
-      "guide_channels": 236,
-      "exact_id_matches": 236,
-      "fixture_bytes": 1097481,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plutotv",
       "country": "us",
-      "playlist_channels": 458,
-      "guide_channels": 457,
-      "exact_id_matches": 457,
-      "fixture_bytes": 1585785,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "samsungtvplus",
       "country": "at",
-      "playlist_channels": 177,
-      "guide_channels": 177,
-      "exact_id_matches": 177,
-      "fixture_bytes": 287668,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "samsungtvplus",
       "country": "ca",
-      "playlist_channels": 293,
-      "guide_channels": 293,
-      "exact_id_matches": 293,
-      "fixture_bytes": 421947,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "samsungtvplus",
       "country": "ch",
-      "playlist_channels": 188,
-      "guide_channels": 187,
-      "exact_id_matches": 187,
-      "fixture_bytes": 299264,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "samsungtvplus",
       "country": "de",
-      "playlist_channels": 217,
-      "guide_channels": 217,
-      "exact_id_matches": 217,
-      "fixture_bytes": 355601,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "samsungtvplus",
       "country": "es",
-      "playlist_channels": 189,
-      "guide_channels": 189,
-      "exact_id_matches": 189,
-      "fixture_bytes": 285964,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "samsungtvplus",
       "country": "fr",
-      "playlist_channels": 182,
-      "guide_channels": 179,
-      "exact_id_matches": 179,
-      "fixture_bytes": 284691,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "samsungtvplus",
       "country": "gb",
-      "playlist_channels": 278,
-      "guide_channels": 278,
-      "exact_id_matches": 278,
-      "fixture_bytes": 415982,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "samsungtvplus",
       "country": "in",
-      "playlist_channels": 206,
-      "guide_channels": 202,
-      "exact_id_matches": 202,
-      "fixture_bytes": 289695,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "samsungtvplus",
       "country": "it",
-      "playlist_channels": 191,
-      "guide_channels": 191,
-      "exact_id_matches": 191,
-      "fixture_bytes": 290404,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "samsungtvplus",
       "country": "kr",
-      "playlist_channels": 151,
-      "guide_channels": 151,
-      "exact_id_matches": 151,
-      "fixture_bytes": 355318,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "samsungtvplus",
       "country": "us",
-      "playlist_channels": 593,
-      "guide_channels": 593,
-      "exact_id_matches": 593,
-      "fixture_bytes": 859611,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plex",
       "country": "au",
-      "playlist_channels": 294,
-      "guide_channels": 285,
-      "exact_id_matches": 285,
-      "fixture_bytes": 1385786,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plex",
       "country": "ca",
-      "playlist_channels": 465,
-      "guide_channels": 454,
-      "exact_id_matches": 454,
-      "fixture_bytes": 2032669,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plex",
       "country": "es",
-      "playlist_channels": 267,
-      "guide_channels": 149,
-      "exact_id_matches": 149,
-      "fixture_bytes": 716542,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plex",
       "country": "fr",
-      "playlist_channels": 238,
-      "guide_channels": 81,
-      "exact_id_matches": 81,
-      "fixture_bytes": 449164,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plex",
       "country": "gb",
-      "playlist_channels": 370,
-      "guide_channels": 370,
-      "exact_id_matches": 370,
-      "fixture_bytes": 1763607,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plex",
       "country": "mx",
-      "playlist_channels": 278,
-      "guide_channels": 219,
-      "exact_id_matches": 219,
-      "fixture_bytes": 1027172,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plex",
       "country": "nz",
-      "playlist_channels": 272,
-      "guide_channels": 110,
-      "exact_id_matches": 110,
-      "fixture_bytes": 594947,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "plex",
       "country": "us",
-      "playlist_channels": 698,
-      "guide_channels": 698,
-      "exact_id_matches": 698,
-      "fixture_bytes": 3388145,
-      "programme_cap_per_station": 48,
-      "status": "ok"
+      "status": "failed",
+      "error": "HTTP Error 404: Not Found"
     },
     {
       "provider": "tubi",
@@ -337,7 +205,7 @@
       "playlist_channels": 179,
       "guide_channels": 179,
       "exact_id_matches": 179,
-      "fixture_bytes": 938320,
+      "fixture_bytes": 938598,
       "programme_cap_per_station": 48,
       "status": "ok"
     }
