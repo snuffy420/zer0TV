@@ -1,5 +1,5 @@
 {
-  "generated": 1794144845,
+  "generated": 1794176044,
   "feeds": [
     {
       "provider": "plutotv",
@@ -205,7 +205,7 @@
       "playlist_channels": 179,
       "guide_channels": 179,
       "exact_id_matches": 179,
-      "fixture_bytes": 938598,
+      "fixture_bytes": 950679,
       "programme_cap_per_station": 48,
       "status": "ok"
     }
