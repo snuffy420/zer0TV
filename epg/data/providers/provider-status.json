@@ -1,5 +1,5 @@
 {
-  "generated": 1794176044,
+  "generated": 1794206832,
   "feeds": [
     {
       "provider": "plutotv",
@@ -202,10 +202,10 @@
     {
       "provider": "tubi",
       "country": "us",
-      "playlist_channels": 179,
-      "guide_channels": 179,
-      "exact_id_matches": 179,
-      "fixture_bytes": 950679,
+      "playlist_channels": 181,
+      "guide_channels": 181,
+      "exact_id_matches": 181,
+      "fixture_bytes": 961776,
       "programme_cap_per_station": 48,
       "status": "ok"
     }
