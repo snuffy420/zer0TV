@@ -1,5 +1,5 @@
 {
-  "generated": 1794379060,
+  "generated": 1794426087,
   "feeds": [
     {
       "provider": "plutotv",
@@ -7,7 +7,7 @@
       "playlist_channels": 195,
       "guide_channels": 195,
       "exact_id_matches": 195,
-      "fixture_bytes": 735396,
+      "fixture_bytes": 837813,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -17,7 +17,7 @@
       "playlist_channels": 185,
       "guide_channels": 185,
       "exact_id_matches": 185,
-      "fixture_bytes": 707658,
+      "fixture_bytes": 806185,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -27,7 +27,7 @@
       "playlist_channels": 241,
       "guide_channels": 241,
       "exact_id_matches": 241,
-      "fixture_bytes": 952747,
+      "fixture_bytes": 1080216,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -37,7 +37,7 @@
       "playlist_channels": 241,
       "guide_channels": 241,
       "exact_id_matches": 241,
-      "fixture_bytes": 952747,
+      "fixture_bytes": 1080216,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -47,7 +47,7 @@
       "playlist_channels": 199,
       "guide_channels": 199,
       "exact_id_matches": 199,
-      "fixture_bytes": 849276,
+      "fixture_bytes": 931015,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -57,7 +57,7 @@
       "playlist_channels": 275,
       "guide_channels": 275,
       "exact_id_matches": 275,
-      "fixture_bytes": 1153658,
+      "fixture_bytes": 1297015,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -67,7 +67,7 @@
       "playlist_channels": 152,
       "guide_channels": 152,
       "exact_id_matches": 152,
-      "fixture_bytes": 628718,
+      "fixture_bytes": 714958,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -77,7 +77,7 @@
       "playlist_channels": 149,
       "guide_channels": 149,
       "exact_id_matches": 149,
-      "fixture_bytes": 685348,
+      "fixture_bytes": 774227,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -87,7 +87,7 @@
       "playlist_channels": 183,
       "guide_channels": 183,
       "exact_id_matches": 183,
-      "fixture_bytes": 720805,
+      "fixture_bytes": 791425,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -97,7 +97,7 @@
       "playlist_channels": 129,
       "guide_channels": 129,
       "exact_id_matches": 129,
-      "fixture_bytes": 529542,
+      "fixture_bytes": 596456,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -107,7 +107,7 @@
       "playlist_channels": 201,
       "guide_channels": 201,
       "exact_id_matches": 201,
-      "fixture_bytes": 746972,
+      "fixture_bytes": 848763,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -117,7 +117,7 @@
       "playlist_channels": 215,
       "guide_channels": 215,
       "exact_id_matches": 215,
-      "fixture_bytes": 906602,
+      "fixture_bytes": 1035236,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -127,7 +127,7 @@
       "playlist_channels": 236,
       "guide_channels": 236,
       "exact_id_matches": 236,
-      "fixture_bytes": 1003429,
+      "fixture_bytes": 1135628,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -137,7 +137,7 @@
       "playlist_channels": 457,
       "guide_channels": 457,
       "exact_id_matches": 457,
-      "fixture_bytes": 1451258,
+      "fixture_bytes": 1652131,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -145,9 +145,9 @@
       "provider": "samsungtvplus",
       "country": "at",
       "playlist_channels": 177,
-      "guide_channels": 177,
-      "exact_id_matches": 177,
-      "fixture_bytes": 266304,
+      "guide_channels": 176,
+      "exact_id_matches": 176,
+      "fixture_bytes": 293818,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -157,7 +157,7 @@
       "playlist_channels": 293,
       "guide_channels": 293,
       "exact_id_matches": 293,
-      "fixture_bytes": 405524,
+      "fixture_bytes": 460590,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -165,9 +165,9 @@
       "provider": "samsungtvplus",
       "country": "ch",
       "playlist_channels": 188,
-      "guide_channels": 187,
-      "exact_id_matches": 187,
-      "fixture_bytes": 275568,
+      "guide_channels": 186,
+      "exact_id_matches": 186,
+      "fixture_bytes": 307587,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -175,9 +175,9 @@
       "provider": "samsungtvplus",
       "country": "de",
       "playlist_channels": 217,
-      "guide_channels": 217,
-      "exact_id_matches": 217,
-      "fixture_bytes": 325796,
+      "guide_channels": 216,
+      "exact_id_matches": 216,
+      "fixture_bytes": 367952,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -187,7 +187,7 @@
       "playlist_channels": 189,
       "guide_channels": 189,
       "exact_id_matches": 189,
-      "fixture_bytes": 259632,
+      "fixture_bytes": 299941,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -197,7 +197,7 @@
       "playlist_channels": 182,
       "guide_channels": 179,
       "exact_id_matches": 179,
-      "fixture_bytes": 269403,
+      "fixture_bytes": 307071,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -205,9 +205,9 @@
       "provider": "samsungtvplus",
       "country": "gb",
       "playlist_channels": 278,
-      "guide_channels": 278,
-      "exact_id_matches": 278,
-      "fixture_bytes": 379757,
+      "guide_channels": 277,
+      "exact_id_matches": 277,
+      "fixture_bytes": 442004,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -215,9 +215,9 @@
       "provider": "samsungtvplus",
       "country": "in",
       "playlist_channels": 206,
-      "guide_channels": 203,
-      "exact_id_matches": 203,
-      "fixture_bytes": 272987,
+      "guide_channels": 200,
+      "exact_id_matches": 200,
+      "fixture_bytes": 305649,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -227,7 +227,7 @@
       "playlist_channels": 191,
       "guide_channels": 191,
       "exact_id_matches": 191,
-      "fixture_bytes": 270387,
+      "fixture_bytes": 310952,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -237,7 +237,7 @@
       "playlist_channels": 151,
       "guide_channels": 151,
       "exact_id_matches": 151,
-      "fixture_bytes": 315961,
+      "fixture_bytes": 393339,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -247,7 +247,7 @@
       "playlist_channels": 593,
       "guide_channels": 593,
       "exact_id_matches": 593,
-      "fixture_bytes": 808936,
+      "fixture_bytes": 931606,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -255,9 +255,9 @@
       "provider": "plex",
       "country": "au",
       "playlist_channels": 294,
-      "guide_channels": 257,
-      "exact_id_matches": 257,
-      "fixture_bytes": 1257437,
+      "guide_channels": 281,
+      "exact_id_matches": 281,
+      "fixture_bytes": 683191,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -265,9 +265,9 @@
       "provider": "plex",
       "country": "ca",
       "playlist_channels": 465,
-      "guide_channels": 465,
-      "exact_id_matches": 465,
-      "fixture_bytes": 2170452,
+      "guide_channels": 456,
+      "exact_id_matches": 456,
+      "fixture_bytes": 1233762,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -275,9 +275,9 @@
       "provider": "plex",
       "country": "es",
       "playlist_channels": 267,
-      "guide_channels": 145,
-      "exact_id_matches": 145,
-      "fixture_bytes": 682776,
+      "guide_channels": 223,
+      "exact_id_matches": 223,
+      "fixture_bytes": 655198,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -285,9 +285,9 @@
       "provider": "plex",
       "country": "fr",
       "playlist_channels": 238,
-      "guide_channels": 155,
-      "exact_id_matches": 155,
-      "fixture_bytes": 744073,
+      "guide_channels": 127,
+      "exact_id_matches": 127,
+      "fixture_bytes": 505366,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -295,9 +295,9 @@
       "provider": "plex",
       "country": "gb",
       "playlist_channels": 370,
-      "guide_channels": 356,
-      "exact_id_matches": 356,
-      "fixture_bytes": 1708828,
+      "guide_channels": 195,
+      "exact_id_matches": 195,
+      "fixture_bytes": 589440,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -305,9 +305,9 @@
       "provider": "plex",
       "country": "mx",
       "playlist_channels": 278,
-      "guide_channels": 271,
-      "exact_id_matches": 271,
-      "fixture_bytes": 1226904,
+      "guide_channels": 228,
+      "exact_id_matches": 228,
+      "fixture_bytes": 712778,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -315,9 +315,9 @@
       "provider": "plex",
       "country": "nz",
       "playlist_channels": 272,
-      "guide_channels": 101,
-      "exact_id_matches": 101,
-      "fixture_bytes": 571640,
+      "guide_channels": 91,
+      "exact_id_matches": 91,
+      "fixture_bytes": 250946,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -327,7 +327,7 @@
       "playlist_channels": 698,
       "guide_channels": 698,
       "exact_id_matches": 698,
-      "fixture_bytes": 3261499,
+      "fixture_bytes": 3609822,
       "programme_cap_per_station": 48,
       "status": "ok"
     },
@@ -337,7 +337,7 @@
       "playlist_channels": 277,
       "guide_channels": 277,
       "exact_id_matches": 277,
-      "fixture_bytes": 1422126,
+      "fixture_bytes": 1418876,
       "programme_cap_per_station": 48,
       "status": "ok"
     }
