@@ -1,5 +1,5 @@
 {
-  "generated": 1794468066,
+  "generated": 1794513688,
   "failures": [],
   "groups": [
     {
@@ -24,17 +24,17 @@
     {
       "group": "group-newsar",
       "status": "ok",
-      "channels": 105
+      "channels": 103
     },
     {
       "group": "group-news",
       "status": "ok",
-      "channels": 244
+      "channels": 226
     },
     {
       "group": "group-business",
       "status": "ok",
-      "channels": 45
+      "channels": 43
     },
     {
       "group": "group-weather",
