@@ -16,12 +16,14 @@ serves, so the Roku can look listings up by the playlist's own tvg-id.
 import re
 
 QUALITY = re.compile(r"^(sd|hd|fhd|uhd|4k|8k|[0-9]+p)$", re.I)
-GENERIC = {"tv", "hd", "network", "channel", "the", "us", "usa", "east", "feed", "live", "television"}
+GENERIC = {"tv", "hd", "network", "channel", "the", "us", "usa", "east", "feed", "live", "television", "entertainment"}
 REGIONAL = {"west", "pacific", "mountain", "central"}
 # Free streaming services a feed tags its channels with instead of a country.
 FAST = {"pluto", "plex", "samsung", "samsungtvplus", "roku", "rokuchannel", "xumo", "tubi", "stirr", "distro", "localnow",
         "vizio", "lg", "sling", "peacock", "peacocktv", "rakuten", "whale", "whaletvplus", "tbn", "tbnplus", "amc",
-        "freevee", "vidaa", "tcl", "sxm"}
+        "freevee", "vidaa", "tcl"}
+# Radio (SiriusXM...): never the listings for a TV channel.
+RADIO = {"sxm", "siriusxm", "radio", "audacy"}
 
 
 def alnum(text):
@@ -99,6 +101,8 @@ class Matcher:
         by_part, by_name = {}, {}
         by_call = {}
         for feed_id, names in channels.items():
+            if feed_id.rpartition(".")[2].lower() in RADIO:
+                continue
             # Local stations by call sign: "WSMV-DT.us_locals1" (the main
             # channel, not -DT2/-DT3 sub-channels).
             call = re.match(r"^([KW][A-Z]{2,3})-(DT|TV|LD|CD|LP)\.", feed_id)
