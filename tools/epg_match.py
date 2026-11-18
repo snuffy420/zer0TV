@@ -19,7 +19,9 @@ QUALITY = re.compile(r"^(sd|hd|fhd|uhd|4k|8k|[0-9]+p)$", re.I)
 GENERIC = {"tv", "hd", "network", "channel", "the", "us", "usa", "east", "feed", "live", "television"}
 REGIONAL = {"west", "pacific", "mountain", "central"}
 # Free streaming services a feed tags its channels with instead of a country.
-FAST = {"pluto", "plex", "samsung", "roku", "xumo", "tubi", "stirr", "distro", "localnow", "vizio", "lg", "sling"}
+FAST = {"pluto", "plex", "samsung", "samsungtvplus", "roku", "rokuchannel", "xumo", "tubi", "stirr", "distro", "localnow",
+        "vizio", "lg", "sling", "peacock", "peacocktv", "rakuten", "whale", "whaletvplus", "tbn", "tbnplus", "amc",
+        "freevee", "vidaa", "tcl", "sxm"}
 
 
 def alnum(text):
@@ -120,7 +122,8 @@ class Matcher:
         def same_country(entry, feed_id):
             # An id match needs the same country tag, or a free streaming
             # service's own tag (TheRifleman.pluto for TheRifleman.us).
-            tag = feed_id.rpartition(".")[2].lower().split("_")[0]
+            # "us2", "us_locals1" and "uk" count as us / gb.
+            tag = re.sub(r"\d+$", "", feed_id.rpartition(".")[2].lower().split("_")[0])
             return not home or tag == entry["country"] or tag in FAST or (tag in home and (entry["country"] in home or entry["feed"] in home))
 
         best = {}
