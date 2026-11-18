@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- One country in the Glow Grid countries screen: the flag on a dark tile and
+     the name under it. Content: title = name, HDPosterUrl = flag picture,
+     ShortDescriptionLine1 = "pinned" for a pinned country. -->
+<component name="CountryCard" extends="Group">
+    <interface>
+        <field id="itemContent" type="node" onChange="onContent" />
+        <field id="focusPercent" type="float" onChange="onFocus" />
+        <field id="gridHasFocus" type="boolean" onChange="onFocus" />
+    </interface>
+    <script type="text/brightscript" uri="pkg:/components/CountryCard.brs" />
+    <script type="text/brightscript" uri="pkg:/components/GlowCommon.brs" />
+    <children>
+        <Poster id="back" uri="pkg:/images/glow/card.9.png" width="268" height="230" blendColor="0x111927FF" />
+        <Poster id="tile" uri="pkg:/images/glow/card.9.png" translation="[12,12]" width="244" height="124" blendColor="0x0A0F18FF" />
+        <Poster id="flag" translation="[44,22]" width="160" height="104" loadWidth="240" loadHeight="160" loadDisplayMode="scaleToFit" />
+        <!-- The pin sits clear of the focus ring and its glow. -->
+        <Poster id="pin" uri="pkg:/images/glow/pin.png" translation="[210,30]" width="28" height="28" visible="false" />
+        <Label id="name" translation="[16,140]" width="236" height="76" wrap="true" maxLines="3" lineSpacing="0" horizAlign="center" vertAlign="center" />
+        <Poster id="ring" uri="pkg:/images/glow/focus.9.png" translation="[-36,-36]" width="340" height="302" opacity="0" />
+    </children>
+</component>

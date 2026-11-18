@@ -1,38 +1,46 @@
-# Building zer0 TV 1.5.0
+# Building zerØ TV
 
-## Runtime ZIP
+## Box://Stream
 
-Python 3.12 or newer is sufficient to package the Roku app:
+zerØ TV builds [Box://Stream](https://github.com/snuffy420/BoxStream) in unchanged. Packaging copies its files from a `boxstream-roku` folder next to this one (`tools/boxstream_bundle.py`):
+
+```
+some-folder/
+  zer0tv-public/      this repository
+  boxstream-roku/     the Box://Stream repository
+```
+
+## Roku ZIP
+
+Python 3.12 or newer with Pillow:
 
 ```bash
 python tools/package.py
 ```
 
-Output: `releases/zer0tv-v1.5.0-roku.zip` and its SHA-256 sidecar. The ZIP contains `manifest`, `source`, `components`, `images` and runtime `config` at its root. Development fixtures, SVG sources, tests, docs and build tools are excluded.
+Each build gets the next version (2.5.5 → 2.5.6; a .9 rolls over, 2.5.9 → 2.6.0) and redraws the splash with it. `--same` keeps the current version. Output: `releases/zer0tv-v<version>-roku.zip` with its SHA-256. The ZIP holds `manifest`, `source`, `components`, `images`, `config` and `fonts`; tests, docs and tools stay out. Roku's store limit is 4 MB; the ZIP is about 3 MB.
 
-## Source archive
+`tools/build_glow_assets.py` draws the interface artwork (cards, glows, chips, icons, splash and app icons).
 
-Install the 7-Zip command-line tool (`7z` on PATH, or the standard Windows 7-Zip installation), then run:
+## Release
+
+Install 7-Zip (`7z` on PATH, or the standard Windows install), then:
 
 ```bash
 python tools/release.py
 ```
 
-This builds and integrity-checks the Roku ZIP and a real 7z source archive. `releases`, build output, dependency directories and Python caches are excluded from the source archive. Both artifacts receive checksums.
+This builds the Roku ZIP and a 7z source archive of this repository, tests the archive and writes checksums for both.
 
-## Automated checks
+## Checks
 
-Install Node.js and the development tools:
+Install Node.js, then:
 
 ```bash
 npm install
 npm run check
 ```
 
-The checks run BrightScript helper/parser tests, fixed-node guide/poster stress tests, playback and worker queue tests, country history and guide-budget tests, Python converter tests, and full BrighterScript compilation. The interpreter is an off-device approximation; actual Roku decoding, remote focus and prolonged playback require a device. Public stream availability varies by region and upstream changes.
+The checks run the BrightScript tests (guide, guide budgets and matching, playback, quick panel, countries, Internet Archive grid and search), the Python guide-builder tests and a full BrighterScript compile. They run off the device; remote focus, decoding and long playback need a Roku.
 
-The provider JSON fixtures under `config/provider-guides` are deterministic test inputs, not shipped runtime EPG. Regenerate with `python tools/build_provider_guides.py` when investigating provider data. Country guides under `epg/data` are maintained by the included GitHub Actions workflow; see [EPG_GUIDE.md](EPG_GUIDE.md).
-
-## Shared README style
-
-The README follows the OpenLUFS layout: centered app icon/title/tagline, download table, installation, features/controls, development/license, support and contact. `assets/contact-button.svg` and `assets/bitcoin.svg` share that visual style. For another app, change the contact SVG's label, README alt text and destination URL; the SVG is editable and does not depend on an external image service.
+Country guides under `epg/data` are kept current by the GitHub workflow; see [EPG_GUIDE.md](EPG_GUIDE.md). The JSON under `config/provider-guides` are test fixtures.

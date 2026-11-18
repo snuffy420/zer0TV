@@ -9,6 +9,7 @@
     <field id="requestId" type="string" />
     <field id="cancelled" type="boolean" value="false" />
     <field id="result" type="assocarray" />
+    <field id="early" type="assocarray" />
     <field id="message" type="string" />
     <field id="done" type="boolean" value="false" />
   </interface>

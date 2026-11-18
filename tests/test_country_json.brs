@@ -13,7 +13,7 @@ sub main()
         m.wanted[epgId(entry.id)] = true
     end for
     storeCountryEntries(data.channels)
-    require(m.programCount > 0 and m.programCount <= 3000, "real JSON yields bounded listings")
+    require(m.programCount > 0 and m.programCount <= 6000, "real JSON yields bounded listings")
     for each id in m.schedules
         require(m.schedules[id].Count() <= 32, "per-channel cap applies to real feed")
         for each p in m.schedules[id]

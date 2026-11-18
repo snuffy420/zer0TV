@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Glow Grid top bar: zerØ TV logo, the section tabs, the clock and a short
+     line under it (e.g. "United States · 1,284 channels"). -->
+<component name="GlowHeader" extends="Group">
+    <interface>
+        <field id="nav" type="array" onChange="onNavChanged" />
+        <field id="navIndex" type="integer" value="-1" onChange="onNavChanged" />
+        <field id="info" type="string" onChange="onInfoChanged" />
+    </interface>
+    <script type="text/brightscript" uri="pkg:/components/GlowHeader.brs" />
+    <script type="text/brightscript" uri="pkg:/components/GlowCommon.brs" />
+    <children>
+        <Poster uri="pkg:/images/glow/logo.png" translation="[60,33]" width="218" height="60" />
+        <Group id="navItems" translation="[350,40]" />
+        <Label id="clock" translation="[1260,26]" width="600" height="42" horizAlign="right" color="0xFFFFFFFF" />
+        <Label id="info" translation="[1260,70]" width="600" height="28" horizAlign="right" color="0x8391AAFF" />
+        <Timer id="clockTimer" duration="10" repeat="true" />
+    </children>
+</component>

@@ -9,7 +9,7 @@ sub main()
             retainProgram(id, {start: p * 600, stop: (p + 1) * 600, title: "Programme", description: ""})
         end for
     end for
-    require(m.programCount = 3000, "country-wide programme budget")
+    require(m.programCount = 6000, "country-wide programme budget")
     for each id in m.schedules
         require(m.schedules[id].Count() <= 32, "per-station programme budget")
     end for

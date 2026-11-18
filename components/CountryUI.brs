@@ -83,13 +83,53 @@ sub recordCountryVisit()
     if m.selectedCountry = invalid then return
     if Left(m.selectedCountry.code, 1) = "_" then return
     prefs = currentCountryPrefs()
-    prefs.recent = recentCountryKeys(prefs.recent, countryKey(m.selectedCountry), 12)
+    key = countryKey(m.selectedCountry)
+    prefs.recent = recentCountryKeys(prefs.recent, key, 12)
+    ' Opening a country pins it to the top (latest first), so a viewer's own
+    ' country is always first next time. Replay unpins.
+    prefs.pinned = recentCountryKeys(prefs.pinned, key, 32)
     saveCountryPrefs()
 end sub
 
 function orderedSourceCountries(countries as Object) as Object
     prefs = currentCountryPrefs()
     return orderCountries(countries, prefs.pinned, prefs.recent)
+end function
+
+' The picture for a country card: its flag, or an icon for the quick lists
+' and for Free-TV groups that aren't countries.
+function countryFlagUri(c as Object) as String
+    if c.code = "_FAV" then return "pkg:/images/glow/fav.png"
+    if c.code = "_RECENT" then return "pkg:/images/glow/recent.png"
+    code = c.code
+    ' IPTV.org files the United Kingdom as UK; the flag is GB.
+    if UCase(code) = "UK" then code = "GB"
+    if Len(code) <> 2
+        code = ""
+        if m.countryCodeByName = invalid
+            m.countryCodeByName = {}
+            for each known in getBuiltInCountries()
+                m.countryCodeByName[LCase(known.countryName)] = known.code
+            end for
+        end if
+        name = LCase(c.countryName)
+        if m.countryCodeByName.DoesExist(name) then code = m.countryCodeByName[name]
+        ' Free-TV's own names (Korea, USA, UK, Turkey...) with its codes.
+        if code = ""
+            if m.freetvCodes = invalid
+                m.freetvCodes = {}
+                regions = ParseJson(ReadAsciiFile("pkg:/config/freetv-regions.json"))
+                if type(regions) = "roAssociativeArray"
+                    for each region in regions
+                        if Len(regions[region]) = 2 then m.freetvCodes[LCase(region)] = regions[region]
+                    end for
+                end if
+            end if
+            if m.freetvCodes.DoesExist(name) then code = m.freetvCodes[name]
+        end if
+    end if
+    if code = "" then return "pkg:/images/glow/world.png"
+    return "https://flagcdn.com/w320/" + LCase(code) + ".png"
 end function
 
 function countryLabel(country as Object) as String

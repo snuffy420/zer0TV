@@ -14,19 +14,21 @@ args.brs = shutil.which(args.brs) or args.brs
 args.bsc = shutil.which(args.bsc) or args.bsc
 cases = [
     ["components/MovieCommon.brs", "components/EpgUtils.brs", "tests/test_movies.brs"],
-    ["components/MovieUI.brs", "components/MovieSearch.brs", "components/MovieDetailsUI.brs", "components/MovieCommon.brs", "components/EpgUtils.brs", "tests/test_movie_grid.brs"],
-    ["components/SourceMenu.brs", "tests/test_source_menu.brs"],
+    ["components/MovieUI.brs", "components/MovieSearch.brs", "components/MovieDetailsUI.brs", "components/MovieCommon.brs", "components/EpgUtils.brs", "components/GlowCommon.brs", "tests/test_movie_grid.brs"],
+    ["components/SourceMenu.brs", "components/GlowCommon.brs", "tests/test_source_menu.brs"],
+    ["components/QuickPanel.brs", "tests/test_quick.brs"],
     ["components/Providers.brs", "components/EpgUtils.brs", "components/EpgStore.brs", "tests/test_provider_guides.brs"],
     ["components/CountryUI.brs", "tests/test_countries.brs"],
     ["components/PlayerUI.brs", "tests/test_guide_letters.brs"],
-    ["components/Guide.brs", "components/EpgUtils.brs", "components/PlayerUI.brs", "tests/test_player_ui.brs"],
+    ["components/Guide.brs", "components/GlowCommon.brs", "components/EpgUtils.brs", "components/PlayerUI.brs", "tests/test_player_ui.brs"],
     ["components/EpgUtils.brs", "tests/test_epg.brs"],
     ["components/PlaylistTask.brs", "tests/test_playlist.brs"],
-    ["components/Guide.brs", "components/EpgUtils.brs", "tests/test_guide.brs"],
-    ["components/Guide.brs", "components/EpgUtils.brs", "tests/test_playback.brs"],
-    ["components/Guide.brs", "components/EpgUtils.brs", "components/Countries.brs", "components/Providers.brs", "tests/test_guide_worker.brs"],
+    ["components/Guide.brs", "components/GlowCommon.brs", "components/EpgUtils.brs", "tests/test_guide.brs"],
+    ["components/Guide.brs", "components/GlowCommon.brs", "components/EpgUtils.brs", "tests/test_playback.brs"],
+    ["components/Guide.brs", "components/GlowCommon.brs", "components/EpgUtils.brs", "components/Countries.brs", "components/Providers.brs", "tests/test_guide_worker.brs"],
     ["components/EpgStore.brs", "tests/test_epg_store.brs"],
     ["components/EpgStore.brs", "components/EpgUtils.brs", "tests/test_country_json.brs"],
+    ["components/EpgStore.brs", "components/EpgUtils.brs", "tests/test_guide_ids.brs"],
 ]
 for case in cases:
     result = subprocess.run([args.brs, *case], cwd=root, capture_output=True, text=True, encoding="utf-8")

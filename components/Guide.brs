@@ -12,6 +12,45 @@ sub initGuide()
     m.guideInfo = m.top.findNode("guideInfo")
     m.guidePreview = m.top.findNode("guidePreview")
     m.guideChannelHeading = m.top.findNode("guideChannelHeading")
+    m.guideGroup = m.top.findNode("guideGroup")
+    m.guideTime = m.top.findNode("guideTime")
+    m.guideProgress = m.top.findNode("guideProgress")
+    m.guideNext = m.top.findNode("guideNext")
+    m.guideNextText = m.top.findNode("guideNextText")
+    m.guidePast = m.top.findNode("guidePast")
+    m.guideNowLine = m.top.findNode("guideNowLine")
+    m.guideRowsBg = m.top.findNode("guideRowsBg")
+    m.guideRollBg = m.top.findNode("guideRollBg")
+    m.guideRollText = m.top.findNode("guideRollText")
+    m.guideRollAnim = m.top.findNode("guideRollAnim")
+    m.guideRollAnim.observeField("state", "onGuideRollState")
+    m.guideScanChip = m.top.findNode("guideScanChip")
+    m.top.findNode("guideScanText").font = glowFont("bold", 17)
+    m.guideScan = false
+    m.guideRollTimer = CreateObject("roSGNode", "Timer")
+    m.guideRollTimer.duration = 4
+    m.guideRollTimer.repeat = true
+    m.guideRollTimer.observeField("fire", "onGuideRollTick")
+    m.guideFeatureTimer = CreateObject("roSGNode", "Timer")
+    m.guideFeatureTimer.duration = 45
+    m.guideFeatureTimer.repeat = true
+    m.guideFeatureTimer.observeField("fire", "onGuideFeature")
+    m.guideOver = m.top.findNode("guideOver")
+    m.guideNumber = m.top.findNode("guideNumber")
+    m.glowHeaderNode = m.top.findNode("glowHeader")
+    m.guideDetail.font = glowFont("bold", 22)
+    m.guideGroup.font = glowFont("regular", 20)
+    m.top.findNode("guideNowTag").font = glowFont("bold", 19)
+    m.guideTime.font = glowFont("regular", 22)
+    m.guideDescription.font = glowFont("regular", 22)
+    m.top.findNode("guideNextChip").font = glowFont("bold", 19)
+    m.guideNextText.font = glowFont("regular", 20)
+    m.guideChannelHeading.font = glowFont("bold", 19)
+    m.guidePreview.font = glowFont("bold", 22)
+    m.top.findNode("guideLiveText").font = glowFont("bold", 18)
+    m.guideNumber.font = glowFont("bold", 40)
+    ' Keys as in Spelunkr: up/down channel, left/right a letter, REW/FF the time.
+    glowHints(m.top.findNode("guideHints"), [{icons: ["dpad-updown"], text: "CHANNEL"}, {icons: ["dpad-leftright"], text: "A-Z"}, {icons: ["rewind", "forward"], text: "TIME"}, {icons: ["ok"], text: "WATCH"}, {icons: ["playpause"], text: "SCAN"}, {icons: ["replay"], text: "SEARCH"}, {icons: ["star"], text: "MENU"}, {icons: ["back"], text: "COUNTRIES"}])
     m.guideWanted = true
     preferences = CreateObject("roRegistrySection", "zer0_preferences")
     if preferences.Read("channelView") = "list" then m.guideWanted = false
@@ -31,7 +70,7 @@ sub initGuide()
     m.previewTimer.duration = 1.2
     m.previewTimer.observeField("fire", "previewGuideChannel")
     m.guideTimer = CreateObject("roSGNode", "Timer")
-    m.guideTimer.duration = 60
+    m.guideTimer.duration = 15
     m.guideTimer.repeat = true
     m.guideTimer.observeField("fire", "onGuideTick")
     m.video.observeField("state", "onVideoState")
@@ -49,6 +88,7 @@ sub initGuide()
     m.guideRequestCount = 0
     m.epgTask = CreateObject("roSGNode", "EpgTask")
     m.epgTask.observeField("state", "onGuideTaskState")
+    m.epgTask.observeField("early", "onGuideEarly")
     m.guideRenderedPage = -1
     m.guideRenderedTime = -1
     m.guideDataRevision = 0
@@ -143,6 +183,19 @@ sub onGuideTaskState()
     startGuideRequest()
 end sub
 
+' The guide saved earlier on this Roku, while the fresh one loads.
+sub onGuideEarly()
+    if m.epgTask = invalid or m.epgTask.cancelled then return
+    early = m.epgTask.early
+    if type(early) <> "roAssociativeArray" or type(early.schedules) <> "roAssociativeArray" then return
+    if m.guideDataIdentity = m.guideCountry and m.guideData <> invalid and m.guideData.schedules <> invalid and m.guideData.schedules.Count() > 0 then return
+    m.guideData = early
+    m.guideDataIdentity = m.guideCountry
+    m.guideDataRevision = m.guideDataRevision + 1
+    m.guideMessage = "Guide updating"
+    if m.guideActive and m.view = "channels" then drawGuide()
+end sub
+
 sub onGuideLoaded()
     if m.epgTask = invalid then return
     if not m.epgTask.done then return
@@ -161,12 +214,15 @@ end sub
 
 sub showGuide()
     m.guideActive = true
+    setGlowScreen(true)
     m.guide.visible = true
+    m.guideOver.visible = true
+    m.top.findNode("guideLiveBlink").control = "start"
     m.list.visible = false
     m.guideTrap.setFocus(true)
     m.guideIndex = 0
     m.guideLetters = buildGuideLetterIndex(m.displayList)
-    m.guideChannelHeading.text = "CHANNEL | REW/FF A-Z"
+    m.guideChannelHeading.text = "CHANNEL"
     m.guideRenderedPage = -1
     m.logo.uri = ""
     m.lastLogoUrl = ""
@@ -176,6 +232,7 @@ sub showGuide()
     drawGuide()
     m.guideTimer.control = "start"
     if m.displayList.Count() > 0
+        m.guidePreview.text = ""
         m.previewTimer.control = "start"
     else
         stopGuidePlayback()
@@ -183,9 +240,29 @@ sub showGuide()
     end if
 end sub
 
+' The video sits outside the 1280 x 720 shell, so it is placed in 1080p coordinates.
+' Video placement in 1080p coordinates (full screen is 0, 0, 1920, 1080).
+sub placeVideo(x as Integer, y as Integer, w as Integer, h as Integer)
+    m.video.translation = [x, y]
+    m.video.width = w
+    m.video.height = h
+end sub
+
+' The guide's live preview box.
+sub placePreviewVideo()
+    placeVideo(60, 111, 588, 330)
+end sub
+
 sub hideGuide()
+    stopGuideScan()
     m.guideActive = false
+    if m.guide.visible then setGlowScreen(false)
     m.guide.visible = false
+    if m.guideOver <> invalid then m.guideOver.visible = false
+    if m.top <> invalid
+        blink = m.top.findNode("guideLiveBlink")
+        if blink <> invalid then blink.control = "stop"
+    end if
     m.previewTimer.control = "stop"
     m.guideTimer.control = "stop"
     m.guideRenderedPage = -1
@@ -195,6 +272,7 @@ sub hideGuide()
         for each cell in row.cells
             cell.program = invalid
             cell.label.text = ""
+            cell.sub.text = ""
         end for
     end for
     m.guideLogo.uri = ""
@@ -215,6 +293,11 @@ function guidePrograms(ch as Object) as Object
     schedules = m.guideData.schedules
     if schedules.DoesExist(ch.guideId) then return schedules[ch.guideId]
     if m.guideData.aliases <> invalid
+        ' The playlist's own id, matched by the guide builder.
+        if ch.guideId <> "" and m.guideData.aliases.DoesExist(ch.guideId)
+            id = m.guideData.aliases[ch.guideId]
+            if schedules.DoesExist(id) then return schedules[id]
+        end if
         if m.guideData.aliases.DoesExist(ch.guideName)
             id = m.guideData.aliases[ch.guideName]
             if schedules.DoesExist(id) then return schedules[id]
@@ -244,9 +327,62 @@ function guideLabel(parent as Object, text as String, x as Float, y as Float, wi
     node.width = width
     node.height = 30
     node.color = color
-    node.font = m.guideDescription.font
-    if bold then node.font = m.guideDetail.font
+    node.font = glowFont("regular", 20)
+    if bold then node.font = glowFont("bold", 20)
     return node
+end function
+
+' Rounded tile (card art tinted to a colour).
+function guideTile(parent as Object, x as Float, y as Float, width as Float, height as Float, color as String) as Object
+    node = parent.createChild("Poster")
+    node.uri = "pkg:/images/glow/card.9.png"
+    node.translation = [x, y]
+    node.width = width
+    node.height = height
+    node.blendColor = color
+    return node
+end function
+
+' "1h 33m", "45m"
+function guideDuration(seconds as Integer) as String
+    if seconds < 60 then seconds = 60
+    minutes = Int(seconds / 60)
+    if minutes < 60 then return minutes.ToStr() + "m"
+    text = Int(minutes / 60).ToStr() + "h"
+    if minutes mod 60 > 0 then text = text + " " + (minutes mod 60).ToStr() + "m"
+    return text
+end function
+
+' Descriptions in the listings files are often cut short mid-word (they are
+' kept small). Shows whole sentences where possible, else whole words, never
+' a broken word or an added "...". limit: the most characters that fit.
+function guideTrim(text as String, limit as Integer) as String
+    text = text.Trim()
+    cut = text
+    if Len(cut) > limit then cut = Left(cut, limit)
+    last = Right(cut, 1)
+    ended = last = "." or last = "!" or last = "?" or last = Chr(34) or last = ")"
+    ' Short texts that fit are complete; long ones with no ending were cut.
+    if Len(cut) = Len(text) and (ended or Len(text) < 78) then return cut
+    best = 0
+    for i = Len(cut) - 1 to 1 step -1
+        c = Mid(cut, i, 1)
+        if c = "." or c = "!" or c = "?"
+            after = Mid(cut, i + 1, 1)
+            if after = Chr(34) or after = ")"
+                if Mid(cut, i + 2, 1) = " " then best = i + 1
+            else if after = " "
+                best = i
+            end if
+            if best > 0 then exit for
+        end if
+    end for
+    if best >= Len(cut) * 0.3 then return Left(cut, best)
+    ' No sentence to end on: drop the last (possibly broken) word.
+    for i = Len(cut) to 1 step -1
+        if Mid(cut, i, 1) = " " then return Left(cut, i - 1).Trim()
+    end for
+    return cut
 end function
 
 function guideRect(parent as Object, x as Float, y as Float, width as Float, height as Float, color as String) as Object
@@ -258,69 +394,168 @@ function guideRect(parent as Object, x as Float, y as Float, width as Float, hei
     return node
 end function
 
+function guideWindow() as Integer
+    return 7200
+end function
+
+' Row pitch and the x where programmes start (inside guideRows).
+function guidePitch() as Integer
+    return 92
+end function
+
+' Channels a page.
+function guideRowsPerPage() as Integer
+    return 5
+end function
+
+function guideLeft() as Integer
+    return 420
+end function
+
+' x (inside the rows) for a time: two hours over the 1380 px after the channels.
+function guideX(seconds as Integer, startTime as Integer) as Float
+    return guideLeft() + (seconds - startTime) * 0.19166667
+end function
+
 sub initGuidePool()
     m.guidePool = []
     m.guideTimeLabels = []
-    for slot = 0 to 5
-        m.guideTimeLabels.Push(guideLabel(m.guideTimes, "", 302 + slot * 150, 0, 145, "0x8AA898FF"))
+    for slot = 0 to 3
+        guideRect(m.guideTimes, slot * 345, 4, 2, 32, "0x8391AA40")
+        label = guideLabel(m.guideTimes, "", slot * 345 + 14, 0, 300, "0xDCE4F2FF", true)
+        label.height = 40
+        label.vertAlign = "center"
+        label.font = glowFont("bold", 21)
+        m.guideTimeLabels.Push(label)
     end for
-    for index = 0 to 5
+    ' The small marker over the time row where "now" is (as in Spelunkr).
+    m.guideMarker = m.guideTimes.createChild("Poster")
+    m.guideMarker.uri = "pkg:/images/glow/now-marker.png"
+    m.guideMarker.width = 18
+    m.guideMarker.height = 12
+    m.guideMarker.blendColor = "0x00C8FFFF"
+    m.guideMarker.translation = [0, 36]
+    ' Tiles go in their own layer under the now line; text goes above it.
+    tiles = m.guideRowsBg
+    if tiles = invalid then tiles = m.guideRows
+    for index = 0 to guideRowsPerPage()
         group = m.guideRows.createChild("Group")
-        group.translation = [0, index * 49]
-        row = {group: group, cells: [], channelIndex: -1, programs: []}
-        row.background = guideRect(group, 0, 0, 298, 46, "0x192126FF")
-        row.edge = guideRect(group, 0, 0, 3, 46, "0x39FF14FF")
+        group.translation = [0, index * guidePitch()]
+        back = tiles.createChild("Group")
+        back.translation = [0, index * guidePitch()]
+        row = {group: group, back: back, cells: [], channelIndex: -1, programs: []}
+        row.background = guideTile(back, 0, 4, 410, 84, "0x0E1520FF")
+        row.selection = guideRect(back, 0, 89, 410, 2, "0x39FF14FF")
+        row.edge = guideRect(group, 0, 20, 5, 52, "0x39FF14FF")
+        ' Wide enough for four digits (1500): numbers are never cut short.
+        row.number = guideLabel(group, "", 2, 4, 66, "0x8391AAFF", true)
+        row.number.height = 84
+        row.number.vertAlign = "center"
+        row.number.horizAlign = "center"
+        row.number.font = glowFont("bold", 26)
         row.logo = group.createChild("Poster")
-        row.logo.translation = [10, 5]
-        row.logo.width = 50
-        row.logo.height = 36
-        row.logo.loadWidth = 100
-        row.logo.loadHeight = 72
+        row.logo.translation = [70, 4]
+        row.logo.width = 138
+        row.logo.height = 84
+        row.logo.loadWidth = 320
+        row.logo.loadHeight = 168
         row.logo.loadDisplayMode = "scaleToFit"
-        row.name = guideLabel(group, "", 70, 9, 218, "0xEAF2F0FF")
-        guideRect(group, 302, 0, 898, 46, "0x131B20FF")
-        row.empty = guideLabel(group, "No listings available   ·   OK to watch live", 316, 9, 866, "0x6F898AFF")
-        for cell = 0 to 15
-            tile = guideRect(group, 0, 0, 1, 46, "0x202B31FF")
-            label = guideLabel(group, "", 0, 9, 1, "0xD8E5E2FF")
+        row.fav = group.createChild("Poster")
+        row.fav.uri = "pkg:/images/glow/pin.png"
+        row.fav.translation = [190, 6]
+        row.fav.width = 26
+        row.fav.height = 26
+        row.name = guideLabel(group, "", 214, 4, 188, "0xC3CDDEFF", true)
+        row.name.height = 84
+        row.name.vertAlign = "center"
+        row.name.wrap = true
+        row.name.maxLines = 2
+        row.empty = guideLabel(group, "No listings  ·  OK to watch live", guideLeft() + 20, 4, 900, "0x8391AAFF")
+        row.empty.height = 84
+        row.empty.vertAlign = "center"
+        row.empty.font = glowFont("regular", 22)
+        ' Started before the window: a small arrow before the title.
+        row.arrow = group.createChild("Poster")
+        row.arrow.uri = "pkg:/images/glow/arrow-left.png"
+        row.arrow.width = 12
+        row.arrow.height = 21
+        row.arrow.visible = false
+        for cell = 0 to 11
+            tile = guideTile(back, 0, 4, 1, 84, "0x121A26FF")
+            label = guideLabel(group, "", 0, 13, 1, "0xAEB9CCFF", true)
+            label.height = 34
+            label.font = glowFont("bold", 24)
+            label.ellipsisText = " "
+            detail = guideLabel(group, "", 0, 50, 1, "0x8391AAFF")
+            detail.height = 26
+            detail.font = glowFont("regular", 19)
+            detail.ellipsisText = " "
             tile.visible = false
             label.visible = false
-            row.cells.Push({box: tile, label: label, program: invalid})
+            detail.visible = false
+            row.cells.Push({box: tile, label: label, sub: detail, program: invalid})
         end for
         m.guidePool.Push(row)
     end for
-    m.guideNowLine = guideRect(m.guideRows, 0, 0, 2, 291, "0x00C8FFBB")
 end sub
 
 sub drawGuide()
     if not m.guideActive then return
+    colors = glowColors()
     count = m.displayList.Count()
     if m.guideIndex >= count then m.guideIndex = count - 1
     if m.guideIndex < 0 then m.guideIndex = 0
-    startTime = Int(m.guideCursor / 1800#) * 1800
-    page = Int(m.guideIndex / 6) * 6
+    window = guideWindow()
+    ' The window starts half an hour before the cursor's half hour, so "now"
+    ' sits in the left part of the grid with what has aired shaded.
+    startTime = Int(m.guideCursor / 1800#) * 1800 - 1800
+    perPage = guideRowsPerPage()
+    if m.guideTop = invalid then m.guideTop = 0
+    if m.guideScan <> true
+        if m.guideIndex < m.guideTop then m.guideTop = m.guideIndex
+        if m.guideIndex > m.guideTop + perPage - 1 then m.guideTop = m.guideIndex - perPage + 1
+    end if
+    if m.guideTop > count - 1 then m.guideTop = count - 1
+    if m.guideTop < 0 then m.guideTop = 0
+    page = m.guideTop
     rebuild = page <> m.guideRenderedPage or startTime <> m.guideRenderedTime or m.guideDataRevision <> m.guideRenderedRevision
     pageChanged = page <> m.guideRenderedPage
     if rebuild
-        for slot = 0 to 5
+        for slot = 0 to 3
             m.guideTimeLabels[slot].text = guideTime(startTime + slot * 1800)
         end for
     end if
-    for rowIndex = 0 to 5
+    now = CreateObject("roDateTime").AsSeconds()
+    for rowIndex = 0 to m.guidePool.Count() - 1
         row = m.guidePool[rowIndex]
         index = page + rowIndex
+        ' Scan wraps round the lineup.
+        if m.guideScan = true and count > 0 then index = index mod count
         row.group.visible = index < count
+        row.back.visible = index < count
         if index < count
             ch = m.displayList[index]
             selected = index = m.guideIndex
-            row.background.color = "0x192126FF"
-            if selected then row.background.color = "0x244034FF"
+            ' The whole row is the selection (no single programme is focused).
+            row.background.blendColor = "0x0E1520FF"
+            row.number.color = colors.muted
+            row.name.color = colors.hint
+            if selected
+                row.background.blendColor = "0x17283CFF"
+                row.number.color = colors.green
+                row.name.color = colors.white
+            end if
             row.edge.visible = selected
+            row.selection.visible = selected
+            row.number.text = (index + 1).ToStr()
+            row.number.font = glowFont("bold", 26)
+            if Len(row.number.text) >= 4 then row.number.font = glowFont("bold", 21)
             name = ch.name
-            if isFavorite(ch.url) then name = "★ " + name
+            row.fav.visible = isFavorite(ch.url)
             row.name.text = name
-            row.name.font = m.guideDescription.font
-            if selected then row.name.font = m.guideDetail.font
+            row.name.font = glowFont("bold", 24)
+            if Len(name) > 13 then row.name.font = glowFont("bold", 21)
+            if Len(name) > 22 then row.name.font = glowFont("bold", 18)
             if pageChanged
                 uri = "pkg:/images/no_logo.png"
                 if ch.logo <> invalid and ch.logo <> "" then uri = ch.logo
@@ -331,28 +566,44 @@ sub drawGuide()
                 for each cell in row.cells
                     cell.box.visible = false
                     cell.label.visible = false
+                    cell.sub.visible = false
                     cell.program = invalid
                 end for
+                row.arrow.visible = false
                 cellIndex = 0
                 for each p in row.programs
-                    if p.stop > startTime and p.start < startTime + 10800
+                    if p.stop > startTime and p.start < startTime + window
                         leftTime = p.start
                         rightTime = p.stop
                         if leftTime < startTime then leftTime = startTime
-                        if rightTime > startTime + 10800 then rightTime = startTime + 10800
-                        x = 302 + (leftTime - startTime) / 12#
-                        width = (rightTime - leftTime) / 12# - 3
-                        if width > 3 and cellIndex < 16
+                        if rightTime > startTime + window then rightTime = startTime + window
+                        x = guideX(leftTime, startTime)
+                        width = guideX(rightTime, startTime) - x - 6
+                        if width >= 18 and cellIndex < row.cells.Count()
                             cell = row.cells[cellIndex]
                             cell.program = p
-                            cell.box.translation = [x, 0]
+                            cell.box.translation = [x, 4]
                             cell.box.width = width
                             cell.box.visible = true
-                            cell.label.translation = [x + 9, 9]
-                            cell.label.width = 1
-                            if width > 24 then cell.label.width = width - 18
+                            textX = x + 16
+                            if p.start < startTime
+                                ' Started earlier: an arrow, then the title from the edge.
+                                row.arrow.translation = [x + 12, 22]
+                                row.arrow.visible = width > 60
+                                textX = x + 34
+                            end if
+                            textWidth = x + width - textX - 14
+                            if textWidth < 1 then textWidth = 1
+                            cell.label.translation = [textX, 13]
+                            cell.sub.translation = [textX, 50]
+                            cell.label.width = textWidth
+                            cell.sub.width = textWidth
                             cell.label.text = p.title
-                            cell.label.visible = width > 24
+                            detail = guideDuration(p.stop - p.start)
+                            if p.start < startTime then detail = "from " + guideTime(p.start)
+                            cell.sub.text = detail
+                            cell.label.visible = textWidth > 30
+                            cell.sub.visible = textWidth > 80
                             cellIndex = cellIndex + 1
                         end if
                     end if
@@ -361,14 +612,30 @@ sub drawGuide()
             end if
             for each cell in row.cells
                 if cell.program <> invalid
-                    focused = selected and cell.program.start <= m.guideCursor and cell.program.stop > m.guideCursor
-                    cell.box.color = "0x202B31FF"
-                    cell.label.color = "0xD8E5E2FF"
-                    cell.label.font = m.guideDescription.font
-                    if focused
-                        cell.box.color = "0x39FF14FF"
-                        cell.label.color = "0x0A1711FF"
-                        cell.label.font = m.guideDetail.font
+                    airing = cell.program.start <= now and cell.program.stop > now
+                    finished = cell.program.stop <= now
+                    cell.box.blendColor = colors.cell
+                    cell.label.color = colors.soft
+                    cell.sub.color = colors.muted
+                    if airing
+                        cell.box.blendColor = colors.airing
+                        cell.label.color = colors.white
+                    else if finished
+                        cell.box.blendColor = "0x101823FF"
+                        cell.label.color = "0x9AA6BBFF"
+                        cell.sub.color = "0x6B7891FF"
+                    end if
+                    if selected
+                        ' The selected row reads a step brighter.
+                        if airing
+                            cell.box.blendColor = "0x24405EFF"
+                        else if finished
+                            cell.box.blendColor = "0x16233AFF"
+                        else
+                            cell.box.blendColor = "0x1C2B40FF"
+                        end if
+                        cell.label.color = colors.white
+                        if not finished then cell.sub.color = "0x9FFFB0FF"
                     end if
                 end if
             end for
@@ -381,13 +648,11 @@ sub drawGuide()
     m.guideRenderedTime = startTime
     m.guideRenderedRevision = m.guideDataRevision
     dt = CreateObject("roDateTime")
-    now = dt.AsSeconds()
     dt.ToLocalTime()
     m.guideClock.text = dt.AsDateString("short-month-no-weekday") + "   " + guideTime(now)
     m.guideInfo.text = m.guideMessage + m.guideCoverage
-    m.status.text = "Up/Down Channel | REW/FF A-Z | Left/Right Time | Replay Search | OK Watch | * Menu"
-    m.guideNowLine.visible = now >= startTime and now < startTime + 10800
-    if m.guideNowLine.visible then m.guideNowLine.translation = [302 + (now - startTime) / 12#, 0]
+    m.status.text = "Up/Down Channel | Left/Right A-Z | REW/FF Time | Replay Search | OK Watch | * Menu"
+    drawGuideNow(startTime, now, count)
     if count = 0
         m.guideTitle.text = "No channels in this view"
         m.guideDetail.text = "Press Back to clear filters or return to countries."
@@ -399,18 +664,103 @@ sub drawGuide()
     uri = "pkg:/images/no_logo.png"
     if ch.logo <> invalid and ch.logo <> "" then uri = ch.logo
     if m.guideLogo.uri <> uri then m.guideLogo.uri = uri
-    m.guideTitle.text = ch.name
-    m.guideDetail.text = "Live channel · no programme information"
-    m.guideDescription.text = "Listings are optional. This channel is still available to watch."
-    for each p in guidePrograms(ch)
-        if p.start <= m.guideCursor and p.stop > m.guideCursor
-            m.guideTitle.text = p.title
-            m.guideDetail.text = ch.name + "   ·   " + guideTime(p.start) + " – " + guideTime(p.stop)
-            m.guideDescription.text = p.description
+    number = (m.guideIndex + 1).ToStr()
+    m.guideDetail.text = number + "  ·  " + UCase(ch.name)
+    if m.guideNumber <> invalid then m.guideNumber.text = number
+    if m.guideGroup <> invalid
+        group = ""
+        if ch.group <> invalid then group = ch.group
+        m.guideGroup.text = group
+    end if
+    if m.glowHeaderNode <> invalid and m.selectedCountry <> invalid
+        m.glowHeaderNode.info = m.selectedCountry.name + "  ·  " + count.ToStr() + " channels"
+    end if
+    programs = guidePrograms(ch)
+    current = invalid
+    upcoming = invalid
+    for each p in programs
+        if current = invalid and p.start <= m.guideCursor and p.stop > m.guideCursor
+            current = p
+        else if current <> invalid and p.start >= current.stop
+            upcoming = p
             exit for
         end if
     end for
-    m.subtitle.text = count.ToStr() + " channels · " + (m.guideIndex + 1).ToStr() + " / " + count.ToStr() + " · LIVE GUIDE"
+    if current = invalid
+        guideSetTitle(ch.name)
+        m.guideDescription.text = ""
+        if m.guideTime <> invalid then m.guideTime.text = "Live channel  ·  no programme listings"
+        guideShowProgress(-1)
+        if m.guideNext <> invalid then m.guideNext.visible = false
+        return
+    end if
+    guideSetTitle(current.title)
+    m.guideDescription.text = guideTrim(current.description, 160)
+    if m.guideTime <> invalid
+        line = guideTime(current.start) + " – " + guideTime(current.stop)
+        if current.start <= now and current.stop > now
+            line = line + "   ·   " + guideDuration(current.stop - now) + " left"
+        else if current.start > now
+            line = line + "   ·   starts in " + guideDuration(current.start - now)
+        end if
+        m.guideTime.text = line
+    end if
+    done = 0
+    if now >= current.stop then done = 1
+    if now > current.start and now < current.stop then done = (now - current.start) / (current.stop - current.start)
+    guideShowProgress(done)
+    if m.guideNext <> invalid
+        m.guideNext.visible = upcoming <> invalid
+        if upcoming <> invalid then m.guideNextText.text = guideTime(upcoming.start) + "   ·   " + upcoming.title
+    end if
+end sub
+
+' Progress bar (0 to 1); below 0 hides it along with its track.
+sub guideShowProgress(done as Float)
+    if m.guideProgress = invalid then return
+    track = m.top.findNode("guideTrack")
+    track.visible = done >= 0
+    width = Int(840 * done)
+    m.guideProgress.visible = width >= 4
+    if width >= 4 then m.guideProgress.width = width
+end sub
+
+' Title in the now-playing panel: smaller for long titles, never cut short.
+sub guideSetTitle(text as String)
+    m.guideTitle.text = text
+    size = 44
+    if Len(text) > 28 then size = 36
+    if Len(text) > 38 then size = 30
+    if Len(text) > 48 then size = 25
+    m.guideTitle.font = glowFont("bold", size)
+end sub
+
+' The now line, its glow, the shaded past and the time pill above the grid.
+' The thin now line (over the tiles, under the text), the shaded past and the
+' small marker in the time row, as in Spelunkr.
+sub drawGuideNow(startTime as Integer, now as Integer, count as Integer)
+    if m.guideNowLine = invalid then return
+    perPage = guideRowsPerPage()
+    rows = perPage
+    if m.guideScan <> true then rows = count - m.guideTop
+    if rows > perPage then rows = perPage
+    if rows < 1 then rows = 1
+    height = rows * guidePitch()
+    inView = now >= startTime and now < startTime + guideWindow()
+    x = guideX(now, startTime)
+    m.guideNowLine.visible = inView
+    m.guideMarker.visible = inView
+    m.guidePast.visible = now > startTime
+    pastWidth = x - guideLeft()
+    if pastWidth > 1380 then pastWidth = 1380
+    if pastWidth < 0 then pastWidth = 0
+    m.guidePast.width = pastWidth
+    m.guidePast.height = height
+    if inView
+        m.guideNowLine.translation = [x - 1, 0]
+        m.guideNowLine.height = height
+        m.guideMarker.translation = [x - guideLeft() - 9, 34]
+    end if
 end sub
 
 sub previewGuideChannel()
@@ -430,6 +780,8 @@ sub requestPlayback(ch as Object, fullScreen as Boolean)
         return
     end if
     m.playRequest = {channel: ch, fullScreen: fullScreen}
+    ' A note from the last channel ("No picture") never shows over the next.
+    if not fullScreen then m.guidePreview.text = ""
     m.switchClock = CreateObject("roTimespan")
     m.previewWatchdog.control = "stop"
     if not playerIdle(m.video.state)
@@ -470,7 +822,9 @@ sub startPendingPlayback()
     m.playingChannel = ch
     content = CreateObject("roSGNode", "ContentNode")
     content.url = ch.url
-    content.title = ch.name
+    ' The preview has no title for Roku's player to draw over the picture.
+    content.title = ""
+    if request.fullScreen then content.title = ch.name
     content.streamFormat = "hls"
     if epgString(ch.streamFormat) then content.streamFormat = ch.streamFormat
     content.live = ch.isMovie <> true
@@ -491,14 +845,10 @@ sub startPendingPlayback()
     m.previewUrl = ch.url
     m.video.enableUI = false
     if request.fullScreen
-        m.video.translation = [0, 0]
-        m.video.width = 1280
-        m.video.height = 720
+        placeVideo(0, 0, 1920, 1080)
     else
-        m.video.translation = [900, 106]
-        m.video.width = 336
-        m.video.height = 189
-        m.guidePreview.text = "Connecting · " + ch.name
+        placePreviewVideo()
+        m.guidePreview.text = ""
         m.previewWatchdog.control = "start"
     end if
     m.video.visible = true
@@ -542,12 +892,12 @@ sub onVideoState()
     if m.playRequest <> invalid then return
     if m.guideActive and m.view = "channels"
         if state = "playing"
-            m.guidePreview.text = "LIVE   ·   OK / Play to expand"
+            m.guidePreview.text = ""
         else if state = "buffering"
-            m.guidePreview.text = "Buffering live preview…"
+            m.guidePreview.text = ""
         else if state = "error" or state = "finished"
             stopGuidePlayback()
-            m.guidePreview.text = "Preview unavailable · OK to retry"
+            m.guidePreview.text = "No picture  ·  OK to retry"
             print "[zer0 player] preview ended/error · code="; m.video.errorCode
         end if
     else if m.view = "video" and (state = "error" or state = "finished")
@@ -574,11 +924,12 @@ sub onPreviewTimeout()
     if m.view <> "channels" or not m.guideActive then return
     if m.video.state = "playing" then return
     stopGuidePlayback()
-    m.guidePreview.text = "Preview timed out · OK to retry"
+    m.guidePreview.text = "No picture  ·  OK to retry"
     print "[zer0 player] preview timed out"
 end sub
 
 sub expandGuideVideo()
+    stopGuideScan()
     if m.displayList.Count() = 0 then return
     ch = m.displayList[m.guideIndex]
     pushRecent(ch)
@@ -587,9 +938,8 @@ sub expandGuideVideo()
     m.previewWatchdog.control = "stop"
     m.view = "video"
     m.guide.visible = false
-    m.video.translation = [0, 0]
-    m.video.width = 1280
-    m.video.height = 720
+    if m.guideOver <> invalid then m.guideOver.visible = false
+    placeVideo(0, 0, 1920, 1080)
     m.video.enableUI = false
     focusPlayer()
     showNowPlayingBanner(ch)
@@ -611,9 +961,8 @@ sub returnFromPlayer()
     else if m.playerReturn = "guide" and m.guideActive
         if m.playRequest <> invalid then m.playRequest.fullScreen = false
         m.guide.visible = true
-        m.video.translation = [900, 106]
-        m.video.width = 336
-        m.video.height = 189
+        if m.guideOver <> invalid then m.guideOver.visible = true
+        placePreviewVideo()
         m.video.enableUI = false
         if m.video.state = "buffering" then m.previewWatchdog.control = "start"
         m.guideTrap.setFocus(true)
@@ -634,6 +983,7 @@ sub focusChannels()
         m.guideTrap.setFocus(true)
         if not m.video.visible
             m.previewTimer.control = "stop"
+            m.guidePreview.text = ""
             m.previewTimer.control = "start"
         end if
     else
@@ -656,6 +1006,22 @@ sub onGuideTick()
 end sub
 
 function guideKey(key as String) as Boolean
+    if m.guideScan = true
+        if key = "play"
+            stopGuideScan()
+        else if key = "OK"
+            stopGuideScan()
+            expandGuideVideo()
+        else
+            ' The first press stops Scan where it is.
+            stopGuideScan()
+        end if
+        return true
+    end if
+    if key = "play"
+        startGuideScan()
+        return true
+    end if
     if key = "up" or key = "down"
         delta = 1
         if key = "up" then delta = -1
@@ -664,31 +1030,34 @@ function guideKey(key as String) as Boolean
         if m.guideIndex >= m.displayList.Count() then m.guideIndex = m.displayList.Count() - 1
         drawGuide()
         m.previewTimer.control = "stop"
+        m.guidePreview.text = ""
         m.previewTimer.control = "start"
         return true
-    else if key = "fastforward" or key = "rewind"
+    else if key = "right" or key = "left"
         direction = 1
-        if key = "rewind" then direction = -1
+        if key = "left" then direction = -1
         target = nextGuideLetterIndex(m.displayList, m.guideLetters, m.guideIndex, direction)
         if target >= 0
             m.guideIndex = target
+            m.guideTop = target
             drawGuide()
-            m.guideChannelHeading.text = "CHANNEL " + channelLetter(m.displayList[target].name) + " | REW/FF"
+            m.guideChannelHeading.text = "CHANNEL  ·  " + channelLetter(m.displayList[target].name)
             m.previewTimer.control = "stop"
+            m.guidePreview.text = ""
             m.previewTimer.control = "start"
         end if
         return true
-    else if key = "left" or key = "right"
+    else if key = "fastforward" or key = "rewind"
         delta = 1800
-        if key = "left" then delta = -delta
+        if key = "rewind" then delta = -delta
         m.guideCursor = m.guideCursor + delta
         if m.guideCursor < m.guideEpoch - 900 then m.guideCursor = m.guideEpoch - 900
-        if m.guideCursor > m.guideEpoch + 10800 then m.guideCursor = m.guideEpoch + 10800
+        if m.guideCursor > m.guideEpoch + 21600 then m.guideCursor = m.guideEpoch + 21600
         drawGuide()
         return true
-    else if key = "OK" or key = "play"
+    else if key = "OK"
         if m.displayList.Count() > 0
-            if key = "play" or (m.previewUrl = m.displayList[m.guideIndex].url and m.video.state = "playing")
+            if m.previewUrl = m.displayList[m.guideIndex].url and m.video.state = "playing"
                 expandGuideVideo()
             else
                 previewGuideChannel()
@@ -713,3 +1082,67 @@ sub cancelCountryGuide()
     m.guideData = {}
     m.guideDataRevision = m.guideDataRevision + 1
 end sub
+
+' ---- Scan (Play in the guide), as in Spelunkr ---------------------------------
+' The rows roll up one channel every 4 seconds, wrapping round the lineup, and
+' every 45 seconds the channel at the top is shown in the preview.
+
+sub startGuideScan()
+    if not m.guideActive or m.displayList.Count() < 2 then return
+    m.guideScan = true
+    if m.guideScanChip <> invalid then m.guideScanChip.visible = true
+    m.guideRollTimer.control = "start"
+    m.guideFeatureTimer.control = "start"
+end sub
+
+sub stopGuideScan()
+    if m.guideScan <> true then return
+    m.guideScan = false
+    m.guideRollTimer.control = "stop"
+    m.guideFeatureTimer.control = "stop"
+    m.guideRollAnim.control = "stop"
+    m.guideRollBg.translation = [0, 0]
+    m.guideRollText.translation = [0, 0]
+    if m.guideScanChip <> invalid then m.guideScanChip.visible = false
+    ' Keep the rows where Scan left them; the cursor goes to the top channel
+    ' unless the featured one is still on screen.
+    count = m.displayList.Count()
+    onScreen = false
+    for slot = 0 to guideRowsPerPage() - 1
+        if count > 0 and (m.guideTop + slot) mod count = m.guideIndex then onScreen = true
+    end for
+    if not onScreen then m.guideIndex = m.guideTop
+    if m.guideTop + guideRowsPerPage() > count
+        ' The rolled rows wrapped past the end: show a normal page there.
+        m.guideTop = m.guideIndex
+    end if
+    m.guideRenderedPage = -1
+    drawGuide()
+    m.previewTimer.control = "stop"
+    m.guidePreview.text = ""
+    m.previewTimer.control = "start"
+end sub
+
+sub onGuideRollTick()
+    if m.guideScan <> true or m.view <> "channels" then return
+    if m.guideRollAnim.state = "running" then return
+    m.guideRollAnim.control = "start"
+end sub
+
+sub onGuideRollState()
+    if m.guideRollAnim.state <> "stopped" or m.guideScan <> true then return
+    count = m.displayList.Count()
+    if count = 0 then return
+    m.guideTop = (m.guideTop + 1) mod count
+    m.guideRollBg.translation = [0, 0]
+    m.guideRollText.translation = [0, 0]
+    drawGuide()
+end sub
+
+sub onGuideFeature()
+    if m.guideScan <> true or m.view <> "channels" then return
+    m.guideIndex = m.guideTop
+    drawGuide()
+    previewGuideChannel()
+end sub
+

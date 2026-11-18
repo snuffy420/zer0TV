@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- A menu list drawn row by row (Glow Grid): fixed-height rounded rows, the
+     chosen one green, eight at a time. Same fields the menus used on
+     LabelList: content, itemSelected, itemFocused, jumpToItem. -->
+<component name="GlowMenu" extends="Group">
+    <interface>
+        <field id="content" type="node" onChange="render" />
+        <field id="itemSelected" type="integer" value="-1" alwaysNotify="true" />
+        <field id="itemFocused" type="integer" value="0" />
+        <field id="jumpToItem" type="integer" onChange="onJump" />
+        <field id="itemSize" type="array" value="[780,64]" onChange="render" />
+        <field id="numRows" type="integer" value="8" onChange="render" />
+        <field id="font" type="node" />
+        <field id="focusedFont" type="node" />
+        <field id="color" type="string" />
+        <field id="focusedColor" type="string" />
+        <field id="focusBitmapUri" type="string" />
+        <field id="focusBitmapBlendColor" type="string" />
+    </interface>
+    <script type="text/brightscript" uri="pkg:/components/GlowMenu.brs" />
+    <script type="text/brightscript" uri="pkg:/components/GlowCommon.brs" />
+    <children>
+        <Group id="rows" />
+        <Label id="position" color="0x8391AAFF" horizAlign="right" />
+    </children>
+</component>

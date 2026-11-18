@@ -22,7 +22,7 @@ sub parseGuideChunk(chunk as String)
     m.guideBuffer = m.guideBuffer + chunk
     scanning = true
     while scanning
-        if m.top.cancelled or m.programCount >= 3000 then return
+        if m.top.cancelled or m.programCount >= 6000 then return
         match = m.elementPattern.Match(m.guideBuffer)
         if match.Count() < 2
             m.guideBuffer = Right(m.guideBuffer, 64)

@@ -1,5 +1,9 @@
 sub init()
     m.list = m.top.findNode("list")
+    ' m.list is the screen's current list: the flag grid on the countries
+    ' screen, the old label list for channels (until that screen is redone).
+    m.labelList = m.list
+    m.countryGrid = m.top.findNode("countryGrid")
     m.sourceMenu = m.top.findNode("sourceMenu")
     m.movieUI = m.top.findNode("movieUI")
     m.movieOpenCount = 0
@@ -9,12 +13,20 @@ sub init()
     m.title = m.top.findNode("title")
     m.subtitle = m.top.findNode("subtitle")
     m.video = m.top.findNode("video")
+    ' None of Roku's own player overlays (title, time, loading bars): zer0TV
+    ' draws its own banner, so a channel change never flashes over the picture.
+    m.video.enableUI = false
+    m.video.enableTrickPlay = false
+    m.video.trickPlayBar.visible = false
+    m.video.retrievingBar.visible = false
+    m.video.bufferingBar.visible = false
     m.logo = m.top.findNode("logo")
     m.previewName = m.top.findNode("previewName")
     m.previewMeta = m.top.findNode("previewMeta")
     m.panelHelp = m.top.findNode("panelHelp")
     m.loadBg = m.top.findNode("loadBg")
     m.loadText = m.top.findNode("loadText")
+    m.loadText.text = "zer0 TV  v" + CreateObject("roAppInfo").GetVersion()
     m.optsBg = m.top.findNode("optsBg")
     m.optsBox = m.top.findNode("optsBox")
     m.optsBoxEdge = m.top.findNode("optsBoxEdge")
@@ -76,11 +88,16 @@ sub init()
 
     m.list.observeField("itemSelected", "onItemSelected")
     m.list.observeField("itemFocused", "onItemFocused")
+    m.countryGrid.observeField("itemSelected", "onItemSelected")
+    m.countryGrid.observeField("itemFocused", "onItemFocused")
+    glowHints(m.top.findNode("countryHints"), [{icons: ["dpad-all"], text: "CHOOSE"}, {icons: ["ok"], text: "OPEN"}, {icons: ["rewind", "forward"], text: "A-Z"}, {icons: ["replay"], text: "PIN"}, {icons: ["star"], text: "OPTIONS"}, {icons: ["back"], text: "SOURCES"}])
     m.optsList.observeField("itemSelected", "onOptsSelected")
     m.searchList.observeField("itemSelected", "onSearchListSelected")
 
+    initOverlays()
     initGuide()
     initPlayerUI()
+    initQuickPanel()
     initCountryUI()
     initProviders()
     showSourcePicker()
@@ -174,6 +191,33 @@ sub toggleFavorite(ch as Object)
     if m.view = "channels" and not m.guideActive then fillListFromChannels(m.displayList)
 end sub
 
+' Fonts, the key grid and button hints for the 1080p overlays.
+sub initOverlays()
+    m.loadText.font = glowFont("bold", 36)
+    m.searchTitle.font = glowFont("bold", 40)
+    m.searchQuery.font = glowFont("bold", 34)
+    m.searchResults.font = glowFont("bold", 22)
+    m.searchList.font = glowFont("bold", 24)
+    m.searchList.focusedFont = glowFont("bold", 24)
+    m.optsTitle.font = glowFont("bold", 40)
+    m.optsList.font = glowFont("bold", 26)
+    m.optsList.focusedFont = glowFont("bold", 26)
+    m.aboutTitle.font = glowFont("bold", 44)
+    m.aboutBody.font = glowFont("regular", 24)
+    glowHints(m.searchHint, [{icons: ["dpad-all"], text: "KEYS"}, {icons: ["ok"], text: "TYPE"}, {icons: ["replay"], text: "DELETE"}, {icons: ["star"], text: "SPACE"}, {icons: ["playpause"], text: "SHOW"}, {icons: ["back"], text: "DONE"}])
+    glowHints(m.top.findNode("optsHints"), [{icons: ["dpad-updown"], text: "CHOOSE"}, {icons: ["ok"], text: "SELECT"}, {icons: ["back"], text: "CLOSE"}])
+    glowHints(m.aboutFooter, [{icons: ["ok"], text: "CLOSE"}, {icons: ["back"], text: "CLOSE"}])
+    m.optsBg.observeField("visible", "onOptionsVisible")
+    ' The search keyboard: a grid of rounded keys, the focused one green.
+    m.kbKeys = m.top.findNode("kbKeys")
+    m.kbQwerty = qwertyLayout(false)
+    m.kbKeyNodes = qwertyNodes(m.kbKeys, m.kbQwerty, 70, 84)
+end sub
+
+sub onOptionsVisible()
+    m.top.findNode("optsHints").visible = m.optsBg.visible
+end sub
+
 sub showLoading(msg as String)
     m.loadBg.visible = true
     m.loadText.visible = true
@@ -187,6 +231,7 @@ end sub
 
 
 sub showSourcePicker()
+    useCountryGrid(false)
     cancelPlaylist()
     hideGuide()
     cancelCountryGuide()
@@ -216,8 +261,8 @@ sub showSourcePicker()
     for each provider in m.providerDefs
         sources.Push({id: provider.id, title: provider.title, meta: provider.meta})
     end for
-    sources.Push({id: "plutovod", title: "Pluto On Demand", meta: "Movies and shows - US catalog"})
     sources.Push({id: "archive", title: "Internet Archive", meta: "Rare cinema, workprints and alternate cuts"})
+    sources.Push({id: "boxstream", title: "Box://Stream", meta: "Your own seedbox or media server"})
     m.sourceItems = sources
     for each s in sources
         item = content.createChild("ContentNode")
@@ -236,6 +281,7 @@ sub showSourcePicker()
     showAboutHint()
     m.list.visible = false
     m.sourceMenu.choices = sources
+    setGlowScreen(true)
     m.sourceMenu.visible = true
     m.sourceMenu.setFocus(true)
     m.subtitle.text = "Choose a provider - live TV and on-demand movies"
@@ -249,6 +295,12 @@ sub onSourceCardSelected()
     selectSource(m.sourceItems[index].id)
 end sub
 
+' The Glow Grid layer replaces the old 1280 screens one screen at a time.
+sub setGlowScreen(on as Boolean)
+    m.top.findNode("glow").visible = on
+    m.top.findNode("shellBack").visible = not on
+end sub
+
 sub selectSource(sourceId as String)
     m.sourceMenu.visible = false
     hideAboutHint()
@@ -259,13 +311,15 @@ sub selectSource(sourceId as String)
         loadFreeTvPlaylist()
     else if isLiveProvider(sourceId)
         showProviderCountries()
-    else if sourceId = "plutovod" or sourceId = "archive"
+    else if sourceId = "boxstream"
+        openBoxStream()
+    else if sourceId = "archive"
         hideGuide()
+        setGlowScreen(true)
         hideSearch()
         hideOptions()
         m.view = "movies"
-        m.title.text = "Pluto On Demand"
-        if sourceId = "archive" then m.title.text = "Internet Archive Movies"
+        m.title.text = "Internet Archive Movies"
         m.subtitle.text = ""
         m.status.text = ""
         m.list.visible = false
@@ -278,6 +332,32 @@ sub selectSource(sourceId as String)
     end if
 end sub
 
+' Box://Stream runs here exactly as the standalone app does: the same
+' BoxStreamApp component, created fresh each time it's opened. Back on its
+' Home tab (which would close the standalone app) comes back to the sources.
+sub openBoxStream()
+    hideGuide()
+    hideSearch()
+    hideOptions()
+    m.view = "boxstream"
+    m.top.findNode("glow").visible = false
+    m.top.findNode("shellBack").visible = false
+    m.top.findNode("shellFront").visible = false
+    m.boxStream = m.top.createChild("BoxStreamApp")
+    m.boxStream.active = true
+end sub
+
+sub closeBoxStream()
+    if m.boxStream <> invalid
+        m.boxStream.active = false
+        m.top.removeChild(m.boxStream)
+        m.boxStream = invalid
+    end if
+    m.top.findNode("shellBack").visible = true
+    m.top.findNode("shellFront").visible = true
+    showSourcePicker()
+end sub
+
 sub onMoviePlaySelected()
     if m.view <> "movies" then return
     if m.movieUI.searchActive then return
@@ -288,9 +368,7 @@ sub onMoviePlaySelected()
     m.movieUI.visible = false
     m.playerReturn = "movies"
     m.view = "video"
-    m.video.translation = [0, 0]
-    m.video.width = 1280
-    m.video.height = 720
+    placeVideo(0, 0, 1920, 1080)
     requestPlayback(movie, true)
     focusPlayer()
     showNowPlayingBanner(movie)
@@ -416,7 +494,38 @@ sub showCountries()
     m.status.text = "OK Open   Left/Right A-Z   Replay Pin/unpin   * Countries menu   Back Sources"
 end sub
 
+' Countries use the Glow Grid flag cards; leaving them puts the old list back.
+sub useCountryGrid(on as Boolean)
+    m.top.findNode("countryScreen").visible = on
+    if on
+        m.list = m.countryGrid
+        m.labelList.visible = false
+        m.sourceMenu.visible = false
+        setGlowScreen(true)
+    else if m.list.IsSameNode(m.countryGrid)
+        m.list = m.labelList
+        setGlowScreen(false)
+    end if
+end sub
+
+function sourceTitle(id as String) as String
+    if m.sourceItems <> invalid
+        for each s in m.sourceItems
+            if s.id = id then return s.title
+        end for
+    end if
+    return ""
+end function
+
 sub fillListFromCountries(arr as Object)
+    useCountryGrid(true)
+    m.top.findNode("countryTitle").font = glowFont("bold", 44)
+    m.top.findNode("countryTitle").text = sourceTitle(m.source)
+    total = 0
+    for each c in arr
+        if c.special <> true then total = total + 1
+    end for
+    m.top.findNode("glowHeader").info = Str(total).Trim() + " countries"
     m.countryLetterRows = []
     m.countryLetterIndex = {}
     for i = 0 to arr.Count() - 1
@@ -426,11 +535,13 @@ sub fillListFromCountries(arr as Object)
     end for
     content = CreateObject("roSGNode", "ContentNode")
     cached = getCachedSet()
+    prefs = currentCountryPrefs()
     for each c in arr
         item = content.createChild("ContentNode")
-        label = countryLabel(c)
-        item.title = label
+        item.title = c.countryName
         item.description = c.code
+        item.HDPosterUrl = countryFlagUri(c)
+        if c.special <> true and containsCountry(prefs.pinned, countryKey(c)) then item.ShortDescriptionLine1 = "pinned"
     end for
     m.list.content = content
     m.list.visible = true
@@ -612,6 +723,7 @@ function buildGroupList(channels as Object) as Object
 end function
 
 sub fillListFromChannels(arr as Object)
+    useCountryGrid(false)
     if m.guideWanted
         m.list.content = invalid
         showGuide()
@@ -676,6 +788,8 @@ sub onItemFocused()
         return
     end if
     if idx >= m.displayList.count() then return
+    ' The countries grid shows its own flags; the old preview panel is hidden.
+    if m.view = "countries" and m.list.IsSameNode(m.countryGrid) then return
     if m.view = "countries"
         c = m.displayList[idx]
         if c.special = true
@@ -724,9 +838,7 @@ sub playChannel(ch as Object)
     hideOptions()
     hideSearch()
     m.playerReturn = "channels"
-    m.video.translation = [0, 0]
-    m.video.width = 1280
-    m.video.height = 720
+    placeVideo(0, 0, 1920, 1080)
     m.video.enableUI = false
     pushRecent(ch)
     m.view = "video"
@@ -739,15 +851,17 @@ sub playChannel(ch as Object)
 end sub
 
 ' ========== SEARCH OVERLAY ==========
+' The QWERTY rows as key values (the drawn keys come from qwertyLayout).
 function getKeyboardLayout() as Object
-    return [
-        ["A", "B", "C", "D", "E", "F", "G"],
-        ["H", "I", "J", "K", "L", "M", "N"],
-        ["O", "P", "Q", "R", "S", "T", "U"],
-        ["V", "W", "X", "Y", "Z", "-", "'"],
-        ["0", "1", "2", "3", "4", "5", "6"],
-        ["7", "8", "9", ".", "SPC", "DEL", "CLR"]
-    ]
+    rows = []
+    for each row in qwertyLayout(false)
+        values = []
+        for each k in row
+            values.Push(k.value)
+        end for
+        rows.Push(values)
+    end for
+    return rows
 end function
 
 sub openSearch()
@@ -776,6 +890,7 @@ sub openSearch()
     m.searchList.visible = true
     m.kbDisplay.visible = true
     m.kbFooter.visible = true
+    m.kbKeys.visible = true
     m.kbTrap.visible = true
     m.kbTrap.focusable = true
 
@@ -801,6 +916,7 @@ sub hideSearch()
     m.searchList.visible = false
     m.kbDisplay.visible = false
     m.kbFooter.visible = false
+    m.kbKeys.visible = false
     m.kbTrap.visible = false
     m.kbTrap.focusable = false
     m.list.focusable = true
@@ -831,6 +947,7 @@ sub drawKeyboard()
     end for
     m.kbDisplay.text = lines.Join(Chr(10) + Chr(10))
     m.searchQuery.text = m.searchText + "_"
+    if m.kbKeyNodes <> invalid then qwertyDraw(m.kbKeyNodes, m.kbRow, m.kbCol, m.searchFocus = "keyboard")
 end sub
 
 sub keyboardMove(dRow as Integer, dCol as Integer)
@@ -839,9 +956,13 @@ sub keyboardMove(dRow as Integer, dCol as Integer)
     if rows < 1 then return
 
     if dRow <> 0
-        m.kbRow = m.kbRow + dRow
-        if m.kbRow < 0 then m.kbRow = rows - 1
-        if m.kbRow > rows - 1 then m.kbRow = 0
+        target = m.kbRow + dRow
+        if target < 0 then target = rows - 1
+        if target > rows - 1 then target = 0
+        if m.kbQwerty <> invalid
+            m.kbCol = qwertyColumn(m.kbQwerty, m.kbRow, m.kbCol, target)
+        end if
+        m.kbRow = target
         cols = m.kbLayout[m.kbRow].count()
         if m.kbCol > cols - 1 then m.kbCol = cols - 1
         if m.kbCol < 0 then m.kbCol = 0
@@ -1043,7 +1164,7 @@ sub showAbout()
     m.view = "about"
     body = "zer0 Software" + Chr(10)
     body = body + "Created by snuffy420" + Chr(10)
-    body = body + "Version 1.5.5" + Chr(10) + Chr(10)
+    body = body + "Version " + CreateObject("roAppInfo").GetVersion() + Chr(10) + Chr(10)
     body = body + "Live TV and on-demand movies for Roku." + Chr(10)
     body = body + "Public playlists and Archive catalogs." + Chr(10) + Chr(10)
     body = body + "Donate BTC:" + Chr(10)
@@ -1172,7 +1293,7 @@ sub onOptsSelected()
         drawGuide()
     else if action = "Refresh guide"
         code = countryForGuide()
-        DeleteFile("tmp:/zer0_guide.json")
+        DeleteFile("cachefs:/zer0_guide_" + m.source + "_" + LCase(code) + ".json")
         m.guideCountry = ""
         loadCountryGuide()
         drawGuide()
@@ -1193,6 +1314,19 @@ end sub
 
 ' ========== Keys ==========
 function onKeyEvent(key as String, press as Boolean) as Boolean
+    if press and key = "back" and m.guideScan = true
+        stopGuideScan()
+        return true
+    end if
+    if press and m.quickOpen = true and m.view = "video"
+        ' The quick channel list takes every key while it is open (Back closes it).
+        return quickKey(key)
+    end if
+    if m.view = "boxstream"
+        ' Only keys Box://Stream leaves alone get here.
+        if press and key = "back" then closeBoxStream()
+        return true
+    end if
     if not press then return false
 
     if key = "back" and m.view = "about"
@@ -1384,9 +1518,9 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
         else if key = "options"
             openCountryOptions()
             return true
-        else if key = "right"
+        else if key = "fastforward"
             return jumpByLetter(1)
-        else if key = "left"
+        else if key = "rewind"
             return jumpByLetter(-1)
         end if
     end if

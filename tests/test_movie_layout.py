@@ -7,15 +7,16 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class MoviePanelTests(unittest.TestCase):
-    def test_details_and_search_keep_header_and_right_panel_visible(self):
+    def test_details_and_search_keep_header_visible_and_fit_1080p(self):
         tree = ET.parse(ROOT / "components/MovieUI.xml")
         for panel_id in ("movieDetailPanel", "movieSearchPanel"):
             panel = tree.find(f".//Group[@id='{panel_id}']")
             x, y = map(int, re.findall(r"\d+", panel.get("translation")))
             background = panel.find("Rectangle")
+            # Below the zer0 TV top bar, inside the 1920 x 1080 screen.
             self.assertGreaterEqual(y, 94)
-            self.assertLessEqual(x + int(background.get("width")), 720)
-            self.assertLessEqual(y + int(background.get("height")), 680)
+            self.assertLessEqual(x + int(background.get("width")), 1920)
+            self.assertLessEqual(y + int(background.get("height")), 1080)
             self.assertIsNone(panel.find(".//Label[@id='movieTitle']"))
         self.assertNotIn("KeyboardDialog", (ROOT / "components/MovieUI.brs").read_text())
 

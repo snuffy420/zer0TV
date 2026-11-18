@@ -1,37 +1,62 @@
-# Country EPG setup
+# Programme guides
 
-zer0 TV preserves every playlist channel, including channels without matching listings. IDs take priority when matching schedules; unique normalized display names are a fallback. Playlist channel logos remain authoritative. Times follow the Roku timezone.
+zerØ TV keeps every playlist channel in the guide, including channels without listings; those still play. Times follow the Roku's time zone.
 
 ## IPTV.org and Free-TV
 
-`config/epg.json` points to:
+The Roku reads one compact JSON file per country from this repository:
 
 ```json
 {"jsonBase":"https://raw.githubusercontent.com/snuffy420/zer0TV/main/epg/data"}
 ```
 
-Upload the complete repository folder, including `.github/workflows/epg.yml`, `tools`, `epg` and `config`. Open **Actions → Update country guides → Run workflow** once. If Actions is disabled, enable it. Repository workflow permissions must allow writing contents. The workflow also requests `contents: write`; a repository or organization policy may override it.
+The **Update all public guides** workflow (`.github/workflows/epg.yml`) builds those files every six hours, and whenever the guide tools change. It needs GitHub Actions enabled with permission to write repository contents. You can also start it by hand: **Actions → Update all public guides → Run workflow**.
 
-The workflow downloads current XMLTV on the GitHub runner, matches stations against the public IPTV.org/Free-TV playlists, and writes compact country JSON under `epg/data`. It commits successful updates every six hours and reports failed countries while preserving their previous files. Check the workflow after the initial run; a green run and recent `generated` values confirm current data. Merely uploading the files does not run the workflow immediately.
+### Feeds
 
-Initial countries: US, UK (`gb`), Canada and Australia. Other countries still show playable playlist channels, with no listings until a matching feed is configured. Add lowercase two-letter country keys and XMLTV URLs in `epg/sources.json`. Very large or dense feeds may exceed the 4 MB output cap and require a smaller upstream source.
+Each run finds its feeds itself, so new countries are picked up without changes here:
 
-The Roku fetches only the selected country's JSON. Inputs are limited to 4 MB and accepted for 24 hours after generation. Included snapshots provide a temporary fallback; they also expire after 24 hours. No large original country XML file is loaded on the Roku. Network fallback caches last only for the current app session. A failed guide does not hide channels.
+| Feed | Used for |
+| --- | --- |
+| [IPTV-EPG.org](https://iptv-epg.org/guides) country files | Every country in `epg/sources.json` (refreshed by `tools/discover_epg_sources.py`) |
+| [epg.pw](https://epg.pw/xmltv.html) country files | Every country listed on its index page |
+| [epgshare01](https://epgshare01.online/epgshare01/) country files | Every country on its index page (`UK1` is gb; `US_LOCALS1` and `US_SPORTS1` are us) |
+| epgshare01 service feeds | Every country: Plex, Peacock, Rakuten, Whale TV+, AMC, TBN+, DistroTV, Al Jazeera, VOA, beIN, SportKlub and others |
+| `epg/extra-sources.json` | Anything else, by country code, or `"*"` for every country |
 
-To generate feeds on a computer with Python 3.12 or newer:
+Each feed is downloaded and read once per run, however many countries use it. A run takes about 10 minutes.
+
+### Matching
+
+For each country the IPTV.org country playlist and the Free-TV playlist are matched to the feeds in order (`tools/epg_match.py`); a later feed only adds channels the earlier ones missed. A playlist channel matches a feed channel by:
+
+1. its id with the sub-feed: `ABC.us@KAAL` → `ABCKAAL.us`;
+2. its plain id: `CNN.us@SD` → `CNN.us`;
+3. an id that starts with id and sub-feed: `ABC.us@East` → `ABCEast_WABC.us`;
+4. a local station's call sign: `ABC.us@KEROTV` → `KERO-DT`;
+5. the same name, ignoring words like Network, Television and Entertainment: `A&E` → `A&E Network`.
+
+East and West feeds are kept apart, id matches need the same country (or a streaming service's own tag such as `.pluto`), Free-TV channels from other countries never take this country's listings, and radio feeds are never used. Each output channel lists the playlist ids and names it serves, so the Roku finds listings under the playlist's own `tvg-id`.
+
+Listings run from an hour ago to 18 hours ahead, so a guide stays useful if a run fails. Files stay under 4 MB. A country with no matching listings keeps its previous file. `epg/data/country-status.json` reports every country's coverage and feeds.
+
+### On the Roku
+
+The Roku downloads only the country you open. It keeps the next six hours for each channel (up to 6,000 programmes in all, shared by the channels that have listings), and saves the result for 30 minutes so reopening is instant; a saved guide up to 5 hours old shows straight away while a fresh one downloads. Guides older than 24 hours are not used.
+
+To build guides on a computer (Python 3.12 or newer):
 
 ```bash
-python tools/build_epg.py
+python tools/update_all_guides.py
+python tools/build_epg.py --only us gb
 ```
 
-To switch repository or branch, update `jsonBase`, rebuild the Roku ZIP and install it. Use a raw JSON directory URL without a trailing slash.
+To use another repository or branch, change `jsonBase` in `config/epg.json` and rebuild the Roku ZIP.
 
 ## Pluto TV, Samsung TV Plus, Plex and Tubi
 
-These US live sources use the playlist and matching XMLTV URLs in `config/providers.json`. They fetch directly; GitHub JSON hosting is not needed. The parser handles interleaved channel definitions/programmes in 32 KB chunks, with a 64 KB element buffer and 16 MB download cap. A 30-second parse budget and fair per-station limits keep retained schedules under 3,000 programmes. The displayed schedule window is six hours, subject to feed coverage and those limits.
+These US sources use the playlist and XMLTV URLs in `config/providers.json` and download their guide directly when the lineup opens. The parser reads the XMLTV in 32 KB chunks with a 16 MB download cap.
 
-## Refresh and playback
+## Coverage
 
-Press * in a live guide to refresh it. Up/Down selects channels; REW/FF jumps letters; Left/Right browses time; Replay searches. Focus preview starts after a brief pause. OK/Play opens full screen. Future listings still tune the live channel; the app does not provide recording or catch-up playback.
-
-Community playlist and EPG providers can change, fail or restrict geographic access. Metadata availability does not guarantee stream playback.
+Most free streaming channels in the community playlists are not listed by any free guide, so they show "No listings · OK to watch live". Guide coverage, titles and streams depend on the upstream feeds and regional restrictions.

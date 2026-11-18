@@ -1,11 +1,4 @@
 sub main()
-    id = "5f7631c876c54900134c6126"
-    line = "#EXTINF:-1 group-title=" + Chr(34) + "Rare cuts" + Chr(34) + " tvg-name=" + Chr(34) + "A Movie, Alternate Cut" + Chr(34) + ",A Movie"
-    movie = plutoMovie(line, "https://example.com/v2/stitch/hls/episode/" + id + "/master.m3u8?test=1")
-    require(movie.id = id and movie.name = "A Movie, Alternate Cut", "preserve movie title/cut and stable ID")
-    require(movie.isMovie and movie.streamFormat = "hls", "on-demand records are not live channels")
-    require(movie.poster = "https://images.pluto.tv/episodes/" + id + "/poster.jpg", "verified poster URL pattern")
-    require(plutoMovie(line, "https://example.com/not-an-episode") = invalid, "ignore malformed movie URL")
     files = [
         {name: "original.mkv", format: "Matroska"},
         {name: "movie_512kb.mp4", format: "512Kb MPEG4"},
@@ -19,7 +12,7 @@ sub main()
     require(archiveQuery("workprints", "").Instr("workprint") >= 0, "workprint discovery filter")
     require(archiveQuery("alternate", "").Instr("extended cut") >= 0, "alternate-cut discovery filter")
     require(archiveQuery("rare", "night: living").Instr("night AND living") >= 0, "safe title keyword query")
-    print "PASS: movie metadata, poster IDs, rare-cut filters and compatible public-file selection"
+    print "PASS: movie metadata, rare-cut filters and compatible public-file selection"
 end sub
 
 sub require(condition as Boolean, message as String)

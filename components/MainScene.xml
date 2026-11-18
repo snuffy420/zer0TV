@@ -7,8 +7,13 @@
     <script type="text/brightscript" uri="pkg:/components/PlayerUI.brs" />
     <script type="text/brightscript" uri="pkg:/components/CountryUI.brs" />
     <script type="text/brightscript" uri="pkg:/components/Providers.brs" />
+    <script type="text/brightscript" uri="pkg:/components/GlowCommon.brs" />
+    <script type="text/brightscript" uri="pkg:/components/QuickPanel.brs" />
 
     <children>
+        <!-- zer0TV's screens are still drawn on a 1280 x 720 canvas, scaled up to 1080p.
+             Video sits between the two halves in real 1080p coordinates. -->
+        <Group id="shellBack" scale="[1.5,1.5]">
         <Poster id="bgImage" uri="pkg:/images/bg.png" width="1280" height="720" translation="[0,0]" />
         <Rectangle id="bgDim" width="1280" height="720" color="0x12141699" />
 
@@ -74,143 +79,154 @@
             font="font:SmallSystemFont" color="0x8AA898FF" />
 
 
-        <SourceMenu id="sourceMenu" visible="false" />
-        <MovieUI id="movieUI" visible="false" />
-        <!-- Country guide; all coordinates use the fixed 1280 x 720 design canvas. -->
-        <Group id="guide" visible="false">
-            <Rectangle translation="[0,94]" width="1280" height="586" color="0x10171CFF" />
-            <Label id="guideClock" translation="[890,30]" width="350" height="30" horizAlign="right" font="font:SmallBoldSystemFont" color="0xD8E5E2FF" />
-            <Rectangle translation="[900,106]" width="336" height="189" color="0x080D12FF" />
-            <Label text="LIVE PREVIEW" translation="[950,180]" width="236" height="30" horizAlign="center" font="font:SmallBoldSystemFont" color="0x536B70FF" />
-            <Poster id="guideLogo" translation="[40,113]" width="94" height="62" loadWidth="188" loadHeight="124" loadDisplayMode="scaleToFit" />
-            <Label text="ON YOUR CHANNELS" translation="[154,108]" width="700" height="26" font="font:SmallSystemFont" color="0x00C8FFFF" />
-            <Label id="guideTitle" translation="[154,141]" width="714" height="74" wrap="true" maxLines="2" font="font:MediumBoldSystemFont" color="0xF0F6F4FF" />
-            <Label id="guideDetail" translation="[40,219]" width="826" height="28" font="font:SmallBoldSystemFont" color="0x39FF14FF" />
-            <Label id="guideDescription" translation="[40,252]" width="826" height="62" wrap="true" maxLines="2" font="font:SmallSystemFont" color="0x9DB3B4FF" />
-            <Label id="guidePreview" translation="[900,302]" width="336" height="26" font="font:SmallSystemFont" color="0x00C8FFFF" />
-            <Label id="guideChannelHeading" text="CHANNEL | REW/FF A-Z" translation="[50,333]" width="278" height="26" font="font:SmallBoldSystemFont" color="0x6E9293FF" />
-            <Group id="guideTimes" translation="[40,333]" />
-            <Group id="guideRows" translation="[40,366]" />
-            <Label id="guideInfo" translation="[40,659]" width="1200" height="22" font="font:SmallSystemFont" color="0x789798FF" />
-            <Rectangle id="guideTrap" width="1" height="1" color="0x00000000" focusable="true" />
         </Group>
-        <Video id="video" width="1280" height="720" translation="[0,0]" visible="false" />
-        <Rectangle id="playerTrap" width="1" height="1" color="0x00000000" focusable="true" visible="false" />
-        <Group id="npBar" translation="[0,94]" visible="false">
-            <Rectangle translation="[0,502]" width="1280" height="124" color="0x101A20B8" />
-            <Rectangle translation="[0,502]" width="1280" height="2" color="0x39FF14CC" />
-            <Poster id="npLogo" translation="[40,526]" width="100" height="80" loadWidth="200" loadHeight="160" loadDisplayMode="scaleToFit" />
-            <Label id="npText" translation="[160,514]" width="900" height="38" font="font:MediumBoldSystemFont" color="0xFFFFFFFF" />
-            <Label id="npClock" translation="[1080,520]" width="160" height="28" horizAlign="right" font="font:SmallBoldSystemFont" color="0x39FF14FF" />
-            <Label id="npProgramme" translation="[160,554]" width="1080" height="30" font="font:SmallBoldSystemFont" color="0xDCE9E5FF" />
-            <Label id="npDetails" translation="[160,590]" width="1080" height="28" font="font:SmallSystemFont" color="0x00C8FFFF" />
-            <Group id="movieProgress" translation="[160,582]" visible="false">
-                <Rectangle width="1080" height="4" color="0x637C80FF" />
-                <Rectangle id="movieProgressFill" width="0" height="4" color="0x39FF14FF" />
-                <Rectangle id="movieProgressHead" translation="[0,-3]" width="4" height="10" color="0xF0FFF4FF" />
+        <!-- Glow Grid screens (real 1080p). The source screen is the first one done. -->
+        <Group id="glow" visible="false">
+            <Poster uri="pkg:/images/glow/bg.jpg" width="1920" height="1080" />
+            <MovieUI id="movieUI" visible="false" />
+            <GlowHeader id="glowHeader" />
+            <SourceMenu id="sourceMenu" visible="false" />
+            <!-- Countries: a grid of flag cards. -->
+            <Group id="countryScreen" visible="false">
+                <Label id="countryTitle" translation="[96,116]" width="1200" height="60" color="0xFFFFFFFF" />
+                <!-- Clipped to three rows (plus room for the focus glow). -->
+                <Group translation="[96,200]" clippingRect="[-40,-40,1808,786]">
+                    <MarkupGrid id="countryGrid" itemComponentName="CountryCard" itemSize="[268,230]" itemSpacing="[24,26]" numColumns="6" numRows="3" drawFocusFeedback="false" vertFocusAnimationStyle="fixedFocusWrap" />
+                </Group>
+                <Group id="countryHints" translation="[96,990]" />
             </Group>
+            <!-- Live guide (Glow Grid): preview + now playing, then the rolling grid. -->
+            <Group id="guide" visible="false">
+                <Poster uri="pkg:/images/glow/preview-ring.9.png" translation="[24,75]" width="660" height="402" />
+                <Poster uri="pkg:/images/glow/card.9.png" translation="[60,111]" width="588" height="330" blendColor="0x0B1A2AFF" />
+                <Label id="guidePreview" translation="[90,111]" width="528" height="330" horizAlign="center" vertAlign="center" wrap="true" color="0x8391AAFF" />
+
+                <Label id="guideDetail" translation="[690,108]" width="800" height="34" color="0x39FF14FF" />
+                <Label id="guideGroup" translation="[690,142]" width="800" height="28" color="0x8391AAFF" />
+                <Label id="guideNowTag" text="NOW PLAYING" translation="[1460,108]" width="400" height="30" horizAlign="right" color="0x00C8FFFF" />
+                <!-- The channel's logo, big, under NOW PLAYING, straight on the background. -->
+                <Poster id="guideLogo" translation="[1530,140]" width="330" height="300" loadWidth="660" loadHeight="600" loadDisplayMode="scaleToFit" />
+                <Label id="guideTitle" translation="[690,184]" width="840" height="58" color="0xFFFFFFFF" />
+                <Label id="guideTime" translation="[690,250]" width="840" height="30" color="0xAEB9CCFF" />
+                <Poster id="guideTrack" uri="pkg:/images/glow/chip.9.png" translation="[690,292]" width="840" height="8" blendColor="0x1A2434FF" />
+                <Poster id="guideProgress" uri="pkg:/images/glow/progress.png" translation="[690,292]" width="4" height="8" visible="false" />
+                <Label id="guideDescription" translation="[690,314]" width="840" height="84" wrap="true" maxLines="2" lineSpacing="0" color="0xAEB9CCFF" />
+                <Group id="guideNext" translation="[690,408]">
+                    <Poster uri="pkg:/images/glow/chip.9.png" width="118" height="34" blendColor="0x141C29FF" />
+                    <Label id="guideNextChip" text="Up next" width="118" height="34" horizAlign="center" vertAlign="center" color="0xDCE4F2FF" />
+                    <Label id="guideNextText" translation="[136,0]" width="1034" height="34" vertAlign="center" color="0x8391AAFF" />
+                </Group>
+
+                <Label id="guideChannelHeading" text="CHANNEL" translation="[74,486]" width="400" height="40" vertAlign="center" color="0x8391AAFF" />
+                <Group id="guideTimes" translation="[480,486]" />
+                <!-- Three layers, as in Spelunkr: the tiles, then the past shading and
+                     the now line, then the text, so the line is over everything but
+                     never covers a word. -->
+                <!-- Clipped to five rows: a sixth waits below for Scan's roll. -->
+                <Group translation="[60,534]" clippingRect="[-10,-6,1820,466]">
+                    <Group id="guideRollBg">
+                        <Group id="guideRowsBg" />
+                    </Group>
+                    <Rectangle id="guidePast" translation="[420,0]" width="0" height="460" color="0x070B1250" />
+                    <Rectangle id="guideNowLine" width="2" height="460" color="0x00C8FFE6" />
+                    <Group id="guideRollText">
+                        <Group id="guideRows" />
+                    </Group>
+                </Group>
+                <Group id="guideScanChip" translation="[200,491]" visible="false">
+                    <Poster uri="pkg:/images/glow/chip.9.png" width="96" height="30" blendColor="0x39FF14FF" />
+                    <Label id="guideScanText" text="SCAN" width="96" height="30" horizAlign="center" vertAlign="center" color="0x06110AFF" />
+                </Group>
+                <Animation id="guideRollAnim" duration="0.8" easeFunction="inOutQuad">
+                    <Vector2DFieldInterpolator key="[0,1]" keyValue="[[0,0],[0,-92]]" fieldToInterp="guideRollBg.translation" />
+                    <Vector2DFieldInterpolator key="[0,1]" keyValue="[[0,0],[0,-92]]" fieldToInterp="guideRollText.translation" />
+                </Animation>
+                <Group id="guideHints" translation="[60,1026]" />
+                <Label id="guideClock" visible="false" />
+                <Label id="guideInfo" visible="false" />
+                <Rectangle id="guideTrap" width="1" height="1" color="0x00000000" focusable="true" />
+            </Group>
+        </Group>
+        <Video id="video" width="1920" height="1080" translation="[0,0]" visible="false" />
+        <!-- Full-screen playing banner (Glow Grid, 1080p). -->
+        <Group id="npBar" visible="false">
+            <Poster uri="pkg:/images/shade-bottom.png" translation="[0,620]" width="1920" height="460" />
+            <Poster uri="pkg:/images/glow/card.9.png" translation="[60,790]" width="1800" height="236" blendColor="0x0B111CEE" />
+            <Poster id="npLogo" translation="[84,806]" width="300" height="204" loadWidth="600" loadHeight="408" loadDisplayMode="scaleToFit" />
+            <Label id="npText" translation="[410,812]" width="1030" height="36" color="0x39FF14FF" />
+            <Label id="npClock" translation="[1460,806]" width="376" height="44" horizAlign="right" color="0xFFFFFFFF" />
+            <Label id="npProgramme" translation="[410,852]" width="1420" height="56" color="0xFFFFFFFF" />
+            <Label id="npDetails" translation="[410,914]" width="1420" height="30" color="0xAEB9CCFF" />
+            <Group id="movieProgress" translation="[410,952]" visible="false">
+                <Rectangle width="1420" height="6" color="0x1A2434FF" />
+                <Rectangle id="movieProgressFill" width="0" height="6" color="0x39FF14FF" />
+                <Rectangle id="movieProgressHead" translation="[0,-4]" width="6" height="14" color="0xF0FFF4FF" />
+            </Group>
+            <Group id="npHints" translation="[410,972]" />
         </Group>
         <Animation id="npFade" duration="0.35" easeFunction="linear">
             <FloatFieldInterpolator key="[0.0,1.0]" keyValue="[1.0,0.0]" fieldToInterp="npBar.opacity" />
         </Animation>
+        <!-- Quick channel switch (Replay in full screen). -->
+        <Group id="quickPanel" visible="false">
+            <Poster uri="pkg:/images/glow/card.9.png" translation="[40,40]" width="720" height="1000" blendColor="0x0B111CF0" />
+            <Label id="quickTitle" translation="[80,66]" width="640" height="40" color="0x39FF14FF" />
+            <Group translation="[60,120]">
+                <Group id="quickHighlight">
+                    <Poster uri="pkg:/images/glow/card.9.png" width="680" height="88" blendColor="0x1A2738FF" />
+                    <Rectangle translation="[0,18]" width="5" height="52" color="0x39FF14FF" />
+                </Group>
+                <Group id="quickRows" />
+            </Group>
+            <Group id="quickHints" translation="[80,976]" />
+        </Group>
+        <!-- Drawn over the guide's live preview. -->
+        <Group id="guideOver" visible="false">
+            <Poster uri="pkg:/images/glow/chip.9.png" translation="[78,129]" width="112" height="38" blendColor="0x070B12C0" />
+            <Poster id="guideLiveDot" uri="pkg:/images/glow/live-dot.png" translation="[94,140]" width="16" height="16" />
+            <Label id="guideLiveText" text="LIVE" translation="[118,129]" width="64" height="38" vertAlign="center" color="0xFFFFFFFF" />
+            <Label id="guideNumber" translation="[330,371]" width="296" height="56" horizAlign="right" color="0xFFFFFFFF" />
+            <Animation id="guideLiveBlink" duration="1.4" repeat="true" easeFunction="inOutQuad">
+                <FloatFieldInterpolator key="[0,0.5,1]" keyValue="[1,0.35,1]" fieldToInterp="guideLiveDot.opacity" />
+            </Animation>
+        </Group>
+        <Rectangle id="playerTrap" width="1" height="1" color="0x00000000" focusable="true" visible="false" />
+        <!-- Overlays (Glow Grid, 1080p): loading, search, options, about. -->
+        <Group id="shellFront">
+        <Rectangle id="loadBg" width="1920" height="1080" color="0x070B12E6" visible="false" />
+        <Label id="loadText" text="zer0 TV" translation="[0,500]" width="1920" height="60" horizAlign="center" vertAlign="center" color="0x39FF14FF" visible="false" />
 
-        <!-- Loading -->
-        <Rectangle id="loadBg" width="1280" height="720" color="0x121416CC" visible="false" />
-        <Label id="loadText" text="zer0 TV  v1.5.5"
-            translation="[0,340]" width="1280" height="40"
-            font="font:MediumBoldSystemFont" color="0x39FF14FF"
-            horizAlign="center" visible="false" />
+        <Rectangle id="searchBg" width="1920" height="1080" color="0x070B12F0" visible="false" />
+        <Poster id="searchPanelEdge" uri="pkg:/images/glow/preview-ring.9.png" translation="[174,54]" width="1572" height="972" visible="false" />
+        <Poster id="searchPanel" uri="pkg:/images/glow/card.9.png" translation="[210,90]" width="1500" height="900" blendColor="0x111927FF" visible="false" />
+        <Label id="searchTitle" text="Search channels" translation="[270,116]" width="1380" height="56" color="0xFFFFFFFF" visible="false" />
+        <Poster id="searchBarBg" uri="pkg:/images/glow/card.9.png" translation="[270,190]" width="1380" height="76" blendColor="0x0A0F18FF" visible="false" />
+        <Rectangle id="searchBarEdge" translation="[290,262]" width="1340" height="2" color="0x00C8FFFF" visible="false" />
+        <Label id="searchQuery" text="" translation="[300,198]" width="1320" height="60" vertAlign="center" color="0x00C8FFFF" visible="false" />
+        <Label id="searchResults" text="" translation="[270,284]" width="640" height="34" color="0x39FF14FF" visible="false" />
+        <LabelList id="searchList" translation="[270,330]" itemSize="[640,56]" numRows="9" focusable="false" visible="false" color="0xC3CDDEFF" focusedColor="0x39FF14FF" />
+        <Group id="kbKeys" translation="[960,330]" visible="false" />
+        <Label id="kbDisplay" text="" translation="[960,330]" width="1" height="1" visible="false" />
+        <Rectangle id="kbTrap" translation="[960,330]" width="700" height="460" color="0x00000001" focusable="true" visible="false" />
+        <Group id="searchHint" translation="[270,920]" visible="false" />
+        <Group id="kbFooter" visible="false" />
 
-        <!-- SEARCH OVERLAY (translucent) -->
-        <Rectangle id="searchBg" width="1280" height="720" color="0x0A0C0EEE" visible="false" />
-        <Rectangle id="searchPanel" translation="[140,60]" width="1000" height="600"
-            color="0x1A1C1EF5" visible="false" />
-        <Rectangle id="searchPanelEdge" translation="[140,60]" width="1000" height="3"
-            color="0x39FF14FF" visible="false" />
+        <Rectangle id="optsBg" width="1920" height="1080" color="0x070B12FA" visible="false" />
+        <Poster id="optsBoxEdge" uri="pkg:/images/glow/preview-ring.9.png" translation="[474,134]" width="972" height="772" visible="false" />
+        <Poster id="optsBox" uri="pkg:/images/glow/card.9.png" translation="[510,170]" width="900" height="700" blendColor="0x111927FF" visible="false" />
+        <Label id="optsTitle" text="Options" translation="[570,200]" width="780" height="60" color="0xFFFFFFFF" visible="false" />
+        <GlowMenu id="optsList" translation="[570,286]" itemSize="[780,64]" numRows="8" focusable="true" visible="false" />
+        <Group id="optsHints" translation="[570,812]" visible="false" />
 
-        <Label id="searchTitle" text="Search channels"
-            translation="[170,78]" width="940" height="32"
-            font="font:MediumBoldSystemFont" color="0x39FF14FF" visible="false" />
-        <Label id="searchHint" text="D-pad moves keys · OK types · Play or Back = show matching channels"
-            translation="[170,112]" width="940" height="28"
-            font="font:SmallSystemFont" color="0x8AA898FF" visible="false" />
-
-        <Rectangle id="searchBarBg" translation="[170,150]" width="940" height="50"
-            color="0x0E1012FF" visible="false" />
-        <Rectangle id="searchBarEdge" translation="[170,150]" width="940" height="2"
-            color="0x00C8FFFF" visible="false" />
-        <Label id="searchQuery" text=""
-            translation="[186,160]" width="900" height="36"
-            font="font:MediumSystemFont" color="0x00C8FFFF" visible="false" />
-
-        <!-- Live results strip under search bar -->
-        <Label id="searchResults" text=""
-            translation="[170,210]" width="940" height="28"
-            font="font:SmallSystemFont" color="0x39FF14FF" visible="false" />
-
-        <LabelList id="searchList"
-            translation="[170,245]"
-            itemSize="[420,40]"
-            numRows="8"
-            focusable="false"
-            visible="false"
-            color="0xC8D0D0FF"
-            focusedColor="0x39FF14FF" />
-
-        <Label id="kbDisplay" text=""
-            translation="[620,245]" width="500" height="360"
-            font="font:SmallBoldSystemFont" color="0xC8D0D0FF"
-            wrap="true" lineSpacing="4" visible="false" />
-
-        <Rectangle id="kbTrap" translation="[620,245]" width="500" height="360"
-            color="0x00000001" focusable="true" visible="false" />
-
-        <Label id="kbFooter" text="Replay=delete · *=space · Play=close &amp; keep filter"
-            translation="[170,620]" width="940" height="28"
-            font="font:SmallSystemFont" color="0x6A8A7AFF"
-            horizAlign="center" visible="false" />
-
-        <!-- OPTIONS OVERLAY -->
-        <Rectangle id="optsBg" width="1280" height="720" color="0x0A0C0EEE" visible="false" />
-        <Rectangle id="optsBox" translation="[340,150]" width="600" height="420"
-            color="0x141618FF" visible="false" />
-        <Rectangle id="optsBoxEdge" translation="[340,150]" width="600" height="3"
-            color="0x39FF14FF" visible="false" />
-        <Label id="optsTitle" text="Options"
-            translation="[360,168]" width="560" height="36"
-            font="font:MediumBoldSystemFont" color="0x39FF14FF" visible="false" />
-        <!-- dark list + neon green focus so text stays readable -->
-        <LabelList id="optsList"
-            translation="[360,220]"
-            itemSize="[560,48]"
-            numRows="7"
-            focusable="true"
-            visible="false"
-            color="0xB8C8B8FF"
-            focusedColor="0x0A0C0EFF" />
-
-
-        <!-- ABOUT DIALOG -->
-        <Rectangle id="aboutBg" width="1280" height="720" color="0x0A0C0EEE" visible="false" />
-        <Rectangle id="aboutBox" translation="[240,80]" width="800" height="560"
-            color="0x141618FF" visible="false" />
-        <Rectangle id="aboutBoxEdge" translation="[240,80]" width="800" height="3"
-            color="0x39FF14FF" visible="false" />
-        <Label id="aboutTitle" text="About zer0 TV"
-            translation="[260,100]" width="760" height="40"
-            font="font:LargeBoldSystemFont" color="0x39FF14FF" visible="false" />
-        <Label id="aboutBody" text=""
-            translation="[260,150]" width="420" height="420"
-            font="font:SmallSystemFont" color="0xC8D0D0FF"
-            wrap="true" lineSpacing="6" visible="false" />
-        <Poster id="aboutQr" translation="[700,180]" width="280" height="280"
-            uri="pkg:/images/btc_qr.png" loadDisplayMode="scaleToFit" visible="false" />
-        <Label id="aboutFooter" text="Back or OK to close"
-            translation="[260,600]" width="760" height="28"
-            font="font:SmallSystemFont" color="0x6A8A7AFF"
-            horizAlign="center" visible="false" />
-        <Rectangle id="aboutTrap" translation="[240,80]" width="800" height="560"
-            color="0x00000001" focusable="true" visible="false" />
-
+        <Rectangle id="aboutBg" width="1920" height="1080" color="0x070B12E6" visible="false" />
+        <Poster id="aboutBoxEdge" uri="pkg:/images/glow/preview-ring.9.png" translation="[294,84]" width="1332" height="912" visible="false" />
+        <Poster id="aboutBox" uri="pkg:/images/glow/card.9.png" translation="[330,120]" width="1260" height="840" blendColor="0x111927FF" visible="false" />
+        <Label id="aboutTitle" text="About zer0 TV" translation="[390,150]" width="1140" height="64" color="0xFFFFFFFF" visible="false" />
+        <Label id="aboutBody" text="" translation="[390,236]" width="680" height="620" wrap="true" lineSpacing="6" color="0xC3CDDEFF" visible="false" />
+        <Poster id="aboutQr" translation="[1130,260]" width="380" height="380" uri="pkg:/images/btc_qr.png" loadDisplayMode="scaleToFit" visible="false" />
+        <Group id="aboutFooter" translation="[390,884]" visible="false" />
+        <Rectangle id="aboutTrap" translation="[330,120]" width="1260" height="840" color="0x00000001" focusable="true" visible="false" />
+        </Group>
+        <!-- Box://Stream (BoxStreamApp) is added here when its source is opened. -->
     </children>
 </component>

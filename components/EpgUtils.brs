@@ -13,15 +13,20 @@ function xmltvTime(value as Dynamic) as Integer
     return dt.AsSeconds() - offset
 end function
 
+' The patterns are made once per thread: guides call these thousands of times.
 function epgName(value as String) as String
-    value = CreateObject("roRegex", "^[A-Z]{2}\s*-\s*", "").Replace(value, "")
-    value = CreateObject("roRegex", "\s*\([0-9]+p\).*$", "i").Replace(value, "")
-    return CreateObject("roRegex", "[^a-z0-9]", "i").ReplaceAll(LCase(value), "")
+    if m.epgNameRegex = invalid
+        m.epgNameRegex = [CreateObject("roRegex", "^[A-Z]{2}\s*-\s*", ""), CreateObject("roRegex", "\s*\([0-9]+p\).*$", "i"), CreateObject("roRegex", "[^a-z0-9]", "i")]
+    end if
+    value = m.epgNameRegex[0].Replace(value, "")
+    value = m.epgNameRegex[1].Replace(value, "")
+    return m.epgNameRegex[2].ReplaceAll(LCase(value), "")
 end function
 
 function epgId(value as String) as String
     ' Playlist rendition suffixes (for example @SD / @HD) share one station guide.
-    return CreateObject("roRegex", "@(SD|HD|FHD|UHD|4K|8K|[0-9]+p)$", "i").Replace(LCase(value), "")
+    if m.epgIdRegex = invalid then m.epgIdRegex = CreateObject("roRegex", "@(SD|HD|FHD|UHD|4K|8K|[0-9]+p)$", "i")
+    return m.epgIdRegex.Replace(LCase(value), "")
 end function
 
 function epgNumber(value as Dynamic) as Boolean

@@ -1,0 +1,197 @@
+{
+ "about": "Archive sections zer0TV searches live (no build step). Each 'more' is the Archive search for that section; mode full = films (min minutes and up), seasons = full TV seasons, trailer = 30 s to 12 min.",
+ "catalogBase": "https://raw.githubusercontent.com/snuffy420/zer0TV/main/archive",
+ "sections": [
+  {
+   "id": "movies-1950",
+   "title": "Movies · 1950s",
+   "group": "movies",
+   "decade": "1950",
+   "more": {
+    "q": "mediatype:movies AND item_size:[400000000 TO *] AND -collection:(tvnews OR tv OR tvarchive) AND -access-restricted-item:true AND year:[1950 TO 1959] AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "full",
+    "min": 60
+   }
+  },
+  {
+   "id": "movies-1960",
+   "title": "Movies · 1960s",
+   "group": "movies",
+   "decade": "1960",
+   "more": {
+    "q": "mediatype:movies AND item_size:[400000000 TO *] AND -collection:(tvnews OR tv OR tvarchive) AND -access-restricted-item:true AND year:[1960 TO 1969] AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "full",
+    "min": 60
+   }
+  },
+  {
+   "id": "movies-1970",
+   "title": "Movies · 1970s",
+   "group": "movies",
+   "decade": "1970",
+   "more": {
+    "q": "mediatype:movies AND item_size:[400000000 TO *] AND -collection:(tvnews OR tv OR tvarchive) AND -access-restricted-item:true AND year:[1970 TO 1979] AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "full",
+    "min": 60
+   }
+  },
+  {
+   "id": "movies-1980",
+   "title": "Movies · 1980s",
+   "group": "movies",
+   "decade": "1980",
+   "more": {
+    "q": "mediatype:movies AND item_size:[400000000 TO *] AND -collection:(tvnews OR tv OR tvarchive) AND -access-restricted-item:true AND year:[1980 TO 1989] AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "full",
+    "min": 60
+   }
+  },
+  {
+   "id": "movies-1990",
+   "title": "Movies · 1990s",
+   "group": "movies",
+   "decade": "1990",
+   "more": {
+    "q": "mediatype:movies AND item_size:[400000000 TO *] AND -collection:(tvnews OR tv OR tvarchive) AND -access-restricted-item:true AND year:[1990 TO 1999] AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "full",
+    "min": 60
+   }
+  },
+  {
+   "id": "movies-2000",
+   "title": "Movies · 2000s",
+   "group": "movies",
+   "decade": "2000",
+   "more": {
+    "q": "mediatype:movies AND item_size:[400000000 TO *] AND -collection:(tvnews OR tv OR tvarchive) AND -access-restricted-item:true AND year:[2000 TO 2010] AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "full",
+    "min": 60
+   }
+  },
+  {
+   "id": "tv",
+   "title": "TV shows",
+   "group": "tv",
+   "decade": "",
+   "more": {
+    "q": "mediatype:movies AND -access-restricted-item:true AND (collection:classic_tv OR collection:television OR title:(\"complete series\" OR season OR seasons)) AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "seasons",
+    "min": 10
+   }
+  },
+  {
+   "id": "anime-movies",
+   "title": "Anime · Movies",
+   "group": "anime",
+   "chip": "Movies",
+   "decade": "",
+   "more": {
+    "q": "mediatype:movies AND -access-restricted-item:true AND (subject:anime OR title:anime OR subject:\"japanese animation\" OR collection:anime OR subject:ova OR title:ova OR subject:manga) AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "full",
+    "min": 60
+   }
+  },
+  {
+   "id": "anime-tv",
+   "title": "Anime · TV Shows",
+   "group": "anime",
+   "chip": "TV Shows",
+   "decade": "",
+   "more": {
+    "q": "mediatype:movies AND -access-restricted-item:true AND (subject:anime OR title:anime OR subject:\"japanese animation\" OR collection:anime OR subject:ova OR title:ova OR subject:manga) AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "seasons",
+    "min": 10
+   }
+  },
+  {
+   "id": "workprints",
+   "title": "Workprints",
+   "group": "workprints",
+   "decade": "",
+   "more": {
+    "q": "mediatype:movies AND -access-restricted-item:true AND (title:workprint OR subject:workprint OR title:\"work print\" OR title:\"rough cut\") AND item_size:[150000000 TO *] AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "full",
+    "min": 30
+   }
+  },
+  {
+   "id": "screeners",
+   "title": "Screeners",
+   "group": "screeners",
+   "decade": "",
+   "more": {
+    "q": "mediatype:movies AND -access-restricted-item:true AND (title:screener OR subject:screener OR title:\"dvd scr\" OR title:dvdscr) AND item_size:[300000000 TO *] AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "full",
+    "min": 60
+   }
+  },
+  {
+   "id": "film35",
+   "title": "35mm",
+   "group": "film35",
+   "decade": "",
+   "more": {
+    "q": "mediatype:movies AND -access-restricted-item:true AND (title:35mm OR subject:35mm OR title:\"35 mm\") AND -title:trailer AND -subject:trailer AND item_size:[300000000 TO *] AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "full",
+    "min": 60
+   }
+  },
+  {
+   "id": "openmatte",
+   "title": "Open Matte",
+   "group": "openmatte",
+   "decade": "",
+   "more": {
+    "q": "mediatype:movies AND -access-restricted-item:true AND (title:\"open matte\" OR subject:\"open matte\" OR description:\"open matte\") AND item_size:[300000000 TO *] AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "full",
+    "min": 60
+   }
+  },
+  {
+   "id": "laserdisc",
+   "title": "Laser Disc / VHS",
+   "group": "laserdisc",
+   "decade": "",
+   "more": {
+    "q": "mediatype:movies AND -access-restricted-item:true AND (title:laserdisc OR title:\"laser disc\" OR title:ldrip OR title:\"ld rip\" OR subject:laserdisc OR subject:\"laser disc\" OR title:vhs OR title:vhsrip OR title:\"vhs rip\" OR subject:vhs OR description:\"vhs rip\") AND item_size:[300000000 TO *] AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "full",
+    "min": 60,
+    "must": "laser ?disc|ld ?rip|ldrip|vhs"
+   },
+   "chip": "Laser Disc / VHS"
+  },
+  {
+   "id": "trailers35",
+   "title": "35mm Trailers",
+   "group": "trailers35",
+   "decade": "",
+   "more": {
+    "q": "mediatype:movies AND -access-restricted-item:true AND (title:trailer OR title:trailers OR subject:trailer OR subject:trailers OR title:teaser) AND (title:35mm OR title:\"35 mm\" OR subject:35mm OR description:35mm OR title:\"film scan\" OR title:\"print scan\") AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "trailer",
+    "min": 0.5
+   }
+  },
+  {
+   "id": "audiobooks",
+   "title": "Audiobooks",
+   "group": "audiobooks",
+   "decade": "",
+   "more": {
+    "q": "mediatype:audio AND -access-restricted-item:true AND (collection:librivoxaudio OR collection:audio_bookspoetry OR subject:audiobook OR subject:audiobooks) AND -subject:(xxx OR porn OR erotic OR hardcore OR nsfw OR playboy OR nudist OR hentai) AND -title:(xxx OR porn) AND -collection:(adultcollection OR xxx)",
+    "mode": "book",
+    "min": 0
+   }
+  },
+  {
+   "id": "adult",
+   "title": "Adult / XXX",
+   "group": "adult",
+   "decade": "",
+   "more": {
+    "q": "mediatype:movies AND -access-restricted-item:true AND (subject:(adult OR erotic OR xxx OR porn OR sexploitation) OR title:(xxx OR erotic OR porn) OR collection:(movie_trailers AND subject:sexploitation))",
+    "mode": "full",
+    "min": 60
+   }
+  }
+ ]
+}

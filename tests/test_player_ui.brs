@@ -59,12 +59,12 @@ sub main()
     playerKey("right")
     require(m.seekTarget = 40, "repeated presses accumulate even before decoder position advances")
     playerKey("OK")
-    require(m.video.seek = 40 and m.movieProgressFill.width = 216, "seek commit updates native position with progress bar")
+    require(m.video.seek = 40 and m.movieProgressFill.width = 284, "seek commit updates native position with progress bar")
     m.video.duration = 0
     m.video.seek = 7
     playerKey("right")
     require(m.video.seek = 7 and not m.seekActive, "unknown duration cannot seek out of bounds")
-    require(m.npDetails.text.Instr("Audio") >= 0 and m.npProgramme.text.Instr("20:00") < 0, "movie controls show playback options")
+    require(m.npDetails.text.Instr("Captions") >= 0 and m.npProgramme.text.Instr("20:00") < 0, "movie banner shows the caption state")
     print "PASS: app captions/audio menu, writable fields and playback banner"
 end sub
 

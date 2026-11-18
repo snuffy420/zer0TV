@@ -1,88 +1,94 @@
+' Source cards: sourceColumns() cards a row; each is the logo on a dark tile
+' and the name under it.
+
+function sourceColumns() as Integer
+    return 4
+end function
+
 sub init()
     m.top.focusable = true
     m.host = m.top.findNode("cards")
-    m.titleFont = m.top.findNode("titleTemplate").font
-    m.detailFont = m.top.findNode("detailTemplate").font
+    m.focusRing = m.top.findNode("focusRing")
     m.cards = []
     m.top.observeField("choices", "onChoicesChanged")
+    m.top.observeField("visible", "onVisibleChanged")
+    glowHints(m.top.findNode("hints"), [{icons: ["dpad-all"], text: "CHOOSE"}, {icons: ["ok"], text: "OPEN"}, {icons: ["star"], text: "ABOUT"}, {icons: ["back"], text: "EXIT"}])
+    onVisibleChanged()
+end sub
+
+sub onVisibleChanged()
+    pulse = m.top.findNode("pulse")
+    if pulse = invalid then return
+    if m.top.visible then pulse.control = "start" else pulse.control = "stop"
 end sub
 
 function sourceLogo(id as String) as String
-    if id = "plutovod" then id = "plutotv"
-    extension = ".png"
-    if id = "freetv" then extension = ".jpg"
-    return "pkg:/images/providers/" + id + extension
+    ' Box://Stream's own mark, packaged with it.
+    if id = "boxstream" then return "pkg:/images/mark.png"
+    return "pkg:/images/providers/" + id + ".png"
 end function
 
 function sourceGridMove(index as Integer, count as Integer, key as String) as Integer
     if count < 1 then return 0
+    cols = sourceColumns()
     target = index
-    if key = "up" and index >= 2 then target = index - 2
-    if key = "down" and Int(index / 2) < Int((count - 1) / 2) then target = index + 2
-    if key = "left" and index mod 2 = 1 then target = index - 1
-    if key = "right" and index mod 2 = 0 and index + 1 < count then target = index + 1
+    if key = "up" and index >= cols then target = index - cols
+    if key = "down" and Int(index / cols) < Int((count - 1) / cols) then target = index + cols
+    if key = "left" and index mod cols > 0 then target = index - 1
+    if key = "right" and index mod cols < cols - 1 and index + 1 < count then target = index + 1
     if target >= count then target = count - 1
     return target
+end function
+
+' Card size and place for a card count (two rows fit; more rows get shorter).
+function sourceCardBox(i as Integer, count as Integer) as Object
+    cols = sourceColumns()
+    rows = Int((count + cols - 1) / cols)
+    height = 320
+    pitch = 352
+    if rows > 2
+        height = 210
+        pitch = 236
+    end if
+    return {x: 96 + (i mod cols) * 440, y: 214 + Int(i / cols) * pitch, w: 412, h: height}
 end function
 
 sub onChoicesChanged()
     choices = m.top.choices
     if type(choices) <> "roArray" then return
-    compact = choices.Count() > 6
-    cardHeight = 144
-    rowPitch = 160
-    if compact
-        cardHeight = 117
-        rowPitch = 129
-    end if
-    helpTitle = m.top.findNode("sourceHelpTitle")
-    helpText = m.top.findNode("sourceHelpText")
-    if helpTitle <> invalid and helpText <> invalid
-        helpTitle.visible = choices.Count() mod 2 = 1
-        helpText.visible = choices.Count() mod 2 = 1
-        helpY = 452
-        if compact then helpY = 510
-        helpTitle.translation = [652, helpY]
-        helpText.translation = [652, helpY + 50]
-    end if
     if m.cards.Count() <> choices.Count()
         m.host.removeChildrenIndex(m.host.getChildCount(), 0)
         m.cards = []
         for i = 0 to choices.Count() - 1
+            place = sourceCardBox(i, choices.Count())
             group = m.host.createChild("Group")
-            group.translation = [40 + (i mod 2) * 612, 110 + Int(i / 2) * rowPitch]
-            border = group.createChild("Rectangle")
-            border.width = 588
-            border.height = cardHeight
-            background = group.createChild("Rectangle")
-            background.translation = [2, 2]
-            background.width = 584
-            background.height = cardHeight - 4
-            logoTile = group.createChild("Rectangle")
-            logoTile.translation = [14, 16]
-            logoTile.width = 120
-            logoTile.height = cardHeight - 24
-            logoTile.color = "0x0A1015FF"
+            group.translation = [place.x, place.y]
+            back = group.createChild("Poster")
+            back.uri = "pkg:/images/glow/card.9.png"
+            back.width = place.w
+            back.height = place.h
+            tileHeight = place.h - 96
+            tile = group.createChild("Poster")
+            tile.uri = "pkg:/images/glow/card.9.png"
+            tile.blendColor = "0x0A0F18FF"
+            tile.translation = [14, 14]
+            tile.width = place.w - 28
+            tile.height = tileHeight
             logo = group.createChild("Poster")
-            logo.translation = [24, 21]
-            logo.width = 100
-            logo.height = 80
-            logo.loadWidth = 192
-            logo.loadHeight = 160
+            logo.translation = [Int(place.w / 2) - 140, 34]
+            logo.width = 280
+            logo.height = tileHeight - 40
+            logo.loadWidth = 280
+            logo.loadHeight = 180
             logo.loadDisplayMode = "scaleToFit"
+            textTop = tileHeight + 32
             title = group.createChild("Label")
-            title.translation = [150, 13]
-            title.width = 418
-            title.height = 48
-            title.font = m.titleFont
-            detail = group.createChild("Label")
-            detail.translation = [150, 63]
-            detail.width = 414
-            detail.height = 44
-            detail.wrap = true
-            detail.maxLines = 2
-            detail.font = m.detailFont
-            m.cards.Push({border: border, background: background, logo: logo, title: title, detail: detail})
+            title.translation = [26, textTop]
+            title.width = place.w - 52
+            title.height = 46
+            title.font = glowFont("bold", 34)
+            title.horizAlign = "center"
+            m.cards.Push({group: group, back: back, logo: logo, title: title, place: place})
         end for
     end if
     for i = 0 to choices.Count() - 1
@@ -91,34 +97,27 @@ sub onChoicesChanged()
         card.title.text = choice.title
         uri = sourceLogo(choice.id)
         if card.logo.uri <> uri then card.logo.uri = uri
-        if choice.id = "iptvorg"
-            card.detail.text = "WORLDWIDE" + Chr(10) + "Country playlists"
-        else if choice.id = "freetv"
-            card.detail.text = "WORLDWIDE" + Chr(10) + "Curated free channels"
-        else if choice.id = "archive"
-            card.detail.text = "RARE CINEMA" + Chr(10) + "Cuts, workprints and discoveries"
-        else if choice.id = "plutovod"
-            card.detail.text = "ON DEMAND" + Chr(10) + "Movies, posters and title details"
-        else
-            card.detail.text = "US LIVE CHANNELS" + Chr(10) + "Live channels + programme guide"
-        end if
     end for
     if m.top.focusedIndex >= choices.Count() then m.top.focusedIndex = 0
     drawSourceFocus()
 end sub
 
 sub drawSourceFocus()
+    colors = glowColors()
     for i = 0 to m.cards.Count() - 1
         card = m.cards[i]
-        card.border.color = "0x2A3A41FF"
-        card.background.color = "0x18242AFF"
-        card.title.color = "0xEAF2F0FF"
-        card.detail.color = "0x8CA9AEFF"
         if i = m.top.focusedIndex
-            card.border.color = "0x39FF14FF"
-            card.background.color = "0x223C31FF"
-            card.title.color = "0x39FF14FF"
-            card.detail.color = "0x00C8FFFF"
+            card.back.blendColor = colors.cardFocus
+            card.title.color = colors.white
+            if m.focusRing <> invalid
+                m.focusRing.translation = [card.place.x - 36, card.place.y - 36]
+                m.focusRing.width = card.place.w + 72
+                m.focusRing.height = card.place.h + 72
+                m.focusRing.visible = true
+            end if
+        else
+            card.back.blendColor = colors.card
+            card.title.color = colors.text
         end if
     end for
 end sub

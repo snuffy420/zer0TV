@@ -1,4 +1,6 @@
 <component name="MovieUI" extends="Group">
+  <!-- Internet Archive browser (Glow Grid, 1080p), laid out like Box://Stream:
+       a hero for the focused title over its faded art, then a row of posters. -->
   <interface>
     <field id="provider" type="string" />
     <field id="openRequest" type="integer" value="0" alwaysNotify="true" />
@@ -13,49 +15,72 @@
   <script type="text/brightscript" uri="pkg:/components/EpgUtils.brs" />
   <script type="text/brightscript" uri="pkg:/components/MovieSearch.brs" />
   <script type="text/brightscript" uri="pkg:/components/MovieDetailsUI.brs" />
+  <script type="text/brightscript" uri="pkg:/components/GlowCommon.brs" />
   <children>
-    <Rectangle translation="[0,94]" width="1280" height="586" color="0x10171CFF" />
-    <Label id="movieCount" translation="[190,50]" width="1030" height="28" font="font:SmallSystemFont" color="0x00C8FFFF" />
+    <!-- The focused title's art, faded in behind the hero. -->
+    <Poster id="movieBackdrop" width="1920" height="1080" loadWidth="640" loadHeight="360" loadDisplayMode="scaleToZoom" opacity="0.3" />
+    <Poster uri="pkg:/images/hero-fade.png" width="1920" height="1080" />
+    <!-- Top tabs (Movies, TV Shows, ...) and the decade chips, as in Box://Stream. -->
+    <Group id="movieTabs" translation="[96,104]" />
+    <Group id="movieDecades" translation="[96,166]" />
+    <Label id="movieCount" translation="[96,466]" width="220" height="34" vertAlign="center" color="0x8391AAFF" />
+    <Label id="movieTitle" translation="[96,222]" width="1300" height="70" color="0xFFFFFFFF" />
+    <!-- A show's title logo (TVmaze) replaces the title text when there is one. -->
+    <Poster id="movieHeroLogo" translation="[96,214]" width="620" height="84" loadWidth="620" loadHeight="84" loadDisplayMode="scaleToFit" visible="false" />
+    <Label id="movieMeta" translation="[96,298]" width="1300" height="34" color="0x39FF14FF" />
+    <Label id="moviePlot" translation="[96,342]" width="1180" height="120" wrap="true" maxLines="3" lineSpacing="4" color="0xC3CDDEFF" />
+    <Label id="movieMessage" translation="[330,466]" width="1200" height="34" color="0x00C8FFFF" />
+    <Poster id="movieHeroPoster" translation="[1540,222]" width="284" height="320" loadWidth="284" loadHeight="320" loadDisplayMode="scaleToFit" />
     <Group id="movieCards" />
+    <Poster id="movieFocus" uri="pkg:/images/glow/focus.9.png" visible="false" />
+    <Group id="movieHints" translation="[96,1006]" />
     <Rectangle id="movieGridTrap" width="1" height="1" color="0x00000000" focusable="true" />
-    <Label id="movieTitle" translation="[740,120]" width="500" height="110" wrap="true" maxLines="3" font="font:MediumBoldSystemFont" color="0xF0F6F4FF" />
-    <Label id="movieMeta" translation="[740,241]" width="500" height="62" wrap="true" maxLines="2" font="font:SmallBoldSystemFont" color="0x39FF14FF" />
-    <Label id="moviePlot" translation="[740,315]" width="500" height="225" wrap="true" maxLines="9" font="font:SmallSystemFont" color="0xA7BCBCFF" />
-    <Label id="movieMessage" translation="[740,555]" width="500" height="96" wrap="true" maxLines="4" font="font:SmallSystemFont" color="0x00C8FFFF" />
-    <Label id="movieFooter" text="Arrows Browse | REW/FF Page | Replay Search | OK Details | * Options | Back Sources" translation="[40,688]" width="1200" height="28" font="font:SmallSystemFont" color="0x8AA898FF" />
+    <Label id="movieFooter" visible="false" />
     <Label id="movieFont" font="font:SmallBoldSystemFont" visible="false" />
-    <Group id="movieDetailPanel" translation="[40,126]" visible="false">
-      <Rectangle width="652" height="510" color="0x101A20FF" />
-      <Poster id="movieDetailArtwork" width="652" height="194" loadWidth="652" loadHeight="194" loadDisplayMode="scaleToFit" />
-      <Rectangle width="652" height="194" color="0x08130DAA" />
-      <Rectangle width="652" height="3" color="0x39FF14FF" />
-      <Poster id="movieDetailPoster" translation="[18,24]" width="104" height="148" loadWidth="208" loadHeight="296" loadDisplayMode="scaleToFit" />
-      <Label id="movieDetailHeading" translation="[142,22]" width="490" height="90" font="font:MediumBoldSystemFont" color="0xF1FFF5FF" wrap="true" maxLines="3" />
-      <Label id="movieDetailMetaLabel" translation="[142,120]" width="490" height="56" font="font:SmallSystemFont" color="0x00C8FFFF" wrap="true" maxLines="2" />
-      <Label id="movieDetailActions" translation="[20,228]" width="612" height="40" font="font:MediumBoldSystemFont" color="0x39FF14FF" />
-      <Label id="movieDetailOverview" translation="[20,296]" width="612" height="172" font="font:SmallSystemFont" color="0xBCD0CCFF" wrap="true" maxLines="7" />
-      <Label id="movieDetailPrompt" translation="[12,192]" width="630" height="26" font="font:SmallSystemFont" color="0x8AADA0FF" />
-      <Group id="movieEpisodeRows" translation="[0,220]" />
+
+    <!-- A title's page, as in Box://Stream: banner on top, then seasons and
+         a row of episode cards (or a film's versions and extras). -->
+    <Group id="movieDetailPanel" translation="[0,96]" visible="false">
+      <Rectangle width="1920" height="984" color="0x070B12FF" />
+      <Poster id="movieDetailArtwork" width="1920" height="984" loadWidth="960" loadHeight="540" loadDisplayMode="scaleToZoom" opacity="0.35" />
+      <Poster uri="pkg:/images/hero-fade.png" width="1920" height="984" />
+      <Poster uri="pkg:/images/glow/card.9.png" translation="[86,14]" width="280" height="410" blendColor="0x111927FF" />
+      <Poster id="movieDetailPoster" translation="[96,24]" width="260" height="390" loadWidth="260" loadHeight="390" loadDisplayMode="scaleToZoom" />
+      <Poster id="movieDetailLogo" translation="[410,16]" width="640" height="124" loadWidth="640" loadHeight="124" loadDisplayMode="scaleToFit" visible="false" />
+      <Label id="movieDetailHeading" translation="[410,22]" width="1410" height="124" wrap="true" maxLines="2" vertAlign="center" color="0xFFFFFFFF" />
+      <Label id="movieDetailMetaLabel" translation="[410,154]" width="1410" maxLines="1" color="0x39FF14FF" />
+      <Label id="movieDetailGenres" translation="[410,194]" width="1410" maxLines="1" color="0x8391AAFF" />
+      <Label id="movieDetailOverview" translation="[410,236]" width="1410" wrap="true" maxLines="3" lineSpacing="4" color="0xC3CDDEFF" />
+      <Group id="moviePageButtons" translation="[410,354]" />
+      <Group id="movieSeasonChips" translation="[96,450]" />
+      <Group id="movieEpisodeCards" translation="[96,520]" />
+      <Group id="movieDetailHints" translation="[96,910]" />
       <Rectangle id="movieDetailTrap" width="1" height="1" color="0x00000000" focusable="true" />
     </Group>
-    <Group id="movieSearchPanel" translation="[40,126]" visible="false">
-      <Rectangle width="652" height="510" color="0x1A1C1EF5" />
-      <Rectangle width="652" height="3" color="0x39FF14FF" />
-      <Label translation="[20,12]" width="612" height="34" text="Search movies and shows" font="font:MediumBoldSystemFont" color="0x39FF14FF" />
-      <Label translation="[20,52]" width="612" height="26" text="D-pad moves keys | OK types | Play searches" font="font:SmallSystemFont" color="0x8AA898FF" />
-      <Rectangle translation="[20,88]" width="612" height="48" color="0x0E1012FF" />
-      <Rectangle translation="[20,88]" width="612" height="2" color="0x00C8FFFF" />
-      <Label id="movieSearchQuery" translation="[30,96]" width="592" height="34" font="font:MediumSystemFont" color="0x00C8FFFF" />
-      <Label id="movieSearchKeys" translation="[30,150]" width="592" height="320" font="font:SmallBoldSystemFont" color="0xD5E4DBFF" />
-      <Label translation="[20,477]" width="612" height="26" text="Replay delete | * space | Back cancel" font="font:SmallSystemFont" color="0x8AA898FF" />
+
+    <!-- Search: the same rounded keys as channel search. -->
+    <Group id="movieSearchPanel" translation="[0,96]" visible="false">
+      <Rectangle width="1920" height="984" color="0x070B12F0" />
+      <Poster uri="pkg:/images/glow/preview-ring.9.png" translation="[424,0]" width="1072" height="944" />
+      <Poster uri="pkg:/images/glow/card.9.png" translation="[460,36]" width="1000" height="872" blendColor="0x111927FF" />
+      <Label id="movieSearchTitle" translation="[520,62]" width="880" height="56" text="Search movies and shows" color="0xFFFFFFFF" />
+      <Poster uri="pkg:/images/glow/card.9.png" translation="[520,132]" width="880" height="76" blendColor="0x0A0F18FF" />
+      <Rectangle translation="[540,204]" width="840" height="2" color="0x00C8FFFF" />
+      <Label id="movieSearchQuery" translation="[550,140]" width="820" height="60" vertAlign="center" color="0x00C8FFFF" />
+      <Group id="movieSearchGrid" translation="[544,240]" />
+      <Label id="movieSearchKeys" visible="false" />
+      <Group id="movieSearchHints" translation="[520,846]" />
       <Rectangle id="movieSearchTrap" width="1" height="1" color="0x00000000" focusable="true" />
     </Group>
+
+    <!-- Options and discovery filters. -->
     <Group id="movieMenu" visible="false">
-      <Rectangle width="1280" height="720" color="0x080D12DD" />
-      <Rectangle translation="[280,130]" width="720" height="460" color="0x18242AFF" />
-      <Rectangle translation="[280,130]" width="720" height="3" color="0x39FF14FF" />
-      <Label id="movieMenuTitle" text="Movies" translation="[310,150]" width="660" height="44" font="font:MediumBoldSystemFont" color="0x39FF14FF" />
-      <LabelList id="movieMenuList" translation="[310,211]" itemSize="[660,48]" numRows="7" color="0xC9D8D6FF" focusedColor="0x0A0C0EFF" focusable="true" />
+      <Rectangle width="1920" height="1080" color="0x070B12FA" />
+      <Poster uri="pkg:/images/glow/preview-ring.9.png" translation="[474,154]" width="972" height="772" />
+      <Poster uri="pkg:/images/glow/card.9.png" translation="[510,190]" width="900" height="700" blendColor="0x111927FF" />
+      <Label id="movieMenuTitle" text="Movies" translation="[570,220]" width="780" height="60" color="0xFFFFFFFF" />
+      <GlowMenu id="movieMenuList" translation="[570,300]" itemSize="[780,62]" numRows="8" focusable="true" />
+      <Group id="movieMenuHints" translation="[570,832]" />
     </Group>
   </children>
 </component>

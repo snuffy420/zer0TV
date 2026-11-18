@@ -12,6 +12,11 @@ sub initPlayerUI()
     m.movieProgressFill = m.top.findNode("movieProgressFill")
     m.movieProgressHead = m.top.findNode("movieProgressHead")
     m.seekActive = false
+    m.npHints = m.top.findNode("npHints")
+    m.npText.font = glowFont("bold", 24)
+    m.npClock.font = glowFont("bold", 34)
+    m.npProgramme.font = glowFont("bold", 40)
+    m.npDetails.font = glowFont("regular", 22)
     m.video.notificationInterval = 1
     m.video.observeField("position", "onMovieProgress")
     m.video.observeField("duration", "onMovieProgress")
@@ -39,23 +44,27 @@ sub showNowPlayingBanner(ch = invalid as Dynamic)
     if m.npLogo.uri <> uri then m.npLogo.uri = uri
     now = CreateObject("roDateTime").AsSeconds()
     m.npClock.text = guideTime(now)
-    m.npProgramme.translation = [160, 554]
-    m.npProgramme.text = "Live programming · no schedule information"
+    m.npProgramme.translation = [410, 852]
+    m.npProgramme.text = ch.name
+    mode = m.video.globalCaptionMode
+    m.npDetails.text = "LIVE   ·   Captions " + mode
     for each p in guidePrograms(ch)
         if p.start <= now and p.stop > now
-            m.npProgramme.text = p.title + "   " + guideTime(p.start) + " – " + guideTime(p.stop)
+            m.npProgramme.text = p.title
+            m.npDetails.text = guideTime(p.start) + " – " + guideTime(p.stop) + "   ·   " + guideDuration(p.stop - now) + " left   ·   Captions " + mode
             exit for
         end if
     end for
-    mode = m.video.globalCaptionMode
-    m.npDetails.text = "LIVE   ·   CC " + mode + "   ·   * Captions / audio   ·   OK Info   ·   Back Guide"
+    hints = [{icons: ["dpad-updown"], text: "CHANNEL"}, {icons: ["replay"], text: "CHANNELS"}, {icons: ["star"], text: "CAPTIONS / AUDIO"}, {icons: ["ok"], text: "INFO"}, {icons: ["back"], text: "GUIDE"}]
     if ch.isMovie = true
         parts = []
         if epgString(ch.year) and ch.year <> "" then parts.Push(ch.year)
         if epgString(ch.genre) and ch.genre <> "" then parts.Push(ch.genre)
-        m.npProgramme.text = parts.Join(" | ")
-        m.npDetails.text = "Left/Right 10s | REW/FF 1m | OK Seek | Play Pause | * Audio / CC"
+        m.npProgramme.text = parts.Join("   ·   ")
+        m.npDetails.text = "Captions " + mode
+        hints = [{icons: ["dpad-leftright"], text: "10 SEC"}, {icons: ["rewind", "forward"], text: "1 MIN"}, {icons: ["ok"], text: "SEEK"}, {icons: ["playpause"], text: "PAUSE"}, {icons: ["star"], text: "AUDIO / CC"}, {icons: ["back"], text: "BACK"}]
     end if
+    if m.npHints <> invalid then glowHints(m.npHints, hints)
     onMovieProgress()
     m.npTimer.control = "stop"
     m.npTimer.control = "start"
@@ -161,6 +170,21 @@ sub onPlayerTracksChanged()
 end sub
 
 function playerKey(key as String) as Boolean
+    if m.quickOpen = true then return quickKey(key)
+    live = m.playingChannel <> invalid and m.playingChannel.isMovie <> true
+    if live and m.seekActive <> true
+        ' As in Spelunkr: Up/Down flip channels, Replay opens the quick list.
+        if key = "up"
+            fullscreenChannelStep(1)
+            return true
+        else if key = "down"
+            fullscreenChannelStep(-1)
+            return true
+        else if key = "replay"
+            openQuick()
+            return true
+        end if
+    end if
     if m.playingChannel <> invalid
         if m.playingChannel.isMovie = true and (key = "left" or key = "right" or key = "rewind" or key = "fastforward")
             if not epgNumber(m.video.duration) or m.video.duration <= 0
@@ -268,15 +292,15 @@ sub onMovieProgress()
     if duration > 0 then fraction = position / duration
     if fraction < 0 then fraction = 0
     if fraction > 1 then fraction = 1
-    m.movieProgressFill.width = 1080 * fraction
-    m.movieProgressHead.translation = [1076 * fraction, -3]
+    m.movieProgressFill.width = 1420 * fraction
+    m.movieProgressHead.translation = [1414 * fraction, -4]
     state = "Playing"
     if m.video.state = "paused" then state = "Paused"
-    if m.seekActive = true then state = "Seek | OK confirm | Back cancel"
+    if m.seekActive = true then state = "Seek  ·  OK confirm  ·  Back cancel"
     total = "--:--"
     if duration > 0 then total = movieClock(duration)
-    m.npProgramme.text = movieClock(position) + " / " + total + " | " + state
-    m.npProgramme.translation = [160, 548]
+    m.npProgramme.text = movieClock(position) + " / " + total + "   ·   " + state
+    m.npProgramme.translation = [410, 852]
 end sub
 
 sub finishMovieSeek(commit as Boolean, forcePlay = false as Boolean)

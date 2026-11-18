@@ -84,16 +84,16 @@ sub main()
     m.query = ""
     m.top.selectedMovie = invalid
     openMovieSearch()
-    require(onKeyEvent("OK", true) and m.movieSearchText = "A" and m.searchActive, "OK types a search character instead of selecting a movie")
+    require(onKeyEvent("OK", true) and m.movieSearchText = "1" and m.searchActive, "OK types a search character (QWERTY: 1 first) instead of selecting a movie")
     require(m.top.selectedMovie = invalid and m.detail.cancelled, "typing cancels pending playback and emits no movie selection")
-    m.movieSearchRow = 6
-    m.movieSearchCol = 0
-    require(onKeyEvent("OK", true) and not m.searchActive and m.query = "A", "explicit Search submits the completed title")
+    m.movieSearchRow = 4
+    m.movieSearchCol = 3
+    require(onKeyEvent("OK", true) and not m.searchActive and m.query = "1", "explicit Search (bottom row) submits the completed title")
     require(onKeyEvent("OK", true) and m.top.selectedMovie = invalid, "held submit button cannot select a result after search closes")
     require(onKeyEvent("OK", false) and m.keyReleaseGate = "", "release clears the held-key barrier")
     openMovieSearch()
     m.movieSearchText = "CANCELLED"
-    require(movieSearchKey("back") and m.query = "A", "Back cancels unfinished search without changing the catalog query")
+    require(movieSearchKey("back") and m.query = "1", "Back cancels unfinished search without changing the catalog query")
     print "PASS: eight-poster grid, search submission, held keys and focus restoration"
 end sub
 

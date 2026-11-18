@@ -38,8 +38,8 @@ sub main()
     end for
     require(descendantCount(m.guideRows) = originalRows, "row nodes must not grow after 600 navigations")
     require(descendantCount(m.guideTimes) = originalTimes, "time label count must remain fixed")
-    require(originalRows <= 250, "fixed row node budget")
-    require(m.guidePool[0].cells.Count() = 16, "bounded cell pool")
+    require(originalRows <= 290, "fixed row node budget (five rows and one waiting for Scan)")
+    require(m.guidePool[0].cells.Count() = 12, "bounded cell pool")
     m.displayList = []
     drawGuide()
     require(m.guideTitle.text = "No channels in this view", "empty filtered guide")

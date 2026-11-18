@@ -35,17 +35,32 @@ sub loadGuideData()
     end if
     code = LCase(m.top.country)
     identity = m.top.provider + ":" + code
-    cache = "tmp:/zer0_guide.json"
-    ' A single compact cache replaces the previous unbounded per-country tmp files.
-    stored = readGuideJson(cache, 2000000)
+    ' One cached guide per source and country: shown at once when it is under
+    ' 30 minutes old (the guide refreshes itself after 30 minutes), and used as
+    ' a fallback for up to a day when the network fails.
+    cache = "cachefs:/zer0_guide2_" + m.top.provider + "_" + code + ".json"
+    clock = CreateObject("roTimespan")
+    stored = readGuideJson(cache, 4000000)
+    if type(stored) = "roAssociativeArray" and stored.data <> invalid and stored.identity = identity
+        if epgNumber(stored.fetched) and m.now - stored.fetched >= 0 and m.now - stored.fetched < 1800
+            print "[zer0 guide] "; identity; " from this Roku's 30-minute copy"
+            publishGuide(stored.data, "Guide updated · six-hour window")
+            return
+        end if
+        ' Older (up to 5 hours): shown straight away while the fresh one loads.
+        if epgNumber(stored.fetched) and m.now - stored.fetched >= 0 and m.now - stored.fetched < 18000 then m.top.early = stored.data
+    end if
     suffix = m.top.requestId
     download = "cachefs:/zer0_epg_" + suffix
     loaded = false
     message = "Guide updated · six-hour window"
 
+    print "[zer0 guide] "; identity; " downloading · "; m.top.channels.Count(); " channels"
     if m.top.jsonBase <> ""
         if epgDownload(m.top.jsonBase + "/" + code + ".json", download + ".json", 15000, 4000000)
+            print "[zer0 guide] downloaded in "; clock.TotalMilliseconds(); " ms"
             loaded = readCountryJson(download + ".json")
+            print "[zer0 guide] read in "; clock.TotalMilliseconds(); " ms"
         end if
         DeleteFile(download + ".json")
     end if
@@ -79,7 +94,7 @@ sub loadGuideData()
     if loaded
         data = {schedules: m.schedules, aliases: m.aliases}
         serialized = FormatJson({identity: identity, fetched: m.now, data: data})
-        if Len(serialized) < 2000000 then WriteAsciiFile(cache, serialized)
+        if Len(serialized) < 4000000 then WriteAsciiFile(cache, serialized)
         serialized = invalid
         publishGuide(data, message)
     else
@@ -166,7 +181,7 @@ sub parseGuideFile(path as String)
     initGuideParser()
     offset = 0
     timer = CreateObject("roTimespan")
-    while timer.TotalMilliseconds() < 30000 and m.programCount < 3000
+    while timer.TotalMilliseconds() < 30000 and m.programCount < 6000
         if m.top.cancelled then exit while
         bytes = CreateObject("roByteArray")
         if not bytes.ReadFile(path, offset, 32768) then exit while

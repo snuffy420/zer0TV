@@ -1,8 +1,8 @@
 {
   "name": "zer0tv",
-  "version": "1.5.5",
+  "version": "2.5.7",
   "private": true,
-  "description": "Roku live TV and on-demand browser",
+  "description": "Roku live TV, Internet Archive and Box://Stream",
   "license": "GPL-3.0",
   "scripts": {
     "check": "python tools/check.py"

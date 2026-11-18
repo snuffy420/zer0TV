@@ -24,7 +24,7 @@ function movieHttp(url as String, limit = 2000000 as Integer) as Dynamic
     transfer.SetCertificatesFile("common:/certs/ca-bundle.crt")
     transfer.InitClientCertificates()
     transfer.EnableEncodings(true)
-    transfer.AddHeader("User-Agent", "zer0TV/1.5.5")
+    transfer.AddHeader("User-Agent", "zer0TV/" + CreateObject("roAppInfo").GetVersion())
     transfer.AddHeader("Cache-Control", "no-cache")
     transfer.SetUrl(url)
     path = "cachefs:/zer0_movie_" + m.httpKey + ".dat"
@@ -59,19 +59,6 @@ function movieAttribute(line as String, name as String) as String
     match = pattern.Match(line)
     if match.Count() > 1 then return match[1]
     return ""
-end function
-
-function plutoMovie(line as String, url as String) as Dynamic
-    match = CreateObject("roRegex", "/episode/([a-f0-9]{24})/", "i").Match(url)
-    if match.Count() < 2 then return invalid
-    title = movieAttribute(line, "tvg-name")
-    if title = ""
-        comma = Instr(1, line, ",")
-        if comma > 0 then title = Mid(line, comma + 1)
-    end if
-    if title = "" then return invalid
-    id = match[1]
-    return {id: id, provider: "plutovod", name: title, url: url, poster: "https://images.pluto.tv/episodes/" + id + "/poster.jpg", logo: "pkg:/images/providers/plutotv.png", genre: movieAttribute(line, "group-title"), description: "", year: "", streamFormat: "hls", isMovie: true}
 end function
 
 function archiveFile(files as Object) as String

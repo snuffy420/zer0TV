@@ -16,11 +16,11 @@ sub main()
         for each entry in data.channels
             m.wanted[epgId(entry.id)] = true
         end for
-        m.stationProgramLimit = Int(3000# / m.wanted.Count())
+        m.stationProgramLimit = Int(6000# / m.wanted.Count())
         if m.stationProgramLimit > 32 then m.stationProgramLimit = 32
         if m.stationProgramLimit < 2 then m.stationProgramLimit = 2
         storeCountryEntries(data.channels)
-        require(m.programCount > 0 and m.programCount <= 3000, "bounded actual provider guide")
+        require(m.programCount > 0 and m.programCount <= 6000, "bounded actual provider guide")
         for each id in m.schedules
             require(m.wanted.DoesExist(id), "retain provider station IDs")
             require(m.schedules[id].Count() <= m.stationProgramLimit, "fair per-station limit")

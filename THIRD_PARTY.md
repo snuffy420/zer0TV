@@ -29,17 +29,22 @@ For a complete endpoint-by-endpoint map, see [Sources and data flow](docs/SOURCE
 Individual TV channels and streams remain the property of their respective rights
 holders. Upstream playlists and this app only provide links. Availability can change
 or be geo-restricted without notice.
-# EPG added in 1.5.0
+## Programme guides
 
-Country XMLTV schedule feeds are requested from [IPTV-EPG.org](https://iptv-epg.org/guides). This service is independent of IPTV.org and Free-TV. Its schedule data and artwork are not covered by this application's GPL license. Review the provider's terms before redistributing generated country JSON. The app continues to use playlist-supplied logos and stream URLs.
+Country guides are built from XMLTV published by [IPTV-EPG.org](https://iptv-epg.org/guides), [epg.pw](https://epg.pw/xmltv.html) and [epgshare01](https://epgshare01.online/epgshare01/). These services are independent of IPTV.org, Free-TV and this app. Their schedule data is not covered by this application's GPL license; review each provider's terms before redistributing the generated JSON. The app keeps playlist-supplied logos and stream URLs.
 
+## Title matching
+
+- [TVmaze](https://www.tvmaze.com/api): show and episode information and artwork, licensed [CC BY-SA 4.0](https://www.tvmaze.com/api#licensing).
+- [AniList](https://anilist.co/): anime titles and covers through its public API, under its terms of use.
+- IMDb's public title-suggestion endpoint: film titles, years and posters. IMDb data remains subject to IMDb's terms.
 
 ## Additional live and on-demand sources
 
 - [BuddyChewChew/app-m3u-generator](https://github.com/BuddyChewChew/app-m3u-generator): public US Pluto TV, Samsung TV Plus and Plex playlist links. The application requests playlists at runtime and does not bundle their video content.
 - [matthuisman/i.mjh.nz](https://github.com/matthuisman/i.mjh.nz): matching US provider XMLTV exports. Schedule data remains subject to its upstream terms.
-- [OwnerPlugins/pluto-tv-m3u](https://github.com/OwnerPlugins/pluto-tv-m3u): public US on-demand catalog feed. Pluto episode metadata and poster images are requested from Pluto endpoints. The feed is not guaranteed to cover the complete service.
-- [Internet Archive](https://archive.org/): public advanced search, item metadata, thumbnails and public MP4 files. Item labels, dates, licenses and descriptions are supplied by uploaders and are not independently verified. Private/restricted files are excluded. Each item's rights and availability remain separate from the app's GPL license.
+- [Internet Archive](https://archive.org/): public advanced search, item metadata, thumbnails and public video and audio files. Item labels, dates, licenses and descriptions are supplied by uploaders and are not independently verified. Private/restricted files are excluded. Each item's rights and availability remain separate from the app's GPL license.
+- [Box://Stream](https://github.com/snuffy420/BoxStream): built in unchanged; it connects only to the media server its user sets up.
 
 The app is independent of these projects and services. Their names and marks identify the selected source and do not imply affiliation or endorsement.
 
