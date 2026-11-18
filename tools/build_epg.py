@@ -8,6 +8,7 @@ import re
 import time
 import urllib.request
 from guide_http import urlopen
+from epg_match import Matcher, playlist_entries
 import xml.etree.ElementTree as ET
 import concurrent.futures
 from pathlib import Path
@@ -39,12 +40,16 @@ def free_tv_playlist():
         return response.read().decode("utf-8-sig")
 
 
-def supported_channels(country):
+def country_playlist(country):
     playlist_country = "uk" if country == "gb" else country
     url = f"https://iptv-org.github.io/iptv/countries/{playlist_country}.m3u"
     with urlopen(url, timeout=45) as response:
         playlist = response.read().decode("utf-8-sig")
-    playlist += "\n" + free_tv_playlist()
+    return playlist + "\n" + free_tv_playlist()
+
+
+def supported_channels(country):
+    playlist = country_playlist(country)
     ids, names = set(), set()
     for line in playlist.splitlines():
         if not line.startswith("#EXTINF:"):
@@ -64,6 +69,65 @@ def supported_channels(country):
     if not ids and not names:
         raise ValueError("No supported channels found in upstream playlists")
     return ids, names
+
+
+def convert_matched(stream, country, matcher, now=None):
+    """A country feed for the IPTV-org / Free-TV playlists: each kept feed
+    channel lists the playlist ids ("ids") and names ("names") it serves, so
+    the Roku finds listings under the playlist's own tvg-id. Listings from an
+    hour ago to 18 hours ahead (the feed is rebuilt every 6 hours)."""
+    now = int(time.time()) if now is None else now
+    names = {}
+    kept = None
+    channels = {}
+    context = ET.iterparse(stream, events=("start", "end"))
+    _, root = next(context)
+    for event, element in context:
+        if event != "end":
+            continue
+        if element.tag == "channel":
+            channel_id = element.get("id", "")
+            if channel_id:
+                names[channel_id] = [n.text or "" for n in element.findall("display-name")]
+            root.remove(element)
+        elif element.tag == "programme":
+            if kept is None:
+                kept = matcher.assign(names, country)
+                for feed_id, served in kept.items():
+                    display = (names.get(feed_id) or [feed_id])[0]
+                    channels[feed_id] = {"id": feed_id, "name": display, "ids": served["ids"], "names": served["names"], "programmes": []}
+            channel_id = element.get("channel", "")
+            if channel_id in channels:
+                try:
+                    start = timestamp(element.get("start", ""))
+                    stop = timestamp(element.get("stop", ""))
+                except ValueError:
+                    root.remove(element)
+                    continue
+                if stop > now - 3600 and start < now + 64800 and stop > start:
+                    channels[channel_id]["programmes"].append({
+                        "start": start, "stop": stop,
+                        "title": element.findtext("title", "Untitled programme")[:160],
+                        "description": element.findtext("desc", "")[:200],
+                    })
+            root.remove(element)
+    output = []
+    for entry in channels.values():
+        entry["programmes"].sort(key=lambda p: (p["start"], p["stop"]))
+        seen, programmes = set(), []
+        for p in entry["programmes"]:
+            key = (p["start"], p["stop"], p["title"])
+            if key not in seen:
+                programmes.append(p)
+                seen.add(key)
+        entry["programmes"] = programmes[:80]
+        if not entry["ids"]:
+            del entry["ids"]
+        if not entry["names"]:
+            del entry["names"]
+        if entry["programmes"]:
+            output.append(entry)
+    return {"version": 2, "country": country, "generated": now, "source": "XMLTV; see epg/sources.json", "channels": output}
 
 
 def convert(stream, country, now=None, supported=None):
@@ -128,8 +192,36 @@ def compact_payload(result):
     raise ValueError("Guide exceeds the 4 MB Roku input budget after compaction")
 
 
+def merge_feeds(result, extra):
+    """Add an extra feed's channels for playlist ids and names the result
+    doesn't serve yet (the first feed wins where both have a channel)."""
+    served = set()
+    for entry in result["channels"]:
+        served.update(entry.get("ids", []))
+        served.update("name:" + n for n in entry.get("names", []))
+    for entry in extra["channels"]:
+        ids = [i for i in entry.get("ids", []) if i not in served]
+        names = [n for n in entry.get("names", []) if "name:" + n not in served]
+        if not ids and not names:
+            continue
+        entry = dict(entry)
+        entry.pop("ids", None)
+        entry.pop("names", None)
+        if ids:
+            entry["ids"] = ids
+        if names:
+            entry["names"] = names
+        served.update(ids)
+        served.update("name:" + n for n in names)
+        result["channels"].append(entry)
+    return result
+
+
 def build(sources_path, destination, workers=4):
     sources = json.loads(Path(sources_path).read_text(encoding="utf-8"))
+    # Extra feeds per country (kept apart: discovery rewrites sources.json).
+    extra_path = Path(sources_path).with_name("extra-sources.json")
+    extras = json.loads(extra_path.read_text(encoding="utf-8")) if extra_path.exists() else {}
     destination = Path(destination)
     destination.mkdir(parents=True, exist_ok=True)
     failures = []
@@ -140,11 +232,26 @@ def build(sources_path, destination, workers=4):
         if not re.fullmatch("[a-z]{2}", country):
             raise ValueError(f"Use a lowercase ISO country code: {country}")
         try:
-            supported = supported_channels(country)
-            request = urllib.request.Request(url, headers={"User-Agent": "zer0TV-Guide/1.5"})
-            with urlopen(request, timeout=90) as response:
-                stream = gzip.GzipFile(fileobj=response) if url.endswith(".gz") else response
-                result = convert(stream, country, supported=supported)
+            matcher = Matcher(playlist_entries(country_playlist(country)))
+            result = None
+            # The main feed, then any extra feeds for the channels it misses.
+            feeds = [url] + extras.get(country, [])
+            # epg.pw has a guide for most countries: tried for every one.
+            pw = f"https://epg.pw/xmltv/epg_{country.upper()}.xml.gz"
+            if pw not in feeds:
+                feeds.insert(1, pw)
+            for index, feed_url in enumerate(feeds):
+                try:
+                    request = urllib.request.Request(feed_url, headers={"User-Agent": "zer0TV-Guide/1.5"})
+                    with urlopen(request, timeout=90) as response:
+                        stream = gzip.GzipFile(fileobj=response) if feed_url.endswith(".gz") else response
+                        part = convert_matched(stream, country, matcher)
+                except Exception as exc:
+                    if index == 0:
+                        raise
+                    print(f"{country}: extra feed skipped ({feed_url}): {exc}", flush=True)
+                    continue
+                result = part if result is None else merge_feeds(result, part)
             if not result["channels"]:
                 print(f"{country}: no current matching listings; retaining previous file and retrying next run", flush=True)
                 return {"country": country, "status": "no-matching-listings", "channels": 0}

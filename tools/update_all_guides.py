@@ -39,7 +39,9 @@ def build_groups(root):
             continue
         for entry in data.get("channels", []):
             for code, (ids, names) in wanted.items():
-                if normalized_id(entry["id"]) in ids or normalized_name(entry["name"]) in names:
+                matched_ids = {normalized_id(entry["id"])} | set(entry.get("ids", []))
+                matched_names = {normalized_name(entry["name"])} | set(entry.get("names", []))
+                if matched_ids & ids or matched_names & names:
                     stations[code].setdefault(entry["id"], entry)
     status = []
     for code, entries in stations.items():
