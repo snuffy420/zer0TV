@@ -1,12 +1,12 @@
 {
-  "generated": 1795015625,
+  "generated": 1795016494,
   "feeds": [
     {
       "country": "ae",
       "status": "ok",
       "channels": 40,
       "served": 41,
-      "bytes": 212819,
+      "bytes": 213701,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_AE1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -19,7 +19,7 @@
       "status": "ok",
       "channels": 21,
       "served": 22,
-      "bytes": 79837,
+      "bytes": 79097,
       "feeds": [
         "https://iptv-epg.org/files/epg-al.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -32,7 +32,7 @@
       "status": "ok",
       "channels": 11,
       "served": 11,
-      "bytes": 48880,
+      "bytes": 48557,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_PLEX1.xml.gz",
@@ -44,7 +44,7 @@
       "status": "ok",
       "channels": 12,
       "served": 12,
-      "bytes": 55427,
+      "bytes": 54927,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_PLEX1.xml.gz",
@@ -56,7 +56,7 @@
       "status": "ok",
       "channels": 32,
       "served": 33,
-      "bytes": 175418,
+      "bytes": 174408,
       "feeds": [
         "https://iptv-epg.org/files/epg-at.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_AT1.xml.gz",
@@ -70,7 +70,7 @@
       "status": "ok",
       "channels": 57,
       "served": 59,
-      "bytes": 349743,
+      "bytes": 350210,
       "feeds": [
         "https://iptv-epg.org/files/epg-au.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_AU1.xml.gz",
@@ -85,7 +85,7 @@
       "status": "ok",
       "channels": 23,
       "served": 23,
-      "bytes": 110225,
+      "bytes": 110451,
       "feeds": [
         "https://iptv-epg.org/files/epg-ba.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_BA1.xml.gz",
@@ -99,7 +99,7 @@
       "status": "ok",
       "channels": 11,
       "served": 11,
-      "bytes": 48880,
+      "bytes": 48557,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_PLEX1.xml.gz",
@@ -111,7 +111,7 @@
       "status": "ok",
       "channels": 38,
       "served": 38,
-      "bytes": 165684,
+      "bytes": 165198,
       "feeds": [
         "https://iptv-epg.org/files/epg-be.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_BE2.xml.gz",
@@ -124,7 +124,7 @@
       "status": "ok",
       "channels": 50,
       "served": 52,
-      "bytes": 178296,
+      "bytes": 178755,
       "feeds": [
         "https://iptv-epg.org/files/epg-bg.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -137,7 +137,7 @@
       "status": "ok",
       "channels": 12,
       "served": 12,
-      "bytes": 51382,
+      "bytes": 51145,
       "feeds": [
         "https://iptv-epg.org/files/epg-bo.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -150,7 +150,7 @@
       "status": "ok",
       "channels": 63,
       "served": 64,
-      "bytes": 303034,
+      "bytes": 303095,
       "feeds": [
         "https://iptv-epg.org/files/epg-br.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_BR2.xml.gz",
@@ -164,7 +164,7 @@
       "status": "ok",
       "channels": 11,
       "served": 11,
-      "bytes": 48880,
+      "bytes": 48557,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_PLEX1.xml.gz",
@@ -176,7 +176,7 @@
       "status": "ok",
       "channels": 16,
       "served": 18,
-      "bytes": 80277,
+      "bytes": 79997,
       "feeds": [
         "https://iptv-epg.org/files/epg-by.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -189,7 +189,7 @@
       "status": "ok",
       "channels": 77,
       "served": 77,
-      "bytes": 349307,
+      "bytes": 349390,
       "feeds": [
         "https://iptv-epg.org/files/epg-ca.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_CA2.xml.gz",
@@ -203,7 +203,7 @@
       "status": "ok",
       "channels": 41,
       "served": 41,
-      "bytes": 255245,
+      "bytes": 255247,
       "feeds": [
         "https://iptv-epg.org/files/epg-ch.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_CH1.xml.gz",
@@ -217,7 +217,7 @@
       "status": "ok",
       "channels": 13,
       "served": 14,
-      "bytes": 60789,
+      "bytes": 60800,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_CL1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_AMCCHANNELS1.xml.gz",
@@ -231,7 +231,7 @@
       "status": "ok",
       "channels": 39,
       "served": 45,
-      "bytes": 117504,
+      "bytes": 116612,
       "feeds": [
         "https://epg.pw/xmltv/epg_CN.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -244,7 +244,7 @@
       "status": "ok",
       "channels": 22,
       "served": 22,
-      "bytes": 102030,
+      "bytes": 102017,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_CO1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -257,7 +257,7 @@
       "status": "ok",
       "channels": 18,
       "served": 18,
-      "bytes": 64707,
+      "bytes": 64364,
       "feeds": [
         "https://iptv-epg.org/files/epg-cr.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -270,7 +270,7 @@
       "status": "ok",
       "channels": 16,
       "served": 16,
-      "bytes": 74690,
+      "bytes": 74569,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_CY1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -283,7 +283,7 @@
       "status": "ok",
       "channels": 88,
       "served": 90,
-      "bytes": 477488,
+      "bytes": 477135,
       "feeds": [
         "https://iptv-epg.org/files/epg-cz.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_CZ1.xml.gz",
@@ -297,7 +297,7 @@
       "status": "ok",
       "channels": 123,
       "served": 129,
-      "bytes": 850287,
+      "bytes": 853940,
       "feeds": [
         "https://iptv-epg.org/files/epg-de.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DE1.xml.gz",
@@ -311,7 +311,7 @@
       "status": "ok",
       "channels": 23,
       "served": 23,
-      "bytes": 130566,
+      "bytes": 129333,
       "feeds": [
         "https://iptv-epg.org/files/epg-dk.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -324,7 +324,7 @@
       "status": "ok",
       "channels": 21,
       "served": 22,
-      "bytes": 67636,
+      "bytes": 67315,
       "feeds": [
         "https://iptv-epg.org/files/epg-do.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -337,7 +337,7 @@
       "status": "ok",
       "channels": 11,
       "served": 11,
-      "bytes": 48880,
+      "bytes": 48557,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_PLEX1.xml.gz",
@@ -349,7 +349,7 @@
       "status": "ok",
       "channels": 11,
       "served": 11,
-      "bytes": 48880,
+      "bytes": 48557,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_PLEX1.xml.gz",
@@ -361,7 +361,7 @@
       "status": "ok",
       "channels": 81,
       "served": 86,
-      "bytes": 365242,
+      "bytes": 356905,
       "feeds": [
         "https://iptv-epg.org/files/epg-es.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_ES1.xml.gz",
@@ -375,7 +375,7 @@
       "status": "ok",
       "channels": 31,
       "served": 31,
-      "bytes": 177880,
+      "bytes": 177701,
       "feeds": [
         "https://iptv-epg.org/files/epg-fi.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_FI1.xml.gz",
@@ -389,7 +389,7 @@
       "status": "ok",
       "channels": 105,
       "served": 110,
-      "bytes": 481067,
+      "bytes": 479726,
       "feeds": [
         "https://iptv-epg.org/files/epg-fr.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_FR1.xml.gz",
@@ -404,7 +404,7 @@
       "status": "ok",
       "channels": 145,
       "served": 167,
-      "bytes": 742587,
+      "bytes": 742538,
       "feeds": [
         "https://iptv-epg.org/files/epg-gb.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_UK1.xml.gz",
@@ -419,7 +419,7 @@
       "status": "ok",
       "channels": 15,
       "served": 15,
-      "bytes": 65352,
+      "bytes": 64941,
       "feeds": [
         "https://iptv-epg.org/files/epg-ge.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -432,7 +432,7 @@
       "status": "ok",
       "channels": 60,
       "served": 69,
-      "bytes": 282942,
+      "bytes": 282754,
       "feeds": [
         "https://iptv-epg.org/files/epg-gr.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_GR1.xml.gz",
@@ -447,7 +447,7 @@
       "status": "ok",
       "channels": 17,
       "served": 17,
-      "bytes": 74739,
+      "bytes": 74646,
       "feeds": [
         "https://iptv-epg.org/files/epg-gt.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -460,7 +460,7 @@
       "status": "ok",
       "channels": 22,
       "served": 22,
-      "bytes": 112984,
+      "bytes": 112748,
       "feeds": [
         "https://iptv-epg.org/files/epg-hk.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_HK1.xml.gz",
@@ -475,7 +475,7 @@
       "status": "ok",
       "channels": 21,
       "served": 22,
-      "bytes": 81410,
+      "bytes": 80900,
       "feeds": [
         "https://iptv-epg.org/files/epg-hn.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -488,7 +488,7 @@
       "status": "ok",
       "channels": 42,
       "served": 43,
-      "bytes": 228888,
+      "bytes": 228850,
       "feeds": [
         "https://iptv-epg.org/files/epg-hr.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_HR1.xml.gz",
@@ -502,7 +502,7 @@
       "status": "ok",
       "channels": 97,
       "served": 102,
-      "bytes": 613721,
+      "bytes": 614786,
       "feeds": [
         "https://iptv-epg.org/files/epg-hu.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_HU1.xml.gz",
@@ -516,7 +516,7 @@
       "status": "ok",
       "channels": 30,
       "served": 30,
-      "bytes": 99202,
+      "bytes": 98661,
       "feeds": [
         "https://iptv-epg.org/files/epg-id.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_ID1.xml.gz",
@@ -531,7 +531,7 @@
       "status": "ok",
       "channels": 15,
       "served": 15,
-      "bytes": 80281,
+      "bytes": 80618,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_IE1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -544,7 +544,7 @@
       "status": "ok",
       "channels": 33,
       "served": 33,
-      "bytes": 191907,
+      "bytes": 192042,
       "feeds": [
         "https://iptv-epg.org/files/epg-il.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_IL1.xml.gz",
@@ -558,7 +558,7 @@
       "status": "ok",
       "channels": 467,
       "served": 471,
-      "bytes": 2843770,
+      "bytes": 2839029,
       "feeds": [
         "https://iptv-epg.org/files/epg-in.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_IN1.xml.gz",
@@ -574,7 +574,7 @@
       "status": "ok",
       "channels": 13,
       "served": 13,
-      "bytes": 55751,
+      "bytes": 55428,
       "feeds": [
         "https://iptv-epg.org/files/epg-is.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -587,7 +587,7 @@
       "status": "ok",
       "channels": 99,
       "served": 121,
-      "bytes": 515797,
+      "bytes": 514431,
       "feeds": [
         "https://iptv-epg.org/files/epg-it.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_IT1.xml.gz",
@@ -601,7 +601,7 @@
       "status": "ok",
       "channels": 14,
       "served": 14,
-      "bytes": 54404,
+      "bytes": 54093,
       "feeds": [
         "https://iptv-epg.org/files/epg-jm.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_JM1.xml.gz",
@@ -615,7 +615,7 @@
       "status": "ok",
       "channels": 24,
       "served": 24,
-      "bytes": 127857,
+      "bytes": 128714,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_JP1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_JP2.xml.gz",
@@ -630,7 +630,7 @@
       "status": "ok",
       "channels": 11,
       "served": 11,
-      "bytes": 48880,
+      "bytes": 48557,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_PLEX1.xml.gz",
@@ -642,7 +642,7 @@
       "status": "ok",
       "channels": 12,
       "served": 12,
-      "bytes": 52776,
+      "bytes": 52365,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_KR1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -655,7 +655,7 @@
       "status": "ok",
       "channels": 12,
       "served": 13,
-      "bytes": 51255,
+      "bytes": 51067,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_KZ1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -668,7 +668,7 @@
       "status": "ok",
       "channels": 28,
       "served": 31,
-      "bytes": 103928,
+      "bytes": 103616,
       "feeds": [
         "https://iptv-epg.org/files/epg-lt.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_LT1.xml.gz",
@@ -682,7 +682,7 @@
       "status": "ok",
       "channels": 18,
       "served": 19,
-      "bytes": 96216,
+      "bytes": 95867,
       "feeds": [
         "https://iptv-epg.org/files/epg-lu.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_LU1.xml.gz",
@@ -696,7 +696,7 @@
       "status": "ok",
       "channels": 20,
       "served": 20,
-      "bytes": 86994,
+      "bytes": 86601,
       "feeds": [
         "https://iptv-epg.org/files/epg-lv.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -709,7 +709,7 @@
       "status": "ok",
       "channels": 13,
       "served": 13,
-      "bytes": 66060,
+      "bytes": 65737,
       "feeds": [
         "https://iptv-epg.org/files/epg-me.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -722,7 +722,7 @@
       "status": "ok",
       "channels": 24,
       "served": 26,
-      "bytes": 131998,
+      "bytes": 132626,
       "feeds": [
         "https://iptv-epg.org/files/epg-mk.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -735,7 +735,7 @@
       "status": "ok",
       "channels": 29,
       "served": 32,
-      "bytes": 90857,
+      "bytes": 91002,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_MN1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -748,7 +748,7 @@
       "status": "ok",
       "channels": 17,
       "served": 17,
-      "bytes": 82943,
+      "bytes": 82670,
       "feeds": [
         "https://iptv-epg.org/files/epg-mt.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -761,7 +761,7 @@
       "status": "ok",
       "channels": 40,
       "served": 40,
-      "bytes": 154074,
+      "bytes": 156024,
       "feeds": [
         "https://iptv-epg.org/files/epg-mx.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_MX1.xml.gz",
@@ -775,7 +775,7 @@
       "status": "ok",
       "channels": 15,
       "served": 15,
-      "bytes": 63173,
+      "bytes": 62675,
       "feeds": [
         "https://iptv-epg.org/files/epg-my.xml.gz",
         "https://epg.pw/xmltv/epg_MY.xml.gz",
@@ -789,7 +789,7 @@
       "status": "ok",
       "channels": 11,
       "served": 11,
-      "bytes": 48880,
+      "bytes": 48557,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_PLEX1.xml.gz",
@@ -801,7 +801,7 @@
       "status": "ok",
       "channels": 12,
       "served": 12,
-      "bytes": 51382,
+      "bytes": 51145,
       "feeds": [
         "https://iptv-epg.org/files/epg-ni.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -814,7 +814,7 @@
       "status": "ok",
       "channels": 54,
       "served": 59,
-      "bytes": 367578,
+      "bytes": 367601,
       "feeds": [
         "https://iptv-epg.org/files/epg-nl.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_NL1.xml.gz",
@@ -828,7 +828,7 @@
       "status": "ok",
       "channels": 14,
       "served": 14,
-      "bytes": 78467,
+      "bytes": 78326,
       "feeds": [
         "https://iptv-epg.org/files/epg-no.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -841,7 +841,7 @@
       "status": "ok",
       "channels": 29,
       "served": 29,
-      "bytes": 129926,
+      "bytes": 129988,
       "feeds": [
         "https://iptv-epg.org/files/epg-nz.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_NZ1.xml.gz",
@@ -855,7 +855,7 @@
       "status": "ok",
       "channels": 12,
       "served": 12,
-      "bytes": 51382,
+      "bytes": 51145,
       "feeds": [
         "https://iptv-epg.org/files/epg-pa.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -868,7 +868,7 @@
       "status": "ok",
       "channels": 13,
       "served": 13,
-      "bytes": 54679,
+      "bytes": 54356,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_PE1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -881,7 +881,7 @@
       "status": "ok",
       "channels": 15,
       "served": 15,
-      "bytes": 55124,
+      "bytes": 54707,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_PH2.xml.gz",
         "https://epg.pw/xmltv/epg_PH.xml.gz",
@@ -895,7 +895,7 @@
       "status": "ok",
       "channels": 12,
       "served": 12,
-      "bytes": 54573,
+      "bytes": 54226,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_PLEX1.xml.gz",
@@ -907,7 +907,7 @@
       "status": "ok",
       "channels": 121,
       "served": 123,
-      "bytes": 821713,
+      "bytes": 822957,
       "feeds": [
         "https://iptv-epg.org/files/epg-pl.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_PL1.xml.gz",
@@ -921,7 +921,7 @@
       "status": "ok",
       "channels": 51,
       "served": 51,
-      "bytes": 283112,
+      "bytes": 282280,
       "feeds": [
         "https://iptv-epg.org/files/epg-pt.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_PT1.xml.gz",
@@ -935,7 +935,7 @@
       "status": "ok",
       "channels": 20,
       "served": 22,
-      "bytes": 82826,
+      "bytes": 82659,
       "feeds": [
         "https://iptv-epg.org/files/epg-py.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -946,9 +946,9 @@
     {
       "country": "ro",
       "status": "ok",
-      "channels": 102,
-      "served": 102,
-      "bytes": 341477,
+      "channels": 103,
+      "served": 103,
+      "bytes": 344990,
       "feeds": [
         "https://iptv-epg.org/files/epg-ro.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_RO1.xml.gz",
@@ -963,7 +963,7 @@
       "status": "ok",
       "channels": 63,
       "served": 63,
-      "bytes": 322846,
+      "bytes": 323706,
       "feeds": [
         "https://iptv-epg.org/files/epg-rs.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_RS1.xml.gz",
@@ -977,7 +977,7 @@
       "status": "ok",
       "channels": 118,
       "served": 143,
-      "bytes": 580077,
+      "bytes": 579613,
       "feeds": [
         "https://iptv-epg.org/files/epg-ru.xml.gz",
         "https://epg.pw/xmltv/epg_RU.xml.gz",
@@ -990,7 +990,7 @@
       "status": "ok",
       "channels": 11,
       "served": 11,
-      "bytes": 48880,
+      "bytes": 48557,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_PLEX1.xml.gz",
@@ -1002,7 +1002,7 @@
       "status": "ok",
       "channels": 19,
       "served": 19,
-      "bytes": 83977,
+      "bytes": 84422,
       "feeds": [
         "https://iptv-epg.org/files/epg-se.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -1015,7 +1015,7 @@
       "status": "ok",
       "channels": 20,
       "served": 20,
-      "bytes": 108737,
+      "bytes": 109016,
       "feeds": [
         "https://iptv-epg.org/files/epg-sg.xml.gz",
         "https://epg.pw/xmltv/epg_SG.xml.gz",
@@ -1029,7 +1029,7 @@
       "status": "ok",
       "channels": 28,
       "served": 28,
-      "bytes": 144862,
+      "bytes": 144727,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_SK1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -1042,7 +1042,7 @@
       "status": "ok",
       "channels": 17,
       "served": 17,
-      "bytes": 73126,
+      "bytes": 72215,
       "feeds": [
         "https://iptv-epg.org/files/epg-sv.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -1055,7 +1055,7 @@
       "status": "ok",
       "channels": 40,
       "served": 40,
-      "bytes": 175415,
+      "bytes": 175299,
       "feeds": [
         "https://iptv-epg.org/files/epg-th.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_TH1.xml.gz",
@@ -1069,7 +1069,7 @@
       "status": "ok",
       "channels": 65,
       "served": 66,
-      "bytes": 361427,
+      "bytes": 361652,
       "feeds": [
         "https://iptv-epg.org/files/epg-tr.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_TR1.xml.gz",
@@ -1084,7 +1084,7 @@
       "status": "ok",
       "channels": 16,
       "served": 16,
-      "bytes": 63680,
+      "bytes": 63139,
       "feeds": [
         "https://iptv-epg.org/files/epg-tt.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -1097,7 +1097,7 @@
       "status": "ok",
       "channels": 14,
       "served": 14,
-      "bytes": 59334,
+      "bytes": 59115,
       "feeds": [
         "https://iptv-epg.org/files/epg-tw.xml.gz",
         "https://epg.pw/xmltv/epg_TW.xml.gz",
@@ -1111,7 +1111,7 @@
       "status": "ok",
       "channels": 25,
       "served": 25,
-      "bytes": 96909,
+      "bytes": 96215,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_UA1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -1125,7 +1125,7 @@
       "status": "ok",
       "channels": 741,
       "served": 761,
-      "bytes": 3385482,
+      "bytes": 3391415,
       "feeds": [
         "https://iptv-epg.org/files/epg-us.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_US2.xml.gz",
@@ -1141,7 +1141,7 @@
       "status": "ok",
       "channels": 11,
       "served": 11,
-      "bytes": 48880,
+      "bytes": 48557,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_PLEX1.xml.gz",
@@ -1153,7 +1153,7 @@
       "status": "ok",
       "channels": 12,
       "served": 12,
-      "bytes": 53632,
+      "bytes": 53309,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_AMCCHANNELS1.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
@@ -1166,7 +1166,7 @@
       "status": "ok",
       "channels": 55,
       "served": 55,
-      "bytes": 173970,
+      "bytes": 171908,
       "feeds": [
         "https://epgshare01.online/epgshare01/epg_ripper_VN1.xml.gz",
         "https://epg.pw/xmltv/epg_VN.xml.gz",
@@ -1180,7 +1180,7 @@
       "status": "ok",
       "channels": 19,
       "served": 19,
-      "bytes": 87927,
+      "bytes": 88104,
       "feeds": [
         "https://iptv-epg.org/files/epg-za.xml.gz",
         "https://epgshare01.online/epgshare01/epg_ripper_DELUXEMUSIC1.xml.gz",
