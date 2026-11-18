@@ -8,6 +8,7 @@ on:
       - '.github/workflows/epg.yml'
       - 'tools/build_epg.py'
       - 'tools/epg_match.py'
+      - 'tools/epg_countries.py'
       - 'epg/extra-sources.json'
       - 'tools/build_provider_guides.py'
       - 'tools/discover_epg_sources.py'
@@ -23,7 +24,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 150
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
