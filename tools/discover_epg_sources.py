@@ -1,7 +1,10 @@
 """Discover public country/provider guide coverage; no private movie configuration is read."""
 import argparse
 import json
+import os
 import re
+import time
+import urllib.error
 import urllib.request
 from guide_http import urlopen
 from pathlib import Path
@@ -19,10 +22,23 @@ def free_regions(playlist, countries):
     return {name: names.get(normalize(name), "group-" + normalize(name)) for name in sorted(set(re.findall(r'group-title="([^"]+)"', playlist)))}
 
 
-def fetch(url):
-    request = urllib.request.Request(url, headers={"User-Agent": "zer0TV-EPG/1.5", "Accept": "application/vnd.github+json"})
-    with urlopen(request, timeout=40) as response:
-        return response.read().decode("utf-8-sig")
+def fetch(url, attempts=4):
+    headers = {"User-Agent": "zer0TV-EPG/1.5", "Accept": "application/vnd.github+json"}
+    token = os.environ.get("GITHUB_TOKEN")
+    if token and url.startswith("https://api.github.com/"):
+        # Anonymous API calls share a small allowance with every other runner.
+        headers["Authorization"] = "Bearer " + token
+    for attempt in range(attempts):
+        try:
+            with urlopen(urllib.request.Request(url, headers=headers), timeout=40) as response:
+                return response.read().decode("utf-8-sig")
+        except urllib.error.HTTPError as error:
+            if error.code not in (403, 429, 500, 502, 503, 504) or attempt == attempts - 1:
+                raise
+        except (urllib.error.URLError, TimeoutError):
+            if attempt == attempts - 1:
+                raise
+        time.sleep(5 * (attempt + 1))
 
 
 def country_feeds(html):

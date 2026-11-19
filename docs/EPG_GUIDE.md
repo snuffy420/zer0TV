@@ -40,6 +40,10 @@ East and West feeds are kept apart, id matches need the same country (or a strea
 
 Listings run from an hour ago to 18 hours ahead, so a guide stays useful if a run fails. Files stay under 4 MB. A country with no matching listings keeps its previous file. `epg/data/country-status.json` reports every country's coverage and feeds.
 
+### When a run shows warnings
+
+A feed that is down or out of date doesn't fail the run. The run publishes every guide it could build, keeps the last good file for the rest, and lists the problems as yellow warnings in the run's summary (`tools/report_status.py`). It fails only if more than 8 country guides fail, or none are built. A guide older than 24 hours isn't used by the app, so a provider whose upstream feed stays stale (for example Tubi, which depends on the BuddyChewChew/tubi-scraper project) shows "No listings" until that feed updates; its channels still play. GitHub API calls use the workflow's own token and retry, so discovery isn't held up by rate limits, and publishing retries if another commit lands during a run.
+
 ### On the Roku
 
 The Roku downloads only the country you open. It keeps the next six hours for each channel (up to 6,000 programmes in all, shared by the channels that have listings), and saves the result for 30 minutes so reopening is instant; a saved guide up to 5 hours old shows straight away while a fresh one downloads. Guides older than 24 hours are not used.
