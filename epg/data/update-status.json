@@ -1,7 +1,6 @@
 {
-  "generated": 1795121212,
+  "generated": 1795132772,
   "failures": [
-    "Discovery: HTTP Error 403: rate limit exceeded",
     "Providers: Provider feeds unavailable: tubi/us"
   ],
   "groups": [
@@ -16,7 +15,7 @@
     {
       "group": "group-vodmoviesen",
       "status": "ok",
-      "channels": 68
+      "channels": 69
     },
     {
       "group": "group-musicen",
@@ -26,12 +25,12 @@
     {
       "group": "group-newsar",
       "status": "ok",
-      "channels": 24
+      "channels": 25
     },
     {
       "group": "group-news",
       "status": "ok",
-      "channels": 90
+      "channels": 88
     },
     {
       "group": "group-business",
@@ -41,12 +40,12 @@
     {
       "group": "group-weather",
       "status": "ok",
-      "channels": 12
+      "channels": 11
     },
     {
       "group": "group-newses",
       "status": "ok",
-      "channels": 8
+      "channels": 7
     },
     {
       "group": "group-voditaly",
