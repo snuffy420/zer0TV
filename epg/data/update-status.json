@@ -1,5 +1,5 @@
 {
-  "generated": 1795132772,
+  "generated": 1795159703,
   "failures": [
     "Providers: Provider feeds unavailable: tubi/us"
   ],
@@ -25,17 +25,17 @@
     {
       "group": "group-newsar",
       "status": "ok",
-      "channels": 25
+      "channels": 26
     },
     {
       "group": "group-news",
       "status": "ok",
-      "channels": 88
+      "channels": 92
     },
     {
       "group": "group-business",
       "status": "ok",
-      "channels": 37
+      "channels": 38
     },
     {
       "group": "group-weather",
@@ -50,7 +50,7 @@
     {
       "group": "group-voditaly",
       "status": "ok",
-      "channels": 173
+      "channels": 177
     }
   ]
 }
