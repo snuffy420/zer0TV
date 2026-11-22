@@ -1,5 +1,5 @@
 {
-  "generated": 1795289204,
+  "generated": 1795330975,
   "failures": [
     "Providers: Provider feeds unavailable: tubi/us"
   ],
@@ -30,12 +30,12 @@
     {
       "group": "group-news",
       "status": "ok",
-      "channels": 88
+      "channels": 84
     },
     {
       "group": "group-business",
       "status": "ok",
-      "channels": 37
+      "channels": 36
     },
     {
       "group": "group-weather",
