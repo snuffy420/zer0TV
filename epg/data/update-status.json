@@ -1,5 +1,5 @@
 {
-  "generated": 1795376959,
+  "generated": 1795420236,
   "failures": [
     "Providers: Provider feeds unavailable: tubi/us"
   ],
@@ -15,7 +15,7 @@
     {
       "group": "group-vodmoviesen",
       "status": "ok",
-      "channels": 68
+      "channels": 67
     },
     {
       "group": "group-musicen",
@@ -25,17 +25,17 @@
     {
       "group": "group-newsar",
       "status": "ok",
-      "channels": 22
+      "channels": 24
     },
     {
       "group": "group-news",
       "status": "ok",
-      "channels": 78
+      "channels": 85
     },
     {
       "group": "group-business",
       "status": "ok",
-      "channels": 34
+      "channels": 36
     },
     {
       "group": "group-weather",
@@ -45,12 +45,12 @@
     {
       "group": "group-newses",
       "status": "ok",
-      "channels": 4
+      "channels": 6
     },
     {
       "group": "group-voditaly",
       "status": "ok",
-      "channels": 168
+      "channels": 164
     }
   ]
 }
