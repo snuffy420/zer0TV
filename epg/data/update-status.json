@@ -1,5 +1,5 @@
 {
-  "generated": 1795420236,
+  "generated": 1795478503,
   "failures": [
     "Providers: Provider feeds unavailable: tubi/us"
   ],
@@ -15,7 +15,7 @@
     {
       "group": "group-vodmoviesen",
       "status": "ok",
-      "channels": 67
+      "channels": 69
     },
     {
       "group": "group-musicen",
@@ -50,7 +50,7 @@
     {
       "group": "group-voditaly",
       "status": "ok",
-      "channels": 164
+      "channels": 174
     }
   ]
 }
