@@ -1,8 +1,6 @@
 {
-  "generated": 1795596452,
-  "failures": [
-    "Discovery: HTTP Error 403: Forbidden"
-  ],
+  "generated": 1795643389,
+  "failures": [],
   "groups": [
     {
       "group": "group-documentariesar",
@@ -15,7 +13,7 @@
     {
       "group": "group-vodmoviesen",
       "status": "ok",
-      "channels": 63
+      "channels": 68
     },
     {
       "group": "group-musicen",
@@ -25,17 +23,17 @@
     {
       "group": "group-newsar",
       "status": "ok",
-      "channels": 22
+      "channels": 26
     },
     {
       "group": "group-news",
       "status": "ok",
-      "channels": 80
+      "channels": 90
     },
     {
       "group": "group-business",
       "status": "ok",
-      "channels": 35
+      "channels": 38
     },
     {
       "group": "group-weather",
@@ -50,7 +48,7 @@
     {
       "group": "group-voditaly",
       "status": "ok",
-      "channels": 154
+      "channels": 170
     }
   ]
 }
