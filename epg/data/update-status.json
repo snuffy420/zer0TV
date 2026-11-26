@@ -1,5 +1,5 @@
 {
-  "generated": 1795682038,
+  "generated": 1795729480,
   "failures": [],
   "groups": [
     {
@@ -13,7 +13,7 @@
     {
       "group": "group-vodmoviesen",
       "status": "ok",
-      "channels": 67
+      "channels": 66
     },
     {
       "group": "group-musicen",
@@ -23,7 +23,7 @@
     {
       "group": "group-newsar",
       "status": "ok",
-      "channels": 23
+      "channels": 24
     },
     {
       "group": "group-news",
@@ -33,7 +33,7 @@
     {
       "group": "group-business",
       "status": "ok",
-      "channels": 37
+      "channels": 35
     },
     {
       "group": "group-weather",
@@ -43,12 +43,12 @@
     {
       "group": "group-newses",
       "status": "ok",
-      "channels": 5
+      "channels": 8
     },
     {
       "group": "group-voditaly",
       "status": "ok",
-      "channels": 161
+      "channels": 163
     }
   ]
 }
