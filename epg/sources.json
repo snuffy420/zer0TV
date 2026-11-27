@@ -1,6 +1,7 @@
 {
   "al": "https://iptv-epg.org/files/epg-al.xml.gz",
   "am": "https://iptv-epg.org/files/epg-am.xml.gz",
+  "ar": "https://iptv-epg.org/files/epg-ar.xml.gz",
   "at": "https://iptv-epg.org/files/epg-at.xml.gz",
   "au": "https://iptv-epg.org/files/epg-au.xml.gz",
   "ba": "https://iptv-epg.org/files/epg-ba.xml.gz",
