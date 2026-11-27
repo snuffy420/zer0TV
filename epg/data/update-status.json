@@ -1,5 +1,5 @@
 {
-  "generated": 1795769221,
+  "generated": 1795814787,
   "failures": [
     "Providers: Provider feeds unavailable: plex/us"
   ],
@@ -15,7 +15,7 @@
     {
       "group": "group-vodmoviesen",
       "status": "ok",
-      "channels": 65
+      "channels": 66
     },
     {
       "group": "group-musicen",
@@ -25,17 +25,17 @@
     {
       "group": "group-newsar",
       "status": "ok",
-      "channels": 25
+      "channels": 23
     },
     {
       "group": "group-news",
       "status": "ok",
-      "channels": 88
+      "channels": 82
     },
     {
       "group": "group-business",
       "status": "ok",
-      "channels": 37
+      "channels": 35
     },
     {
       "group": "group-weather",
@@ -45,12 +45,12 @@
     {
       "group": "group-newses",
       "status": "ok",
-      "channels": 7
+      "channels": 4
     },
     {
       "group": "group-voditaly",
       "status": "ok",
-      "channels": 160
+      "channels": 167
     }
   ]
 }
