@@ -1,5 +1,5 @@
 {
-  "generated": 1795814787,
+  "generated": 1795852825,
   "failures": [
     "Providers: Provider feeds unavailable: plex/us"
   ],
@@ -30,22 +30,22 @@
     {
       "group": "group-news",
       "status": "ok",
-      "channels": 82
+      "channels": 87
     },
     {
       "group": "group-business",
       "status": "ok",
-      "channels": 35
+      "channels": 37
     },
     {
       "group": "group-weather",
       "status": "ok",
-      "channels": 12
+      "channels": 10
     },
     {
       "group": "group-newses",
       "status": "ok",
-      "channels": 4
+      "channels": 7
     },
     {
       "group": "group-voditaly",
